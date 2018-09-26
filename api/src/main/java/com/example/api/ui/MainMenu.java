@@ -14,7 +14,6 @@ public class MainMenu extends Composite<VerticalLayout> {
 
     public MainMenu() {
         getContent().setSizeUndefined();
-        getContent().setHeight("100%");
         getContent().addClassName("main-menu");
     }
 

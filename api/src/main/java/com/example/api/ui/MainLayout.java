@@ -21,23 +21,18 @@ public class MainLayout extends Composite<VerticalLayout> implements RouterLayou
     private VerticalLayout contentLayout = new VerticalLayout();
 
     public MainLayout(Header header, MainMenu mainMenu, BusinessAppModule[] modules) {
-        contentLayout.setSizeFull();
         contentLayout.setMargin(false);
         contentLayout.setPadding(false);
 
         HorizontalLayout horizontalLayout = new HorizontalLayout(mainMenu, contentLayout);
         horizontalLayout.setSizeFull();
-        horizontalLayout.setFlexGrow(1, contentLayout);
         horizontalLayout.setMargin(false);
         horizontalLayout.setPadding(false);
         horizontalLayout.setSpacing(false);
 
         getContent().add(header, horizontalLayout);
-        getContent().setSizeFull();
-        getContent().setFlexGrow(1, horizontalLayout);
         getContent().setAlignSelf(FlexComponent.Alignment.CENTER, horizontalLayout);
-        getContent().setSpacing(false);
-        getContent().setMargin(false);
+        getContent().setSizeFull();
         getContent().setPadding(false);
 
         Arrays.stream(modules).forEach(BusinessAppModule::initialize);
