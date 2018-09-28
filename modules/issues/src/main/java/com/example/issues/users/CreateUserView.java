@@ -1,5 +1,8 @@
 package com.example.issues.users;
 
+import com.example.api.domain.Role;
+import com.example.api.domain.User;
+import com.example.api.service.UserService;
 import com.example.api.ui.MainLayout;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.UI;
@@ -24,7 +27,7 @@ public class CreateUserView extends Composite<VerticalLayout> {
     private TextField name = new TextField("Name");
     private TextField email = new TextField("Email");
     private PasswordField password = new PasswordField("Password");
-    private ComboBox<Role> role = new ComboBox("Role", Role.values());
+    private ComboBox<Role> role = new ComboBox<>("Role", Role.values());
 
     private UserService userService;
 

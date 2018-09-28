@@ -1,7 +1,7 @@
 package com.example.issues.issues;
 
 import com.example.issues.projects.Project;
-import com.example.issues.users.User;
+import com.example.api.domain.User;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;

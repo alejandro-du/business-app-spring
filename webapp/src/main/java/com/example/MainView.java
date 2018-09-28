@@ -1,4 +1,4 @@
-package com.example.issues;
+package com.example;
 
 import com.example.issues.issues.IssuesView;
 import com.vaadin.flow.component.AttachEvent;

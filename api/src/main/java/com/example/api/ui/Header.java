@@ -1,6 +1,8 @@
 package com.example.api.ui;
 
+import com.example.api.service.AuthService;
 import com.vaadin.flow.component.Composite;
+import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
@@ -12,15 +14,32 @@ import com.vaadin.flow.spring.annotation.UIScope;
 @UIScope
 public class Header extends Composite<HorizontalLayout> {
 
-    public Header() {
+    private final AuthService authService;
+
+    public Header(AuthService authService) {
+        this.authService = authService;
+
         Image logo = new Image("/frontend/images/app-logo.png", "App logo");
         Span appName = new Span("App name");
         appName.addClassNames("header-app-name");
 
-        getContent().add(logo, appName);
+        Anchor signOut = new Anchor("", "Sign out");
+        signOut.getElement().addEventListener("click", e -> authService.logout());
+
+        HorizontalLayout signOutLayout = new HorizontalLayout(signOut);
+        signOutLayout.setPadding(true);
+        signOutLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.END);
+        signOutLayout.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.CENTER);
+
+        getContent().add(logo, appName, signOutLayout);
+        getContent().setFlexGrow(1, signOutLayout);
         getContent().addClassName("header");
         getContent().setWidth("100%");
-        getContent().setVerticalComponentAlignment(FlexComponent.Alignment.CENTER, appName);
+        getContent().setAlignSelf(FlexComponent.Alignment.CENTER, appName);
+
+        if (!authService.isAuthenticated()) {
+            signOut.setVisible(false);
+        }
     }
 
 }
