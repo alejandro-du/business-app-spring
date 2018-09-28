@@ -1,10 +1,10 @@
 package com.example.issues.issues;
 
+import com.example.api.domain.Role;
+import com.example.api.domain.User;
+import com.example.api.service.UserService;
 import com.example.api.ui.MainLayout;
 import com.example.issues.projects.ProjectService;
-import com.example.issues.users.Role;
-import com.example.issues.users.User;
-import com.example.issues.users.UserService;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
@@ -71,7 +71,7 @@ public class CreateIssueView extends Composite<VerticalLayout> {
             BeanValidationBinder<Issue> binder = new BeanValidationBinder<>(Issue.class);
             binder.bindInstanceFields(this);
             binder.writeBean(issue);
-            issueService.create(issue, userService.findAll().get(0), projectService.findAll().get(0));
+            issueService.create(issue, userService.findAll().get(0), Session.getProject());
             UI.getCurrent().navigate(IssueView.getViewName(issue.getId()));
 
         } catch (ValidationException e) {

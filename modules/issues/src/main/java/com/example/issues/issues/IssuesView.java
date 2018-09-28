@@ -82,7 +82,7 @@ public class IssuesView extends Composite<VerticalLayout> {
 
     private void refreshGrid() {
         Set<Issue> issues = issueService.find(
-                title.getValue(), owner.getValue(), reporter.getValue(), status.getValue(), date.getValue());
+                Session.getProject(), title.getValue(), owner.getValue(), reporter.getValue(), status.getValue(), date.getValue());
         grid.setItems(issues);
     }
 

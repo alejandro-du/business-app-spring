@@ -1,4 +1,4 @@
-package com.example.issues.users;
+package com.example.api.domain;
 
 import org.apache.commons.lang3.StringUtils;
 

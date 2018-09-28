@@ -1,4 +1,4 @@
-package com.example.issues.users;
+package com.example.api.domain;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -12,5 +12,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
             " lower(u.name) like concat('%', lower(:name), '%')" +
             " and (:role is null or u.role = :role)")
     Set<User> find(@Param("name") String name, @Param("role") Role role);
+
+    User findByEmailIgnoreCaseAndPassword(String email, String password);
 
 }

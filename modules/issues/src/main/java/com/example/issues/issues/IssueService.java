@@ -1,7 +1,7 @@
 package com.example.issues.issues;
 
 import com.example.issues.projects.Project;
-import com.example.issues.users.User;
+import com.example.api.domain.User;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -17,8 +17,9 @@ public class IssueService {
         this.issueRepository = issueRepository;
     }
 
-    public Set<Issue> find(String title, String ownerName, String reporterName, Status status, LocalDate date) {
+    public Set<Issue> find(Project project, String title, String ownerName, String reporterName, Status status, LocalDate date) {
         return issueRepository.find(
+                project,
                 title,
                 ownerName.isEmpty() ? null : ownerName,
                 reporterName,

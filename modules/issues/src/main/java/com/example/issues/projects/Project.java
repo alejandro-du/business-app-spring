@@ -1,6 +1,6 @@
 package com.example.issues.projects;
 
-import com.example.issues.users.User;
+import com.example.api.domain.User;
 import lombok.Data;
 
 import javax.persistence.*;

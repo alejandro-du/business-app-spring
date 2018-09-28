@@ -1,5 +1,8 @@
-package com.example.issues.users;
+package com.example.api.service;
 
+import com.example.api.domain.Role;
+import com.example.api.domain.User;
+import com.example.api.domain.UserRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -33,6 +36,10 @@ public class UserService {
 
     public List<User> findAll() {
         return userRepository.findAll();
+    }
+
+    public User findByEmailAndPassword(String email, String password) {
+        return userRepository.findByEmailIgnoreCaseAndPassword(email, password);
     }
 
 }

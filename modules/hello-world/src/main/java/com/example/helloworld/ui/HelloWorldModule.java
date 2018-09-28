@@ -1,23 +1,23 @@
 package com.example.helloworld.ui;
 
 import com.example.api.BusinessAppModule;
-import com.example.api.ui.MainMenu;
+import com.example.api.ui.UIConfiguration;
 import com.vaadin.flow.spring.annotation.SpringComponent;
-import com.vaadin.flow.spring.annotation.UIScope;
+import com.vaadin.flow.spring.annotation.VaadinSessionScope;
 
 @SpringComponent
-@UIScope
+@VaadinSessionScope
 public class HelloWorldModule implements BusinessAppModule {
 
-    private final MainMenu mainMenu;
+    private final UIConfiguration uiConfiguration;
 
-    public HelloWorldModule(MainMenu mainMenu) {
-        this.mainMenu = mainMenu;
+    public HelloWorldModule(UIConfiguration uiConfiguration) {
+        this.uiConfiguration = uiConfiguration;
     }
 
     @Override
     public void initialize() {
-        mainMenu.addOption(HelloWorldView.VIEW_NAME, "Hello, World");
+        uiConfiguration.addMenuOption(HelloWorldView.VIEW_NAME, "Hello, World");
     }
 
 }
