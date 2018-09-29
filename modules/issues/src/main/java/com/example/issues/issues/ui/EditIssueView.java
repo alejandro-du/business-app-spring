@@ -7,7 +7,7 @@ import com.example.api.ui.MainLayout;
 import com.example.issues.issues.Issue;
 import com.example.issues.issues.IssueService;
 import com.example.issues.issues.Status;
-import com.example.issues.users.IssuesUserService;
+import com.example.issues.users.UserService;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
@@ -42,10 +42,10 @@ public class EditIssueView extends Composite<VerticalLayout> implements HasUrlPa
     private ComboBox<Status> status = new ComboBox<>(null, Status.values());
 
     private final IssueService issueService;
-    private final IssuesUserService userService;
+    private final UserService userService;
     private BeanValidationBinder<Issue> binder = new BeanValidationBinder<>(Issue.class);
 
-    public EditIssueView(IssueService issueService, IssuesUserService userService) {
+    public EditIssueView(IssueService issueService, UserService userService) {
         this.issueService = issueService;
         this.userService = userService;
     }

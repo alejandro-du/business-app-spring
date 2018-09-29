@@ -3,7 +3,6 @@ package com.example.issues.issues.ui;
 import com.example.api.ui.MainLayout;
 import com.example.issues.issues.Issue;
 import com.example.issues.issues.IssueService;
-import com.example.issues.issues.Session;
 import com.example.issues.issues.Status;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.UI;
@@ -86,7 +85,7 @@ public class IssuesView extends Composite<VerticalLayout> {
 
     private void refreshGrid() {
         Set<Issue> issues = issueService.find(
-                Session.getProject(), title.getValue(), owner.getValue(), reporter.getValue(), status.getValue(), date.getValue());
+                title.getValue(), owner.getValue(), reporter.getValue(), status.getValue(), date.getValue());
         grid.setItems(issues);
     }
 

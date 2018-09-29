@@ -3,7 +3,7 @@ package com.example.issues.users.ui;
 import com.example.api.domain.Role;
 import com.example.api.domain.User;
 import com.example.api.ui.MainLayout;
-import com.example.issues.users.IssuesUserService;
+import com.example.issues.users.UserService;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
@@ -29,9 +29,9 @@ public class CreateUserView extends Composite<VerticalLayout> {
     private PasswordField password = new PasswordField("Password");
     private ComboBox<Role> role = new ComboBox<>("Role", Role.values());
 
-    private IssuesUserService userService;
+    private UserService userService;
 
-    public CreateUserView(IssuesUserService userService) {
+    public CreateUserView(UserService userService) {
         this.userService = userService;
         Span viewTitle = new Span("Create user");
         viewTitle.addClassName("view-title");

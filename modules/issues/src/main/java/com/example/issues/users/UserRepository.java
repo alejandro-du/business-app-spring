@@ -12,9 +12,10 @@ import java.util.Set;
 @Repository("issuesUserRepository")
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    @Query("select u from User u where" +
-            " lower(u.name) like concat('%', lower(:name), '%')" +
+    @Query("select u from Project p join p.members u where" +
+            " p.id = :projectId" +
+            " and lower(u.name) like concat('%', lower(:name), '%')" +
             " and (:role is null or u.role = :role)")
-    Set<User> find(@Param("name") String name, @Param("role") Role role);
+    Set<User> find(@Param("projectId") Long projectId, @Param("name") String name, @Param("role") Role role);
 
 }

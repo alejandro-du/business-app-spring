@@ -1,12 +1,14 @@
 package com.example.api.domain;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
 @Entity
 @Data
+@EqualsAndHashCode(of = "id")
 public class User {
 
     @Id

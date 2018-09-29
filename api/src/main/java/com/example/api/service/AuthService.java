@@ -6,7 +6,6 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.server.VaadinService;
 import com.vaadin.flow.server.VaadinServletRequest;
 import com.vaadin.flow.server.VaadinSession;
-import com.vaadin.flow.spring.annotation.VaadinSessionScope;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -14,18 +13,22 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.annotation.SessionScope;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
+import java.util.Optional;
 
 @Component
-@VaadinSessionScope
+@SessionScope
 public class AuthService {
 
-    private final UserService userService;
-    private final BusinessAppModule[] modules;
+    public static final String USER_ID_SESSION_KEY = "user_id";
 
-    public AuthService(UserService userService, BusinessAppModule[] modules) {
+    private final UserService userService;
+    private final Optional<BusinessAppModule[]> modules;
+
+    public AuthService(UserService userService, Optional<BusinessAppModule[]> modules) {
         this.userService = userService;
         this.modules = modules;
     }
@@ -43,9 +46,11 @@ public class AuthService {
                 AuthorityUtils.createAuthorityList(user.getRole().toString())
         );
         SecurityContextHolder.getContext().setAuthentication(token);
-        VaadinSession.getCurrent().setAttribute("user_id", user.getId());
+        VaadinSession.getCurrent().setAttribute(USER_ID_SESSION_KEY, user.getId());
 
-        Arrays.stream(modules).forEach(BusinessAppModule::initialize);
+        if (modules.isPresent()) {
+            Arrays.stream(modules.get()).forEach(BusinessAppModule::initialize);
+        }
 
         return true;
     }
@@ -60,11 +65,6 @@ public class AuthService {
     public boolean isAuthenticated() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return authentication.isAuthenticated() && !AnonymousAuthenticationToken.class.isAssignableFrom(authentication.getClass());
-    }
-
-    public String getCurrentUserEmail() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return !AnonymousAuthenticationToken.class.isAssignableFrom(authentication.getClass()) ? null : (String) authentication.getPrincipal();
     }
 
 }

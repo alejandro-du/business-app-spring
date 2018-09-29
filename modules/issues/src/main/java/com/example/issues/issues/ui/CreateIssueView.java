@@ -5,8 +5,7 @@ import com.example.api.domain.User;
 import com.example.api.ui.MainLayout;
 import com.example.issues.issues.Issue;
 import com.example.issues.issues.IssueService;
-import com.example.issues.issues.Session;
-import com.example.issues.users.IssuesUserService;
+import com.example.issues.users.UserService;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
@@ -34,9 +33,9 @@ public class CreateIssueView extends Composite<VerticalLayout> {
     private ComboBox<User> owner = new ComboBox<>();
 
     private final IssueService issueService;
-    private final IssuesUserService userService;
+    private final UserService userService;
 
-    public CreateIssueView(IssueService issueService, IssuesUserService userService) {
+    public CreateIssueView(IssueService issueService, UserService userService) {
         this.issueService = issueService;
         this.userService = userService;
 
@@ -71,7 +70,7 @@ public class CreateIssueView extends Composite<VerticalLayout> {
             BeanValidationBinder<Issue> binder = new BeanValidationBinder<>(Issue.class);
             binder.bindInstanceFields(this);
             binder.writeBean(issue);
-            issueService.create(issue, userService.findAll().get(0), Session.getProject());
+            issueService.create(issue);
             UI.getCurrent().navigate(IssueView.getViewName(issue.getId()));
 
         } catch (ValidationException e) {

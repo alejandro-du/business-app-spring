@@ -4,7 +4,7 @@ import com.example.api.domain.User;
 import com.example.api.ui.MainLayout;
 import com.example.issues.projects.Project;
 import com.example.issues.projects.ProjectService;
-import com.example.issues.users.IssuesUserService;
+import com.example.issues.users.UserService;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
@@ -31,9 +31,9 @@ public class CreateProjectView extends Composite<VerticalLayout> {
     private MultiSelect<Grid<User>, User> members;
 
     private final ProjectService projectService;
-    private final IssuesUserService userService;
+    private final UserService userService;
 
-    public CreateProjectView(ProjectService projectService, IssuesUserService userService) {
+    public CreateProjectView(ProjectService projectService, UserService userService) {
         this.projectService = projectService;
         this.userService = userService;
 

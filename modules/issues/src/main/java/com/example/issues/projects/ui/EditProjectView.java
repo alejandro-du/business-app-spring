@@ -5,7 +5,7 @@ import com.example.api.ui.ConfirmDialog;
 import com.example.api.ui.MainLayout;
 import com.example.issues.projects.Project;
 import com.example.issues.projects.ProjectService;
-import com.example.issues.users.IssuesUserService;
+import com.example.issues.users.UserService;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
@@ -39,10 +39,10 @@ public class EditProjectView extends Composite<VerticalLayout> implements HasUrl
     private MultiSelect<Grid<User>, User> members;
 
     private final ProjectService projectService;
-    private final IssuesUserService userService;
+    private final UserService userService;
     private BeanValidationBinder<Project> binder = new BeanValidationBinder<>(Project.class);
 
-    public EditProjectView(ProjectService projectService, IssuesUserService userService) {
+    public EditProjectView(ProjectService projectService, UserService userService) {
         this.projectService = projectService;
         this.userService = userService;
     }

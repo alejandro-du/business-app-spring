@@ -3,7 +3,7 @@ package com.example.issues.users.ui;
 import com.example.api.domain.Role;
 import com.example.api.domain.User;
 import com.example.api.ui.MainLayout;
-import com.example.issues.users.IssuesUserService;
+import com.example.issues.users.UserService;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
@@ -29,9 +29,9 @@ public class UsersView extends Composite<VerticalLayout> {
     private ComboBox<Role> role = new ComboBox();
     private Grid<User> grid = new Grid();
 
-    private final IssuesUserService userService;
+    private final UserService userService;
 
-    public UsersView(IssuesUserService userService) {
+    public UsersView(UserService userService) {
         this.userService = userService;
         Span viewTitle = new Span("Users");
         viewTitle.addClassName("view-title");

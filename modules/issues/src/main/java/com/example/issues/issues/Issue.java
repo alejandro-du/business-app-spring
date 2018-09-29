@@ -3,6 +3,7 @@ package com.example.issues.issues;
 import com.example.issues.projects.Project;
 import com.example.api.domain.User;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -12,6 +13,7 @@ import java.time.LocalDate;
 
 @Entity
 @Data
+@EqualsAndHashCode(of = "id")
 public class Issue {
 
     @Id
