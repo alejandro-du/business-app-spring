@@ -2,7 +2,6 @@ package com.example.issues.users;
 
 import com.example.api.domain.Role;
 import com.example.api.domain.User;
-import com.example.api.service.UserService;
 import com.example.api.ui.MainLayout;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.UI;

@@ -1,8 +1,6 @@
 package com.example.api.ui;
 
-import com.example.api.ui.UIConfiguration;
 import com.vaadin.flow.component.Composite;
-import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
@@ -17,7 +15,7 @@ public class MainMenu extends Composite<VerticalLayout> {
         getContent().add(new Anchor(href, text));
     }
 
-    public void addOption(UIConfiguration.MenuOption menuOption) {
+    public void addOption(MenuOption menuOption) {
         addOption(menuOption.getHref(), menuOption.getText());
     }
 

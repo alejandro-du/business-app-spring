@@ -1,10 +1,10 @@
 package com.example.issues.issues;
 
-import com.example.api.ui.ConfirmDialog;
-import com.example.api.ui.MainLayout;
 import com.example.api.domain.Role;
 import com.example.api.domain.User;
-import com.example.api.service.UserService;
+import com.example.api.ui.ConfirmDialog;
+import com.example.api.ui.MainLayout;
+import com.example.issues.users.UserService;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;

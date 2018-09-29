@@ -2,9 +2,8 @@ package com.example.issues.issues;
 
 import com.example.api.domain.Role;
 import com.example.api.domain.User;
-import com.example.api.service.UserService;
 import com.example.api.ui.MainLayout;
-import com.example.issues.projects.ProjectService;
+import com.example.issues.users.UserService;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
@@ -33,12 +32,10 @@ public class CreateIssueView extends Composite<VerticalLayout> {
 
     private final IssueService issueService;
     private final UserService userService;
-    private final ProjectService projectService;
 
-    public CreateIssueView(IssueService issueService, UserService userService, ProjectService projectService) {
+    public CreateIssueView(IssueService issueService, UserService userService) {
         this.issueService = issueService;
         this.userService = userService;
-        this.projectService = projectService;
 
         Span viewTitle = new Span("Create issue");
         viewTitle.addClassName("view-title");

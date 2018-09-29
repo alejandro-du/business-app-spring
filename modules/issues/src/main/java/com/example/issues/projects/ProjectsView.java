@@ -15,11 +15,7 @@ public class ProjectsView extends Composite<VerticalLayout> {
 
     public static final String VIEW_NAME = "projects";
 
-    private final ProjectService projectService;
-
     public ProjectsView(ProjectService projectService) {
-        this.projectService = projectService;
-
         Span viewTitle = new Span("Projects");
         viewTitle.addClassName("view-title");
 
