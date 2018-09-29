@@ -1,9 +1,10 @@
-package com.example.issues.users;
+package com.example.issues.users.ui;
 
 import com.example.api.domain.Role;
 import com.example.api.domain.User;
 import com.example.api.ui.ConfirmDialog;
 import com.example.api.ui.MainLayout;
+import com.example.issues.users.IssuesUserService;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
@@ -37,10 +38,10 @@ public class EditUserView extends Composite<VerticalLayout> implements HasUrlPar
     private PasswordField password = new PasswordField("Password");
     private ComboBox<Role> role = new ComboBox<>("Role", Role.values());
 
-    private final UserService userService;
+    private final IssuesUserService userService;
     private BeanValidationBinder<User> binder = new BeanValidationBinder<>(User.class);
 
-    public EditUserView(UserService userService) {
+    public EditUserView(IssuesUserService userService) {
         this.userService = userService;
     }
 

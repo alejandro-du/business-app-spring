@@ -1,9 +1,12 @@
-package com.example.issues.issues;
+package com.example.issues.issues.ui;
 
 import com.example.api.domain.Role;
 import com.example.api.domain.User;
 import com.example.api.ui.MainLayout;
-import com.example.issues.users.UserService;
+import com.example.issues.issues.Issue;
+import com.example.issues.issues.IssueService;
+import com.example.issues.issues.Session;
+import com.example.issues.users.IssuesUserService;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
@@ -31,9 +34,9 @@ public class CreateIssueView extends Composite<VerticalLayout> {
     private ComboBox<User> owner = new ComboBox<>();
 
     private final IssueService issueService;
-    private final UserService userService;
+    private final IssuesUserService userService;
 
-    public CreateIssueView(IssueService issueService, UserService userService) {
+    public CreateIssueView(IssueService issueService, IssuesUserService userService) {
         this.issueService = issueService;
         this.userService = userService;
 

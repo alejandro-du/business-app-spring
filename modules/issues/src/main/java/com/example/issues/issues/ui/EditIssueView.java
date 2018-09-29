@@ -1,10 +1,13 @@
-package com.example.issues.issues;
+package com.example.issues.issues.ui;
 
 import com.example.api.domain.Role;
 import com.example.api.domain.User;
 import com.example.api.ui.ConfirmDialog;
 import com.example.api.ui.MainLayout;
-import com.example.issues.users.UserService;
+import com.example.issues.issues.Issue;
+import com.example.issues.issues.IssueService;
+import com.example.issues.issues.Status;
+import com.example.issues.users.IssuesUserService;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
@@ -39,10 +42,10 @@ public class EditIssueView extends Composite<VerticalLayout> implements HasUrlPa
     private ComboBox<Status> status = new ComboBox<>(null, Status.values());
 
     private final IssueService issueService;
-    private final UserService userService;
+    private final IssuesUserService userService;
     private BeanValidationBinder<Issue> binder = new BeanValidationBinder<>(Issue.class);
 
-    public EditIssueView(IssueService issueService, UserService userService) {
+    public EditIssueView(IssueService issueService, IssuesUserService userService) {
         this.issueService = issueService;
         this.userService = userService;
     }

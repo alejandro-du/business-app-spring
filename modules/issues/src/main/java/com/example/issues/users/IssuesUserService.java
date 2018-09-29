@@ -8,12 +8,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-@Component
-public class UserService {
+@Component("issuesUserService")
+public class IssuesUserService {
 
     private final UserRepository userRepository;
 
-    public UserService(UserRepository userRepository) {
+    public IssuesUserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 

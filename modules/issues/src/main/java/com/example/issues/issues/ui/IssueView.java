@@ -1,6 +1,8 @@
-package com.example.issues.issues;
+package com.example.issues.issues.ui;
 
 import com.example.api.ui.MainLayout;
+import com.example.issues.issues.Issue;
+import com.example.issues.issues.IssueService;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.html.Span;

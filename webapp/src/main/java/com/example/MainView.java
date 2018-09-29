@@ -1,6 +1,6 @@
 package com.example;
 
-import com.example.issues.issues.IssuesView;
+import com.example.issues.issues.ui.IssuesView;
 import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
