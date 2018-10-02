@@ -1,4 +1,4 @@
-package com.example;
+package com.example.webapp.ui;
 
 import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.UI;

@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-@Component("issuesUserService")
+@Component
 public class UserService {
 
     private final UserRepository userRepository;

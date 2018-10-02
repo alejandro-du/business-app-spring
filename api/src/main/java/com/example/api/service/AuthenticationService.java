@@ -2,6 +2,7 @@ package com.example.api.service;
 
 import com.example.api.BusinessAppModule;
 import com.example.api.domain.User;
+import com.example.api.domain.UserRepository;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.server.VaadinService;
 import com.vaadin.flow.server.VaadinServletRequest;
@@ -21,20 +22,23 @@ import java.util.Optional;
 
 @Component
 @SessionScope
-public class AuthService {
+public class AuthenticationService {
 
     public static final String USER_ID_SESSION_KEY = "user_id";
 
-    private final UserService userService;
+    private final UserRepository userRepository;
+
     private final Optional<BusinessAppModule[]> modules;
 
-    public AuthService(UserService userService, Optional<BusinessAppModule[]> modules) {
-        this.userService = userService;
+    private boolean modulesInitialized;
+
+    public AuthenticationService(UserRepository userRepository, Optional<BusinessAppModule[]> modules) {
+        this.userRepository = userRepository;
         this.modules = modules;
     }
 
     public boolean authenticate(String username, String password) {
-        User user = userService.findByEmailAndPassword(username, password);
+        User user = userRepository.findByEmailIgnoreCaseAndPassword(username, password);
 
         if (user == null) {
             return false;
@@ -43,13 +47,14 @@ public class AuthService {
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
                 user.getEmail(),
                 user.getPassword(),
-                AuthorityUtils.createAuthorityList(user.getRole().toString())
+                AuthorityUtils.createAuthorityList("ROLE_" + user.getRole().toString())
         );
         SecurityContextHolder.getContext().setAuthentication(token);
         VaadinSession.getCurrent().setAttribute(USER_ID_SESSION_KEY, user.getId());
 
-        if (modules.isPresent()) {
+        if (!modulesInitialized && modules.isPresent()) {
             Arrays.stream(modules.get()).forEach(BusinessAppModule::initialize);
+            modulesInitialized = true;
         }
 
         return true;

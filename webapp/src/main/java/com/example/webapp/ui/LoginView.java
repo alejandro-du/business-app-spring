@@ -1,6 +1,6 @@
-package com.example;
+package com.example.webapp.ui;
 
-import com.example.api.service.AuthService;
+import com.example.api.service.AuthenticationService;
 import com.example.api.ui.Header;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.Key;
@@ -26,20 +26,20 @@ public class LoginView extends Composite<VerticalLayout> {
     private TextField email = new TextField("Email");
     private PasswordField password = new PasswordField("Password");
 
-    private final AuthService authService;
+    private final AuthenticationService authenticationService;
 
-    public LoginView(AuthService authService) {
-        this.authService = authService;
+    public LoginView(AuthenticationService authenticationService) {
+        this.authenticationService = authenticationService;
 
         Header header = new Header();
 
         H2 title = new H2("Sign in");
 
         email.setWidth("100%");
-        email.setValue("alejandro@vaadin.com");
+        email.setValue("marcus@vaadin.com");
 
         password.setWidth("100%");
-        password.setValue("password2");
+        password.setValue("password1");
 
         Button signIn = new Button("Sign in", e -> signInClicked());
         signIn.getElement().setAttribute("theme", "primary");
@@ -69,7 +69,7 @@ public class LoginView extends Composite<VerticalLayout> {
         String username = email.getValue();
         String password = this.password.getValue();
 
-        if (authService.authenticate(username, password)) {
+        if (authenticationService.authenticate(username, password)) {
             UI.getCurrent().navigate("");
         } else {
             Notification.show("Bad credentials", 5000, Notification.Position.MIDDLE);

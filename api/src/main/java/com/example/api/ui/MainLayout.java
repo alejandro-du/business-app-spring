@@ -1,6 +1,6 @@
 package com.example.api.ui;
 
-import com.example.api.service.AuthService;
+import com.example.api.service.AuthenticationService;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.HasElement;
 import com.vaadin.flow.component.dependency.HtmlImport;
@@ -19,10 +19,10 @@ public class MainLayout extends Composite<VerticalLayout> implements RouterLayou
 
     private VerticalLayout contentLayout = new VerticalLayout();
 
-    public MainLayout(AuthService authService, UIConfiguration uiConfiguration) {
+    public MainLayout(AuthenticationService authenticationService, UIConfiguration uiConfiguration) {
         Anchor signOut = new Anchor("", "Sign out");
         signOut.getElement().getStyle().set("padding-right", "1em");
-        signOut.getElement().addEventListener("click", e -> authService.logout());
+        signOut.getElement().addEventListener("click", e -> authenticationService.logout());
 
         Header header = new Header();
 
@@ -30,7 +30,7 @@ public class MainLayout extends Composite<VerticalLayout> implements RouterLayou
                 .map(SerializableSupplier::get)
                 .forEach(header::add);
 
-        if (authService.isAuthenticated()) {
+        if (authenticationService.isAuthenticated()) {
             header.add(signOut);
         }
 

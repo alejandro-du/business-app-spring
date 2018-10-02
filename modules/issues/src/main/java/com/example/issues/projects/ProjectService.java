@@ -1,6 +1,5 @@
 package com.example.issues.projects;
 
-import com.example.api.domain.User;
 import com.example.api.domain.UserRepository;
 import org.springframework.stereotype.Component;
 
@@ -33,11 +32,6 @@ public class ProjectService {
 
     public void saveOrUpdate(Project project) {
         projectRepository.save(project);
-    }
-
-    public List<Project> findByUser(Long id) {
-        User user = userRepository.findById(id).get();
-        return projectRepository.findByMembersIn(user);
     }
 
 }
