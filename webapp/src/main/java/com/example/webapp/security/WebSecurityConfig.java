@@ -65,7 +65,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 ).permitAll();
 
                 addMatchersFromProperties(registry)
-                .requestMatchers(this::isVaadinFlowRequest).permitAll()
+                .requestMatchers(request -> isVaadinFlowRequest(request, ServletHelper.RequestType.values())).permitAll()
                 .anyRequest().denyAll()
             .and()
             .addFilterAfter(getFilter(), BasicAuthenticationFilter.class)
@@ -78,44 +78,55 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private Filter getFilter() {
         return new GenericFilterBean() {
+
             @Override
             public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-                CustomServletResponseWrapper wrappedResponse = new CustomServletResponseWrapper((HttpServletResponse) servletResponse);
-                filterChain.doFilter(servletRequest, wrappedResponse);
+                HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
+                HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
 
-                if (wrappedResponse.getContentType() != null && wrappedResponse.getContentType().startsWith("application/json")) {
-                    String output = wrappedResponse.getBranch().toString();
-                    wrappedResponse.getBranch().close();
+                if (!isVaadinFlowRequest(httpServletRequest, ServletHelper.RequestType.UIDL, ServletHelper.RequestType.PUSH)) {
+                    filterChain.doFilter(servletRequest, servletResponse);
+                } else {
+                    CustomServletResponseWrapper wrappedResponse = new CustomServletResponseWrapper(httpServletResponse);
+                    filterChain.doFilter(servletRequest, wrappedResponse);
 
-                    if (output.startsWith("for(;;);")) {
-                        output = output.substring("for(;;);".length());
-                        JsonArray json = JsonUtil.parse(output);
-                        JsonArray execute = json.getObject(0).getArray(JsonConstants.UIDL_KEY_EXECUTE);
+                    if (wrappedResponse.getContentType() != null && wrappedResponse.getContentType().startsWith("application/json")) {
+                        String output = wrappedResponse.getBranch().toString();
+                        wrappedResponse.getBranch().close();
 
-                        if (execute != null) {
-                            for (int i = 0; i < execute.length(); i++) {
-                                JsonArray array = execute.getArray(i);
-                                if (array.length() == 3 && array.getString(2).startsWith("history.pushState") && array.getString(1) != null && !array.getString(1).isEmpty()) {
-                                    String location = "/" + array.getString(1);
-                                    WebInvocationPrivilegeEvaluator privilegeEvaluator = applicationContext.getBean(WebInvocationPrivilegeEvaluator.class);
-                                    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-                                    if (!privilegeEvaluator.isAllowed(location, authentication)) {
-                                        String response = getRedirectToLoginResponse();
-                                        servletResponse.getWriter().write(response);
-                                        servletResponse.setContentLength(response.length());
-                                        return;
+                        if (output.startsWith("for(;;);")) {
+                            output = output.substring("for(;;);".length());
+                            JsonArray json = JsonUtil.parse(output);
+                            JsonArray execute = json.getObject(0).getArray(JsonConstants.UIDL_KEY_EXECUTE);
+
+                            if (execute != null) {
+                                for (int i = 0; i < execute.length(); i++) {
+                                    JsonArray array = execute.getArray(i);
+                                    if (array.length() == 3 && array.getString(2).startsWith("history.pushState") && array.getString(1) != null && !array.getString(1).isEmpty()) {
+                                        String location = "/" + array.getString(1);
+                                        WebInvocationPrivilegeEvaluator privilegeEvaluator = applicationContext.getBean(WebInvocationPrivilegeEvaluator.class);
+                                        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+                                        if (!privilegeEvaluator.isAllowed(location, authentication)) {
+                                            String response = getRedirectToLoginResponse();
+                                            servletResponse.getWriter().write(response);
+                                            servletResponse.setContentLength(response.length());
+                                            return;
+                                        }
                                     }
                                 }
                             }
                         }
                     }
-                }
 
-                String original = wrappedResponse.getMaster().toString();
-                servletResponse.getWriter().write(original);
-                servletResponse.setContentLength(original.length());
-                wrappedResponse.getMaster().close();
+                    String originalContent = wrappedResponse.getMaster().toString();
+                    servletResponse.getWriter().write(originalContent);
+                    servletResponse.setContentType(wrappedResponse.getContentType());
+                    servletResponse.setCharacterEncoding(wrappedResponse.getCharacterEncoding());
+                    servletResponse.setContentLength(originalContent.length());
+                    wrappedResponse.getMaster().close();
+                }
             }
+
         };
     }
 
@@ -124,11 +135,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return "for(;;);[{\"execute\":[[\"" + script + "\"]]}]";
     }
 
-    private boolean isVaadinFlowRequest(HttpServletRequest request) {
+    private boolean isVaadinFlowRequest(HttpServletRequest request, ServletHelper.RequestType... requestTypes) {
         try {
             String parameterValue = request.getParameter(ApplicationConstants.REQUEST_TYPE_PARAMETER);
             return parameterValue != null
-                    && Stream.of(ServletHelper.RequestType.values())
+                    && Stream.of(requestTypes)
                     .map(r -> r.getIdentifier())
                     .anyMatch(parameterValue::equals);
         } catch (Exception ignored) {
