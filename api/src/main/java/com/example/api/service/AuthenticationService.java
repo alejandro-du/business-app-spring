@@ -45,7 +45,7 @@ public class AuthenticationService {
         }
 
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
-                user.getEmail(),
+                user.getId(),
                 user.getPassword(),
                 AuthorityUtils.createAuthorityList("ROLE_" + user.getRole().toString())
         );
