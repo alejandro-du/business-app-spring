@@ -62,7 +62,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .authorizeRequests()
                 .antMatchers(
                     "/VAADIN/**",
-                    "/frontend/**"
+                    "/frontend/**",
+                    "/favicon.ico"
                 ).permitAll();
 
                 addMatchersFromProperties(registry)
@@ -83,16 +84,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             @Override
             public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
                 HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
-                HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
 
                 boolean isRequestToRoot = httpServletRequest.getRequestURI().equals("/");
                 if (!isVaadinFlowRequest(httpServletRequest) && !isRequestToRoot) {
                     filterChain.doFilter(servletRequest, servletResponse);
                 } else {
+                    HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
                     CustomServletResponseWrapper wrappedResponse = new CustomServletResponseWrapper(httpServletResponse);
                     filterChain.doFilter(servletRequest, wrappedResponse);
                     String output = wrappedResponse.getBranch().toString();
-                    wrappedResponse.getBranch().close();
 
                     if (wrappedResponse.getContentType() != null && wrappedResponse.getContentType().startsWith("application/json")) {
                         if (checkFromJsonResponse(servletResponse, output)) {
@@ -117,7 +117,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     String originalContent = wrappedResponse.getMaster().toString();
                     servletResponse.getWriter().write(originalContent);
                     servletResponse.setContentLength(originalContent.length());
-                    wrappedResponse.getMaster().close();
                 }
             }
 
