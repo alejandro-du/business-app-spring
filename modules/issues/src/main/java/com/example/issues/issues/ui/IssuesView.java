@@ -1,5 +1,7 @@
 package com.example.issues.issues.ui;
 
+import com.example.api.domain.Role;
+import com.example.api.service.AuthorizationService;
 import com.example.api.ui.MainLayout;
 import com.example.issues.issues.Issue;
 import com.example.issues.issues.IssueService;
@@ -32,9 +34,12 @@ public class IssuesView extends Composite<VerticalLayout> {
     private Grid<Issue> grid = new Grid<>();
 
     private final IssueService issueService;
+    private final AuthorizationService authorizationService;
 
-    public IssuesView(IssueService issueService) {
+    public IssuesView(IssueService issueService, AuthorizationService authorizationService) {
         this.issueService = issueService;
+        this.authorizationService = authorizationService;
+
         Span viewTitle = new Span("Issues");
         viewTitle.addClassName("view-title");
 
@@ -72,7 +77,10 @@ public class IssuesView extends Composite<VerticalLayout> {
         grid.addColumn(Issue::getDate).setHeader("Date");
         grid.addComponentColumn(i -> new HorizontalLayout(
                 new Button(VaadinIcon.EYE.create(), e -> UI.getCurrent().navigate(IssueView.getViewName(i.getId()))),
-                new Button(VaadinIcon.EDIT.create(), e -> UI.getCurrent().navigate(EditIssueView.getViewName(i.getId())))
+                authorizationService.secureComponent(
+                        new Button(VaadinIcon.EDIT.create(), e -> UI.getCurrent().navigate(EditIssueView.getViewName(i.getId()))),
+                        Role.ADMIN, Role.DEVELOPER
+                )
         ));
         grid.setSizeFull();
 

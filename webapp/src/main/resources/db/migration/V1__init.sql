@@ -46,13 +46,13 @@ INSERT INTO project_members(project_id, members_id) VALUES (1, 1);
 INSERT INTO project_members(project_id, members_id) VALUES (1, 2);
 INSERT INTO project_members(project_id, members_id) VALUES (1, 3);
 INSERT INTO project_members(project_id, members_id) VALUES (1, 4);
+INSERT INTO project_members(project_id, members_id) VALUES (2, 1);
 INSERT INTO project_members(project_id, members_id) VALUES (2, 2);
 INSERT INTO project_members(project_id, members_id) VALUES (2, 3);
-INSERT INTO project_members(project_id, members_id) VALUES (2, 4);
 
 INSERT INTO issue(title, description, reporter_id, status, project_id) VALUES('Wrong menu color', 'The menu has a wrong background color. It should be darker.', 1, 'OPEN', 1);
 INSERT INTO issue(title, description, reporter_id, status, project_id) VALUES('Error updating users', 'An error occurs anytime the update button is clicked in the edit user view.', 4, 'OPEN', 1);
 INSERT INTO issue(title, description, reporter_id, status, project_id) VALUES('Add header', 'The website requires a header with the company logo.', 4, 'CLOSED', 1);
 INSERT INTO issue(title, description, reporter_id, status, project_id) VALUES('Implement web service', 'Functionality in services should be available to external systems through a REST WS.', 2, 'OPEN', 2);
-INSERT INTO issue(title, description, reporter_id, status, project_id) VALUES('Add remember me option', 'A remember me option is needed in the login view.', 4, 'OPEN', 2);
-INSERT INTO issue(title, description, reporter_id, status, project_id) VALUES('Error saving issues', 'An error occurs when saving a new issue.', 4, 'OPEN', 2);
+INSERT INTO issue(title, description, reporter_id, status, project_id) VALUES('Add remember me option', 'A remember me option is needed in the login view.', 1, 'OPEN', 2);
+INSERT INTO issue(title, description, reporter_id, status, project_id) VALUES('Error saving issues', 'An error occurs when saving a new issue.', 1, 'OPEN', 2);

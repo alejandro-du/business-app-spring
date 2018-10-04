@@ -25,6 +25,10 @@ public class UserService {
         return userRepository.find(session.getProjectId(), name, role);
     }
 
+    public Set<User> findByRole(Role role) {
+        return userRepository.find(session.getProjectId(), "", role);
+    }
+
     public void saveOrUpdate(User user) {
         userRepository.save(user);
     }

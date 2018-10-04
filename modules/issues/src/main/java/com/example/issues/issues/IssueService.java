@@ -3,14 +3,12 @@ package com.example.issues.issues;
 import com.example.issues.projects.ProjectRepository;
 import com.example.issues.users.UserRepository;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.annotation.SessionScope;
 
 import java.time.LocalDate;
 import java.util.Optional;
 import java.util.Set;
 
 @Component
-@SessionScope
 public class IssueService {
 
     private final IssueRepository issueRepository;

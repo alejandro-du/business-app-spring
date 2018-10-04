@@ -34,6 +34,7 @@ public class IssueView extends Composite<VerticalLayout> implements HasUrlParame
         Optional<Issue> issue = issueService.findById(issueId);
         if (!issue.isPresent()) {
             UI.getCurrent().navigate(IssuesView.VIEW_NAME);
+            UI.getCurrent().getPage().executeJavaScript("location.reload()");
         } else {
             showIssue(issue.get());
         }

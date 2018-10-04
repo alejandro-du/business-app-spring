@@ -2,6 +2,7 @@ package com.example.issues.issues.ui;
 
 import com.example.api.domain.Role;
 import com.example.api.domain.User;
+import com.example.api.service.AuthorizationService;
 import com.example.api.ui.MainLayout;
 import com.example.issues.issues.Issue;
 import com.example.issues.issues.IssueService;
@@ -33,11 +34,11 @@ public class CreateIssueView extends Composite<VerticalLayout> {
     private ComboBox<User> owner = new ComboBox<>();
 
     private final IssueService issueService;
-    private final UserService userService;
+    private final AuthorizationService authorizationService;
 
-    public CreateIssueView(IssueService issueService, UserService userService) {
+    public CreateIssueView(IssueService issueService, UserService userService, AuthorizationService authorizationService) {
         this.issueService = issueService;
-        this.userService = userService;
+        this.authorizationService = authorizationService;
 
         Span viewTitle = new Span("Create issue");
         viewTitle.addClassName("view-title");
@@ -46,7 +47,7 @@ public class CreateIssueView extends Composite<VerticalLayout> {
 
         description.setSizeFull();
 
-        Set<User> users = userService.find("", Role.DEVELOPER);
+        Set<User> users = userService.findByRole(Role.DEVELOPER);
         owner.setItems(users);
         owner.setItemLabelGenerator(u -> u.getName());
         owner.setPlaceholder("Assign to...");
@@ -54,7 +55,13 @@ public class CreateIssueView extends Composite<VerticalLayout> {
         Button create = new Button("Create", e -> create());
         create.getElement().setAttribute("theme", "primary");
 
-        VerticalLayout formLayout = new VerticalLayout(viewTitle, title, description, owner, create);
+        VerticalLayout formLayout = new VerticalLayout(
+                viewTitle,
+                title,
+                description,
+                authorizationService.secureComponent(owner, Role.ADMIN, Role.DEVELOPER),
+                create
+        );
         formLayout.setPadding(false);
         formLayout.setMargin(false);
         formLayout.setAlignSelf(FlexComponent.Alignment.END, owner, create);
