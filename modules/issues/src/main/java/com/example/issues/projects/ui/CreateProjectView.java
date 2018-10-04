@@ -19,9 +19,11 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.data.selection.MultiSelect;
+import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
 @Route(value = CreateProjectView.VIEW_NAME, layout = MainLayout.class)
+@PageTitle("Create project | Business Application")
 public class CreateProjectView extends Composite<VerticalLayout> {
 
     public static final String VIEW_NAME = "create-project";

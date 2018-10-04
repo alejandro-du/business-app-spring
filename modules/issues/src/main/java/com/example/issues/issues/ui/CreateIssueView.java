@@ -20,11 +20,13 @@ import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.ValidationException;
+import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
 import java.util.Set;
 
 @Route(value = CreateIssueView.VIEW_NAME, layout = MainLayout.class)
+@PageTitle("Create issue | Business Application")
 public class CreateIssueView extends Composite<VerticalLayout> {
 
     public static final String VIEW_NAME = "create-issue";

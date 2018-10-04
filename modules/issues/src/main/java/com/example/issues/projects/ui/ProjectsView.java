@@ -10,9 +10,11 @@ import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
 @Route(value = ProjectsView.VIEW_NAME, layout = MainLayout.class)
+@PageTitle("Projects | Business Application")
 public class ProjectsView extends Composite<VerticalLayout> {
 
     public static final String VIEW_NAME = "projects";

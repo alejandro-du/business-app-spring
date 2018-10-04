@@ -16,11 +16,13 @@ import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
 import java.util.Set;
 
 @Route(value = UsersView.VIEW_NAME, layout = MainLayout.class)
+@PageTitle("Users | Business Application")
 public class UsersView extends Composite<VerticalLayout> {
 
     public static final String VIEW_NAME = "users";

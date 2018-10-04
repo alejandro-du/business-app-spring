@@ -20,11 +20,13 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.router.BeforeEvent;
 import com.vaadin.flow.router.HasUrlParameter;
+import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
 import java.util.Optional;
 
 @Route(value = EditUserView.VIEW_NAME, layout = MainLayout.class)
+@PageTitle("Edit user | Business Application")
 public class EditUserView extends Composite<VerticalLayout> implements HasUrlParameter<Long> {
 
     public static final String VIEW_NAME = "edit-user";

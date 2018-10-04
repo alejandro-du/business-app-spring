@@ -14,11 +14,13 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
 @Route(value = LoginView.VIEW_NAME)
 @HtmlImport("/frontend/styles/login-view-styles.html")
 @HtmlImport("/frontend/styles/shared-styles.html")
+@PageTitle("Sign in | Business Application")
 public class LoginView extends Composite<VerticalLayout> {
 
     public static final String VIEW_NAME = "login";
@@ -36,10 +38,10 @@ public class LoginView extends Composite<VerticalLayout> {
         H2 title = new H2("Sign in");
 
         email.setWidth("100%");
-        email.setValue("marcus@vaadin.com");
+        email.setValue("john@vaadin.com");
 
         password.setWidth("100%");
-        password.setValue("password1");
+        password.setValue("password4");
 
         Button signIn = new Button("Sign in", e -> signInClicked());
         signIn.getElement().setAttribute("theme", "primary");

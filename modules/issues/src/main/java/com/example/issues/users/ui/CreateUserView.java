@@ -17,9 +17,11 @@ import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.ValidationException;
+import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
 @Route(value = CreateUserView.VIEW_NAME, layout = MainLayout.class)
+@PageTitle("Create user | Business Application")
 public class CreateUserView extends Composite<VerticalLayout> {
 
     public static final String VIEW_NAME = "create-user";

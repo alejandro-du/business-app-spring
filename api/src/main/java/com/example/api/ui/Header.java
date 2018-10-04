@@ -13,7 +13,7 @@ public class Header extends Composite<HorizontalLayout> {
 
     public Header() {
         Image logo = new Image("/frontend/images/app-logo.png", "App logo");
-        Span appName = new Span("App name");
+        Span appName = new Span("Business Application");
         appName.addClassNames("header-app-name");
 
         contentLayout.setPadding(true);

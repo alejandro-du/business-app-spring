@@ -17,11 +17,13 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
 import java.util.Set;
 
 @Route(value = IssuesView.VIEW_NAME, layout = MainLayout.class)
+@PageTitle("Issues | Business Application")
 public class IssuesView extends Composite<VerticalLayout> {
 
     public static final String VIEW_NAME = "issues";

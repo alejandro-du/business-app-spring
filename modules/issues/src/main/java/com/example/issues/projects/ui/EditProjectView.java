@@ -21,11 +21,13 @@ import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.selection.MultiSelect;
 import com.vaadin.flow.router.BeforeEvent;
 import com.vaadin.flow.router.HasUrlParameter;
+import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
 import java.util.Optional;
 
 @Route(value = EditProjectView.VIEW_NAME, layout = MainLayout.class)
+@PageTitle("Edit project | Business Application")
 public class EditProjectView extends Composite<VerticalLayout> implements HasUrlParameter<Long> {
 
     public static final String VIEW_NAME = "edit-project";
