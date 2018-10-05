@@ -64,8 +64,8 @@ public class IssuesModule implements BusinessAppModule {
             ComboBox<Project> projects = new ComboBox<>(null, allProjects);
             projects.setItemLabelGenerator(Project::getName);
             if (!allProjects.isEmpty()) {
-                Long projectId = session.getProjectId();
-                Optional<Project> project = projectRepository.findById(projectId);
+                long projectId = session.getProjectId();
+                Optional<Project> project = allProjects.stream().filter(p -> p.getId().equals(projectId)).findFirst();
                 projects.setValue(project.orElse(null));
 
                 projects.addValueChangeListener(e -> selectProject(e.getValue()));

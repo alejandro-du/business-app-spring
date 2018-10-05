@@ -10,6 +10,7 @@ import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.notification.Notification;
@@ -57,15 +58,15 @@ public class EditProjectView extends Composite<VerticalLayout> implements HasUrl
         Span viewTitle = new Span("Edit project");
         viewTitle.addClassName("view-title");
 
-        name.setWidth("100%");
+        name.setSizeFull();
         name.focus();
 
         grid.setId("members");
-        grid.setSizeFull();
+        grid.setWidth("100%");
         grid.addColumn(User::getName).setHeader("Name");
         grid.addColumn(User::getEmail).setHeader("Email");
         grid.addColumn(User::getRole).setHeader("Role");
-        grid.setItems(userService.findAll());
+        grid.setItems(this.userService.findAll());
         grid.setSelectionMode(Grid.SelectionMode.MULTI);
         members = grid.asMultiSelect();
 
@@ -80,9 +81,14 @@ public class EditProjectView extends Composite<VerticalLayout> implements HasUrl
 
         HorizontalLayout actionsLayout = new HorizontalLayout(delete, save);
 
-        getContent().setSizeFull();
-        getContent().removeAll();
-        getContent().add(viewTitle, name, membersLabel, grid, actionsLayout);
+        VerticalLayout formLayout = new VerticalLayout(viewTitle, name, membersLabel, grid, actionsLayout);
+        formLayout.setPadding(false);
+        formLayout.setMargin(false);
+
+        Div mainLayout = new Div(formLayout);
+        mainLayout.setWidth("100%");
+
+        getContent().add(mainLayout);
         getContent().setAlignSelf(FlexComponent.Alignment.END, actionsLayout);
 
         binder.bindInstanceFields(this);

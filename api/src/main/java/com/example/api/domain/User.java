@@ -29,6 +29,7 @@ public class User extends BusinessAppEntity {
     private String password;
 
     @Enumerated(EnumType.STRING)
+    @NotNull
     private Role role;
 
 }
