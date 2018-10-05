@@ -46,7 +46,7 @@ public class LoginView extends Composite<VerticalLayout> {
         email.setValue("marcus@vaadin.com");
 
         password.setWidth("100%");
-        password.setValue("password1");
+        password.setValue("password");
 
         Button signIn = new Button("Sign in", e -> signInClicked());
         signIn.getElement().setAttribute("theme", "primary");

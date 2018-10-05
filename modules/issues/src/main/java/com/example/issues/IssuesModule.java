@@ -63,10 +63,13 @@ public class IssuesModule implements BusinessAppModule {
         uiConfiguration.addHeaderComponent(() -> {
             ComboBox<Project> projects = new ComboBox<>(null, allProjects);
             projects.setItemLabelGenerator(Project::getName);
-            Optional<Project> project = projectRepository.findById(session.getProjectId());
-            projects.setValue(project.orElse(null));
+            if (!allProjects.isEmpty()) {
+                Long projectId = session.getProjectId();
+                Optional<Project> project = projectRepository.findById(projectId);
+                projects.setValue(project.orElse(null));
 
-            projects.addValueChangeListener(e -> selectProject(e.getValue()));
+                projects.addValueChangeListener(e -> selectProject(e.getValue()));
+            }
             return projects;
         });
     }

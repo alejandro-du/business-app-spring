@@ -57,7 +57,7 @@ public class CreateUserView extends Composite<VerticalLayout> {
             BeanValidationBinder<User> binder = new BeanValidationBinder<>(User.class);
             binder.bindInstanceFields(this);
             binder.writeBean(user);
-            userService.saveOrUpdate(user);
+            userService.save(user);
             UI.getCurrent().navigate(UsersView.class);
 
         } catch (ValidationException e) {

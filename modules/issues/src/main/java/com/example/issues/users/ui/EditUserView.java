@@ -23,6 +23,10 @@ import com.vaadin.flow.router.HasUrlParameter;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.util.Optional;
 
 @Route(value = "edit-user", layout = MainLayout.class)
@@ -36,6 +40,7 @@ public class EditUserView extends Composite<VerticalLayout> implements HasUrlPar
 
     private final UserService userService;
     private BeanValidationBinder<User> binder = new BeanValidationBinder<>(User.class);
+    private @NotNull @NotEmpty @Size(min = 6, max = 255) @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-zA-Z]).*$", message = "must have a digit and a letter") String originalPassword;
 
     public EditUserView(UserService userService) {
         this.userService = userService;
@@ -73,6 +78,10 @@ public class EditUserView extends Composite<VerticalLayout> implements HasUrlPar
         getContent().setSizeFull();
         getContent().setAlignSelf(FlexComponent.Alignment.END, actionsLayout);
 
+
+        originalPassword = user.getPassword();
+        user.setPassword(null);
+
         binder.bindInstanceFields(this);
         binder.setBean(user);
     }
@@ -85,10 +94,16 @@ public class EditUserView extends Composite<VerticalLayout> implements HasUrlPar
     }
 
     private void save(User user) {
+        boolean newPassword = !password.getValue().isEmpty();
+
+        if (!newPassword) {
+            password.setValue(originalPassword);
+        }
+
         if (binder.validate().hasErrors()) {
             Notification.show("Please fix the errors and try again.");
         } else {
-            userService.saveOrUpdate(user);
+            userService.update(user, newPassword);
             UI.getCurrent().navigate(UsersView.class);
         }
     }

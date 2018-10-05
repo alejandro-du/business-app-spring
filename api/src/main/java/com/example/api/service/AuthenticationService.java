@@ -11,6 +11,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
@@ -26,37 +27,37 @@ public class AuthenticationService {
     public static final String USER_ID_SESSION_KEY = "user_id";
 
     private final UserRepository userRepository;
-
     private final Optional<BusinessAppModule[]> modules;
+    private final PasswordEncoder passwordEncoder;
 
     private boolean modulesInitialized;
 
-    public AuthenticationService(UserRepository userRepository, Optional<BusinessAppModule[]> modules) {
+    public AuthenticationService(UserRepository userRepository, Optional<BusinessAppModule[]> modules, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.modules = modules;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public boolean authenticate(String username, String password) {
-        User user = userRepository.findByEmailIgnoreCaseAndPassword(username, password);
+        User user = userRepository.findByEmailIgnoreCase(username);
 
-        if (user == null) {
-            return false;
+        if (user != null && passwordEncoder.matches(password, user.getPassword())) {
+            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
+                    user.getId(),
+                    user.getPassword(),
+                    AuthorityUtils.createAuthorityList("ROLE_" + user.getRole().toString())
+            );
+            SecurityContextHolder.getContext().setAuthentication(token);
+            VaadinSession.getCurrent().setAttribute(USER_ID_SESSION_KEY, user.getId());
+
+            if (!modulesInitialized && modules.isPresent()) {
+                Arrays.stream(modules.get()).forEach(BusinessAppModule::initialize);
+                modulesInitialized = true;
+            }
+            return true;
         }
 
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
-                user.getId(),
-                user.getPassword(),
-                AuthorityUtils.createAuthorityList("ROLE_" + user.getRole().toString())
-        );
-        SecurityContextHolder.getContext().setAuthentication(token);
-        VaadinSession.getCurrent().setAttribute(USER_ID_SESSION_KEY, user.getId());
-
-        if (!modulesInitialized && modules.isPresent()) {
-            Arrays.stream(modules.get()).forEach(BusinessAppModule::initialize);
-            modulesInitialized = true;
-        }
-
-        return true;
+        return false;
     }
 
     public void logout() {

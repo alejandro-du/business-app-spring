@@ -29,9 +29,11 @@ public class MainLayout extends Composite<VerticalLayout> implements RouterLayou
 
         Header header = new Header();
 
-        uiConfiguration.getHeaderComponentSuppliers().stream()
-                .map(SerializableSupplier::get)
-                .forEach(header::add);
+        if (!uiConfiguration.getHeaderComponentSuppliers().isEmpty()) {
+            uiConfiguration.getHeaderComponentSuppliers().stream()
+                    .map(SerializableSupplier::get)
+                    .forEach(header::add);
+        }
 
         if (authenticationService.isAuthenticated()) {
             header.add(signOut);

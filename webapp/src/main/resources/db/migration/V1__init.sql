@@ -34,10 +34,10 @@ CREATE TABLE issue (
   FOREIGN KEY (project_id) REFERENCES project(id)
 );
 
-INSERT INTO user(name, email, password, role) VALUES('Marcus', 'marcus@vaadin.com', 'password1', 'ADMIN');
-INSERT INTO user(name, email, password, role) VALUES('Alejandro', 'alejandro@vaadin.com', 'password2', 'DEVELOPER');
-INSERT INTO user(name, email, password, role) VALUES('Sven', 'sven@vaadin.com', 'password3', 'DEVELOPER');
-INSERT INTO user(name, email, password, role) VALUES('john', 'john@vaadin.com', 'password4', 'USER');
+INSERT INTO user(name, email, password, role) VALUES('Marcus', 'marcus@vaadin.com', '$2a$10$R5nEGppr0Dqqx6BzN6djNufo.ilsANmQqTENTNWDoJElQQTacrzq2', 'ADMIN');
+INSERT INTO user(name, email, password, role) VALUES('Alejandro', 'alejandro@vaadin.com', '$2a$10$R5nEGppr0Dqqx6BzN6djNufo.ilsANmQqTENTNWDoJElQQTacrzq2', 'DEVELOPER');
+INSERT INTO user(name, email, password, role) VALUES('Sven', 'sven@vaadin.com', '$2a$10$R5nEGppr0Dqqx6BzN6djNufo.ilsANmQqTENTNWDoJElQQTacrzq2', 'DEVELOPER');
+INSERT INTO user(name, email, password, role) VALUES('john', 'john@vaadin.com', '$2a$10$R5nEGppr0Dqqx6BzN6djNufo.ilsANmQqTENTNWDoJElQQTacrzq2', 'USER');
 
 INSERT INTO project(name) VALUES ('Website');
 INSERT INTO project(name) VALUES ('Business app');

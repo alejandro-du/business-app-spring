@@ -3,6 +3,7 @@ package com.example.issues.users;
 import com.example.api.domain.Role;
 import com.example.api.domain.User;
 import com.example.issues.issues.Session;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -13,12 +14,13 @@ import java.util.Set;
 public class UserService {
 
     private final UserRepository userRepository;
-
     private final Session session;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository, Session session) {
+    public UserService(UserRepository userRepository, Session session, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.session = session;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public Set<User> find(String name, Role role) {
@@ -29,7 +31,15 @@ public class UserService {
         return userRepository.find(session.getProjectId(), "", role);
     }
 
-    public void saveOrUpdate(User user) {
+    public void save(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        userRepository.save(user);
+    }
+
+    public void update(User user, boolean newPassword) {
+        if (newPassword) {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
         userRepository.save(user);
     }
 
