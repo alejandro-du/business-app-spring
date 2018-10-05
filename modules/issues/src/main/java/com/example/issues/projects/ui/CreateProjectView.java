@@ -22,11 +22,9 @@ import com.vaadin.flow.data.selection.MultiSelect;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
-@Route(value = CreateProjectView.VIEW_NAME, layout = MainLayout.class)
+@Route(value = "create-project", layout = MainLayout.class)
 @PageTitle("Create project | Business Application")
 public class CreateProjectView extends Composite<VerticalLayout> {
-
-    public static final String VIEW_NAME = "create-project";
 
     private TextField name = new TextField("Name");
     private Grid<User> grid = new Grid<>();
@@ -43,6 +41,7 @@ public class CreateProjectView extends Composite<VerticalLayout> {
         viewTitle.addClassName("view-title");
 
         name.setSizeFull();
+        name.focus();
 
         grid.setId("members");
         grid.setWidth("100%");
@@ -77,7 +76,7 @@ public class CreateProjectView extends Composite<VerticalLayout> {
             binder.bindInstanceFields(this);
             binder.writeBean(project);
             projectService.saveOrUpdate(project);
-            UI.getCurrent().navigate(ProjectsView.VIEW_NAME);
+            UI.getCurrent().navigate(ProjectsView.class);
 
         } catch (ValidationException e) {
             Notification.show("Please fix the errors and try again.");

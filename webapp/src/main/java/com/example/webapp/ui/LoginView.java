@@ -8,6 +8,8 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.html.H2;
+import com.vaadin.flow.component.html.Image;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -16,14 +18,15 @@ import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.theme.Theme;
+import com.vaadin.flow.theme.lumo.Lumo;
 
-@Route(value = LoginView.VIEW_NAME)
+@Route(value = "login")
 @HtmlImport("/frontend/styles/login-view-styles.html")
 @HtmlImport("/frontend/styles/shared-styles.html")
 @PageTitle("Sign in | Business Application")
+@Theme(value = Lumo.class, variant = Lumo.DARK)
 public class LoginView extends Composite<VerticalLayout> {
-
-    public static final String VIEW_NAME = "login";
 
     private TextField email = new TextField("Email");
     private PasswordField password = new PasswordField("Password");
@@ -33,15 +36,18 @@ public class LoginView extends Composite<VerticalLayout> {
     public LoginView(AuthenticationService authenticationService) {
         this.authenticationService = authenticationService;
 
-        Header header = new Header();
+        Image logo = new Image("/frontend/images/app-logo.png", "App logo");
+        Span appName = new Span("Business Application");
+        appName.addClassName("header-app-name");
+        HorizontalLayout header = new HorizontalLayout(logo, appName);
 
         H2 title = new H2("Sign in");
 
         email.setWidth("100%");
-        email.setValue("john@vaadin.com");
+        email.setValue("marcus@vaadin.com");
 
         password.setWidth("100%");
-        password.setValue("password4");
+        password.setValue("password1");
 
         Button signIn = new Button("Sign in", e -> signInClicked());
         signIn.getElement().setAttribute("theme", "primary");
@@ -51,12 +57,15 @@ public class LoginView extends Composite<VerticalLayout> {
         formLayout.setAlignSelf(FlexComponent.Alignment.END, signIn);
         formLayout.addClassName("login-view-form-layout");
 
-        HorizontalLayout contentLayout = new HorizontalLayout(formLayout);
-        contentLayout.setWidth(null);
+        VerticalLayout contentLayout = new VerticalLayout(header, formLayout);
         contentLayout.setAlignItems(FlexComponent.Alignment.CENTER);
-        contentLayout.setVerticalComponentAlignment(FlexComponent.Alignment.CENTER, formLayout);
+        contentLayout.setWidth(null);
 
-        getContent().add(header, contentLayout);
+        HorizontalLayout verticalLayout = new HorizontalLayout(contentLayout);
+        verticalLayout.setSizeFull();
+        verticalLayout.setVerticalComponentAlignment(FlexComponent.Alignment.CENTER);
+
+        getContent().add(verticalLayout);
         getContent().setSizeFull();
         getContent().setFlexGrow(1, contentLayout);
         getContent().setPadding(false);

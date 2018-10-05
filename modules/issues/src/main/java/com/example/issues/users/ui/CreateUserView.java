@@ -20,11 +20,9 @@ import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
-@Route(value = CreateUserView.VIEW_NAME, layout = MainLayout.class)
+@Route(value = "create-user", layout = MainLayout.class)
 @PageTitle("Create user | Business Application")
 public class CreateUserView extends Composite<VerticalLayout> {
-
-    public static final String VIEW_NAME = "create-user";
 
     private TextField name = new TextField("Name");
     private TextField email = new TextField("Email");
@@ -35,8 +33,11 @@ public class CreateUserView extends Composite<VerticalLayout> {
 
     public CreateUserView(UserService userService) {
         this.userService = userService;
+
         Span viewTitle = new Span("Create user");
         viewTitle.addClassName("view-title");
+
+        name.focus();
 
         FormLayout formLayout = new FormLayout(name, email, password, role);
         formLayout.setWidth("100%");
@@ -57,7 +58,7 @@ public class CreateUserView extends Composite<VerticalLayout> {
             binder.bindInstanceFields(this);
             binder.writeBean(user);
             userService.saveOrUpdate(user);
-            UI.getCurrent().navigate(UsersView.VIEW_NAME);
+            UI.getCurrent().navigate(UsersView.class);
 
         } catch (ValidationException e) {
             Notification.show("Please fix the errors and try again.");

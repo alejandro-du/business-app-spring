@@ -4,6 +4,7 @@ import com.example.api.domain.Role;
 import com.example.api.domain.User;
 import com.example.api.domain.UserRepository;
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.flow.spring.annotation.SpringComponent;
 import org.springframework.security.core.Authentication;
@@ -23,10 +24,9 @@ public class AuthorizationService {
         this.userRepository = userRepository;
     }
 
-    public boolean userCanAccess(String url) {
-        if (!url.startsWith("/")) {
-            url = "/" + url;
-        }
+    public boolean userCanAccess(Class<? extends Component> viewClass) {
+        Route routeAnnotation = viewClass.getAnnotation(Route.class);
+        String url = "/" + routeAnnotation.value();
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return privilegeEvaluator.isAllowed(url, authentication);
     }

@@ -25,15 +25,9 @@ import com.vaadin.flow.router.Route;
 
 import java.util.Optional;
 
-@Route(value = EditUserView.VIEW_NAME, layout = MainLayout.class)
+@Route(value = "edit-user", layout = MainLayout.class)
 @PageTitle("Edit user | Business Application")
 public class EditUserView extends Composite<VerticalLayout> implements HasUrlParameter<Long> {
-
-    public static final String VIEW_NAME = "edit-user";
-
-    public static String getViewName(Long userId) {
-        return VIEW_NAME + "/" + userId;
-    }
 
     private TextField name = new TextField("Name");
     private TextField email = new TextField("Email");
@@ -51,7 +45,7 @@ public class EditUserView extends Composite<VerticalLayout> implements HasUrlPar
     public void setParameter(BeforeEvent event, Long userId) {
         Optional<User> user = userService.findById(userId);
         if (!user.isPresent()) {
-            UI.getCurrent().navigate(UsersView.VIEW_NAME);
+            UI.getCurrent().navigate(UsersView.class);
         } else {
             editUser(user.get());
         }
@@ -60,6 +54,8 @@ public class EditUserView extends Composite<VerticalLayout> implements HasUrlPar
     private void editUser(User user) {
         Span viewTitle = new Span("Edit user");
         viewTitle.addClassName("view-title");
+
+        name.focus();
 
         FormLayout formLayout = new FormLayout(name, email, password, role);
         formLayout.setWidth("100%");
@@ -84,7 +80,7 @@ public class EditUserView extends Composite<VerticalLayout> implements HasUrlPar
     private void delete(User user) {
         new ConfirmDialog("Do you want to delete this user?", e -> {
             userService.delete(user);
-            UI.getCurrent().navigate(UsersView.VIEW_NAME);
+            UI.getCurrent().navigate(UsersView.class);
         }).open();
     }
 
@@ -93,7 +89,7 @@ public class EditUserView extends Composite<VerticalLayout> implements HasUrlPar
             Notification.show("Please fix the errors and try again.");
         } else {
             userService.saveOrUpdate(user);
-            UI.getCurrent().navigate(UsersView.VIEW_NAME);
+            UI.getCurrent().navigate(UsersView.class);
         }
     }
 

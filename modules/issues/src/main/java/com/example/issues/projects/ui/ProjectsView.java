@@ -13,11 +13,9 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
-@Route(value = ProjectsView.VIEW_NAME, layout = MainLayout.class)
+@Route(value = "projects", layout = MainLayout.class)
 @PageTitle("Projects | Business Application")
 public class ProjectsView extends Composite<VerticalLayout> {
-
-    public static final String VIEW_NAME = "projects";
 
     public ProjectsView(ProjectService projectService) {
         Span viewTitle = new Span("Projects");
@@ -26,7 +24,7 @@ public class ProjectsView extends Composite<VerticalLayout> {
         Grid<Project> grid = new Grid<>();
         grid.addColumn(Project::getName).setHeader("Name");
         grid.addComponentColumn(p -> new Button(null, VaadinIcon.EDIT.create(),
-                e -> UI.getCurrent().navigate(EditProjectView.getViewName(p.getId()))));
+                e -> UI.getCurrent().navigate(EditProjectView.class, p.getId())));
         grid.setItems(projectService.findAll());
 
         getContent().add(viewTitle, grid);

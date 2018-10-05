@@ -22,11 +22,9 @@ import com.vaadin.flow.router.Route;
 
 import java.util.Set;
 
-@Route(value = IssuesView.VIEW_NAME, layout = MainLayout.class)
+@Route(value = "issues", layout = MainLayout.class)
 @PageTitle("Issues | Business Application")
 public class IssuesView extends Composite<VerticalLayout> {
-
-    public static final String VIEW_NAME = "issues";
 
     private TextField title = new TextField();
     private TextField reporter = new TextField();
@@ -36,11 +34,9 @@ public class IssuesView extends Composite<VerticalLayout> {
     private Grid<Issue> grid = new Grid<>();
 
     private final IssueService issueService;
-    private final AuthorizationService authorizationService;
 
     public IssuesView(IssueService issueService, AuthorizationService authorizationService) {
         this.issueService = issueService;
-        this.authorizationService = authorizationService;
 
         Span viewTitle = new Span("Issues");
         viewTitle.addClassName("view-title");
@@ -72,18 +68,19 @@ public class IssuesView extends Composite<VerticalLayout> {
         HorizontalLayout filterLayout = new HorizontalLayout(title, owner, reporter, status, date);
         filterLayout.setWidth("100%");
 
-        grid.addColumn(Issue::getTitle).setHeader("Title");
-        grid.addColumn(i -> i.getOwner() != null ? i.getOwner().getName() : "").setHeader("Owner");
-        grid.addColumn(i -> i.getReporter() != null ? i.getReporter().getName() : "").setHeader("Reporter");
-        grid.addColumn(Issue::getStatus).setHeader("Status");
-        grid.addColumn(Issue::getDate).setHeader("Date");
+        grid.addColumn(i -> "#" + i.getId()).setFlexGrow(0);
+        grid.addColumn(Issue::getTitle).setHeader("Title").setFlexGrow(1);
+        grid.addColumn(i -> i.getOwner() != null ? i.getOwner().getName() : "").setHeader("Owner").setFlexGrow(0);
+        grid.addColumn(i -> i.getReporter() != null ? i.getReporter().getName() : "").setHeader("Reporter").setFlexGrow(0);
+        grid.addColumn(Issue::getStatus).setHeader("Status").setFlexGrow(0);
+        grid.addColumn(Issue::getDate).setHeader("Date").setFlexGrow(0).setWidth("10em");
         grid.addComponentColumn(i -> new HorizontalLayout(
-                new Button(VaadinIcon.EYE.create(), e -> UI.getCurrent().navigate(IssueView.getViewName(i.getId()))),
+                new Button(VaadinIcon.EYE.create(), e -> UI.getCurrent().navigate(IssueView.class, i.getId())),
                 authorizationService.secureComponent(
-                        new Button(VaadinIcon.EDIT.create(), e -> UI.getCurrent().navigate(EditIssueView.getViewName(i.getId()))),
+                        new Button(VaadinIcon.EDIT.create(), e -> UI.getCurrent().navigate(EditIssueView.class, i.getId())),
                         Role.ADMIN, Role.DEVELOPER
                 )
-        ));
+        )).setFlexGrow(0).setWidth("10em");
         grid.setSizeFull();
 
         getContent().add(viewTitle, filterLayout, grid);

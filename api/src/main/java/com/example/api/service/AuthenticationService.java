@@ -3,7 +3,6 @@ package com.example.api.service;
 import com.example.api.BusinessAppModule;
 import com.example.api.domain.User;
 import com.example.api.domain.UserRepository;
-import com.vaadin.flow.component.UI;
 import com.vaadin.flow.server.VaadinService;
 import com.vaadin.flow.server.VaadinServletRequest;
 import com.vaadin.flow.server.VaadinSession;
@@ -63,7 +62,6 @@ public class AuthenticationService {
     public void logout() {
         HttpServletRequest request = ((VaadinServletRequest) VaadinService.getCurrentRequest()).getHttpServletRequest();
         new SecurityContextLogoutHandler().logout(request, null, null);
-        UI.getCurrent().getPage().executeJavaScript("location.reload();");
         VaadinService.getCurrentRequest().getWrappedSession().invalidate();
     }
 

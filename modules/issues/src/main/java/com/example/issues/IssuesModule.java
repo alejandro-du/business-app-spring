@@ -16,6 +16,7 @@ import com.example.issues.users.UserRepository;
 import com.example.issues.users.ui.UsersView;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.combobox.ComboBox;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.flow.spring.annotation.VaadinSessionScope;
 import org.springframework.stereotype.Component;
@@ -73,16 +74,16 @@ public class IssuesModule implements BusinessAppModule {
     private void selectProject(Project selectedProject) {
         if (selectedProject != null) {
             session.setProjectId(selectedProject.getId());
-            UI.getCurrent().getPage().executeJavaScript("location.reload();");
+            UI.getCurrent().navigate("");
         }
     }
 
     private void addMenuOptions() {
-        uiConfiguration.addMenuOption(IssuesView.VIEW_NAME, "Issues");
-        uiConfiguration.addMenuOption(CreateIssueView.VIEW_NAME, "Create issue");
-        uiConfiguration.addMenuOption(ProjectsView.VIEW_NAME, "Projects");
-        uiConfiguration.addMenuOption(CreateProjectView.VIEW_NAME, "Create project");
-        uiConfiguration.addMenuOption(UsersView.VIEW_NAME, "Users");
+        uiConfiguration.addMenuOption(IssuesView.class, "Issues", VaadinIcon.BUG);
+        uiConfiguration.addMenuOption(CreateIssueView.class, "Create issue", VaadinIcon.PLUS);
+        uiConfiguration.addMenuOption(ProjectsView.class, "Projects", VaadinIcon.CODE);
+        uiConfiguration.addMenuOption(CreateProjectView.class, "Create project", VaadinIcon.PLUS_SQUARE_O);
+        uiConfiguration.addMenuOption(UsersView.class, "Users", VaadinIcon.USERS);
     }
 
 }

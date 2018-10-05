@@ -9,7 +9,6 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
@@ -18,14 +17,13 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.router.RouterLink;
 
 import java.util.Set;
 
-@Route(value = UsersView.VIEW_NAME, layout = MainLayout.class)
+@Route(value = "users", layout = MainLayout.class)
 @PageTitle("Users | Business Application")
 public class UsersView extends Composite<VerticalLayout> {
-
-    public static final String VIEW_NAME = "users";
 
     private TextField name = new TextField();
     private ComboBox<Role> role = new ComboBox();
@@ -46,9 +44,9 @@ public class UsersView extends Composite<VerticalLayout> {
         role.setItems(Role.values());
         role.addValueChangeListener(e -> refreshGrid());
 
-        Anchor createNew = new Anchor(CreateUserView.VIEW_NAME, "Create new");
+        RouterLink createNew = new RouterLink("Create new", CreateUserView.class);
 
-        HorizontalLayout actionsLayout = new HorizontalLayout(createNew);
+        HorizontalLayout actionsLayout = new HorizontalLayout(VaadinIcon.PLUS.create(), createNew);
         actionsLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.END);
 
         HorizontalLayout filterLayout = new HorizontalLayout(name, role, actionsLayout);
@@ -58,7 +56,8 @@ public class UsersView extends Composite<VerticalLayout> {
         grid.addColumn(User::getName).setHeader("Name");
         grid.addColumn(User::getEmail).setHeader("Email");
         grid.addColumn(User::getRole).setHeader("Role");
-        grid.addComponentColumn(u -> new Button(VaadinIcon.EDIT.create(), e -> UI.getCurrent().navigate(EditUserView.getViewName(u.getId()))));
+        grid.addComponentColumn(u -> new Button(VaadinIcon.EDIT.create(),
+                e -> UI.getCurrent().navigate(EditUserView.class, u.getId())));
 
         getContent().add(viewTitle, filterLayout, grid);
         getContent().setSizeFull();

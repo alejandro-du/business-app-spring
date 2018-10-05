@@ -3,6 +3,7 @@ package com.example.issues.issues.ui;
 import com.example.api.ui.MainLayout;
 import com.example.issues.issues.Issue;
 import com.example.issues.issues.IssueService;
+import com.example.issues.issues.Status;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.html.Span;
@@ -15,15 +16,9 @@ import com.vaadin.flow.router.Route;
 
 import java.util.Optional;
 
-@Route(value = IssueView.VIEW_NAME, layout = MainLayout.class)
+@Route(value = "issue", layout = MainLayout.class)
 @PageTitle("Issue | Business Application")
 public class IssueView extends Composite<VerticalLayout> implements HasUrlParameter<Long> {
-
-    public static final String VIEW_NAME = "issue";
-
-    public static String getViewName(Long issueId) {
-        return VIEW_NAME + "/" + issueId;
-    }
 
     final IssueService issueService;
 
@@ -35,7 +30,7 @@ public class IssueView extends Composite<VerticalLayout> implements HasUrlParame
     public void setParameter(BeforeEvent event, Long issueId) {
         Optional<Issue> issue = issueService.findById(issueId);
         if (!issue.isPresent()) {
-            UI.getCurrent().navigate(IssuesView.VIEW_NAME);
+            UI.getCurrent().navigate(IssuesView.class);
             UI.getCurrent().getPage().executeJavaScript("location.reload()");
         } else {
             showIssue(issue.get());
@@ -43,14 +38,29 @@ public class IssueView extends Composite<VerticalLayout> implements HasUrlParame
     }
 
     private void showIssue(Issue issue) {
-        Span viewTitle = new Span(issue.getTitle());
+        Span viewTitle = new Span("#" + issue.getId() +" - " + issue.getTitle());
         viewTitle.addClassName("view-title");
 
         Span status = new Span("Status: " + issue.getStatus().toString());
-        Span date = new Span("Date: " + issue.getDate());
-        Span owner = new Span("Owner: " + (issue.getOwner() != null ? issue.getOwner().getName() : ""));
+        status.addClassName("issue-view-status");
+        if (Status.OPEN.equals(issue.getStatus())) {
+            status.addClassName("green");
+        } else {
+            status.addClassName("red");
+        }
 
-        HorizontalLayout infoLayout = new HorizontalLayout(status, date, owner);
+        Span owner = new Span("Owner: " + (issue.getOwner() != null ? issue.getOwner().getName() : "?"));
+        owner.addClassName("issue-view-owner");
+        if (issue.getOwner() != null) {
+            owner.addClassName("blue");
+        } else {
+            owner.addClassName("red");
+        }
+
+        Span date = new Span("Date: " + issue.getDate());
+        date.addClassName("issue-view-date");
+
+        HorizontalLayout infoLayout = new HorizontalLayout(status, owner, date);
         infoLayout.setSpacing(true);
 
         Span description = new Span(issue.getDescription());

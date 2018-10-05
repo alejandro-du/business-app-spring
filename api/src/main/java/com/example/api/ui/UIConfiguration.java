@@ -2,6 +2,7 @@ package com.example.api.ui;
 
 import com.example.api.service.AuthorizationService;
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.function.SerializableSupplier;
 import com.vaadin.flow.spring.annotation.SpringComponent;
 import com.vaadin.flow.spring.annotation.VaadinSessionScope;
@@ -26,9 +27,9 @@ public class UIConfiguration {
         headerComponentSuppliers.add(componentSupplier);
     }
 
-    public boolean addMenuOption(String href, String text) {
-        if (authorizationService.userCanAccess(href)) {
-            menuOptions.add(new MenuOption(href, text));
+    public boolean addMenuOption(Class<? extends Component> viewClass, String text, VaadinIcon icon) {
+        if (authorizationService.userCanAccess(viewClass)) {
+            menuOptions.add(new MenuOption(viewClass, text, icon));
             return true;
         }
 

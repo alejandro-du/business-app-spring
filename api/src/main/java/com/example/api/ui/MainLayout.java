@@ -11,17 +11,20 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.function.SerializableSupplier;
 import com.vaadin.flow.router.RouterLayout;
 import com.vaadin.flow.spring.annotation.UIScope;
+import com.vaadin.flow.theme.Theme;
+import com.vaadin.flow.theme.lumo.Lumo;
 
 @UIScope
 @HtmlImport("/frontend/styles/shared-styles.html")
 @HtmlImport("/frontend/styles/main-menu-styles.html")
+@Theme(value = Lumo.class, variant = Lumo.DARK)
 public class MainLayout extends Composite<VerticalLayout> implements RouterLayout {
 
     private VerticalLayout contentLayout = new VerticalLayout();
 
     public MainLayout(AuthenticationService authenticationService, UIConfiguration uiConfiguration) {
         Anchor signOut = new Anchor("", "Sign out");
-        signOut.getElement().getStyle().set("padding-right", "1em");
+        signOut.addClassName("header-signout");
         signOut.getElement().addEventListener("click", e -> authenticationService.logout());
 
         Header header = new Header();
@@ -40,6 +43,7 @@ public class MainLayout extends Composite<VerticalLayout> implements RouterLayou
 
         contentLayout.setMargin(false);
         contentLayout.setPadding(false);
+        contentLayout.setSpacing(false);
 
         HorizontalLayout horizontalLayout = new HorizontalLayout(mainMenu, contentLayout);
         horizontalLayout.setSizeFull();
@@ -51,6 +55,7 @@ public class MainLayout extends Composite<VerticalLayout> implements RouterLayou
         getContent().setAlignSelf(FlexComponent.Alignment.CENTER, horizontalLayout);
         getContent().setSizeFull();
         getContent().setPadding(false);
+        getContent().setSpacing(false);
     }
 
     @Override

@@ -1,6 +1,5 @@
 package com.example.webapp.security;
 
-import com.example.webapp.ui.LoginView;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.Router;
 import com.vaadin.flow.server.ServletHelper;
@@ -79,7 +78,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .and()
             .addFilterAfter(getFilter(), BasicAuthenticationFilter.class)
             .formLogin()
-            .loginPage("/" + LoginView.VIEW_NAME).permitAll()
+            .loginPage("/login").permitAll()
             .and()
             .logout().permitAll();
         // @formatter:on

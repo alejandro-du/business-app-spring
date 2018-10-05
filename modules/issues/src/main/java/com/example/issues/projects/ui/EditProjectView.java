@@ -26,15 +26,9 @@ import com.vaadin.flow.router.Route;
 
 import java.util.Optional;
 
-@Route(value = EditProjectView.VIEW_NAME, layout = MainLayout.class)
+@Route(value = "edit-project", layout = MainLayout.class)
 @PageTitle("Edit project | Business Application")
 public class EditProjectView extends Composite<VerticalLayout> implements HasUrlParameter<Long> {
-
-    public static final String VIEW_NAME = "edit-project";
-
-    public static String getViewName(Long projectId) {
-        return VIEW_NAME + "/" + projectId;
-    }
 
     private TextField name = new TextField("Name");
     private Grid<User> grid = new Grid<>();
@@ -53,7 +47,7 @@ public class EditProjectView extends Composite<VerticalLayout> implements HasUrl
     public void setParameter(BeforeEvent event, Long projectId) {
         Optional<Project> project = projectService.findById(projectId);
         if (!project.isPresent()) {
-            UI.getCurrent().navigate(ProjectsView.VIEW_NAME);
+            UI.getCurrent().navigate(ProjectsView.class);
         } else {
             editProject(project.get());
         }
@@ -64,6 +58,7 @@ public class EditProjectView extends Composite<VerticalLayout> implements HasUrl
         viewTitle.addClassName("view-title");
 
         name.setWidth("100%");
+        name.focus();
 
         grid.setId("members");
         grid.setSizeFull();
@@ -97,7 +92,7 @@ public class EditProjectView extends Composite<VerticalLayout> implements HasUrl
     private void delete(Project project) {
         new ConfirmDialog("Do you want to delete this project?", e -> {
             projectService.delete(project);
-            UI.getCurrent().navigate(ProjectsView.VIEW_NAME);
+            UI.getCurrent().navigate(ProjectsView.class);
         }).open();
     }
 
@@ -106,7 +101,7 @@ public class EditProjectView extends Composite<VerticalLayout> implements HasUrl
             Notification.show("Please fix the errors and try again.");
         } else {
             projectService.saveOrUpdate(project);
-            UI.getCurrent().navigate(ProjectsView.VIEW_NAME);
+            UI.getCurrent().navigate(ProjectsView.class);
         }
     }
 

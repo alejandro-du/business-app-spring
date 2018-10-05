@@ -25,11 +25,9 @@ import com.vaadin.flow.router.Route;
 
 import java.util.Set;
 
-@Route(value = CreateIssueView.VIEW_NAME, layout = MainLayout.class)
+@Route(value = "create-issue", layout = MainLayout.class)
 @PageTitle("Create issue | Business Application")
 public class CreateIssueView extends Composite<VerticalLayout> {
-
-    public static final String VIEW_NAME = "create-issue";
 
     private TextField title = new TextField("Title");
     private TextArea description = new TextArea("Description");
@@ -46,8 +44,10 @@ public class CreateIssueView extends Composite<VerticalLayout> {
         viewTitle.addClassName("view-title");
 
         title.setSizeFull();
+        title.focus();
 
         description.setSizeFull();
+        description.setHeight("20em");
 
         Set<User> users = userService.findByRole(Role.DEVELOPER);
         owner.setItems(users);
@@ -80,7 +80,7 @@ public class CreateIssueView extends Composite<VerticalLayout> {
             binder.bindInstanceFields(this);
             binder.writeBean(issue);
             issueService.create(issue);
-            UI.getCurrent().navigate(IssueView.getViewName(issue.getId()));
+            UI.getCurrent().navigate(IssueView.class, issue.getId());
 
         } catch (ValidationException e) {
             Notification.show("Please fix the errors and try again.");

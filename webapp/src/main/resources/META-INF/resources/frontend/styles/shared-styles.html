@@ -1,18 +1,44 @@
 <custom-style>
     <style>
         .header {
-            background-color: #fafafa;
-            min-height: 70px;
+            background-color: rgba(255, 255, 255, .1);
+            padding: .5em;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .header-logo {
+            margin-left: 2.5em;
         }
 
         .header-app-name {
             font-size: 2em;
         }
 
+        .header-signout {
+            padding-right: 1em;
+        }
+
         .view-title {
-            margin: 0px;
-            font-size: 1.5em;
+            font-size: 1.8em;
             font-weight: bold;
+        }
+
+        .issue-view-status, .issue-view-date, .issue-view-owner {
+            font-weight: bolder;
+            font-style: italic;
+        }
+
+        .green {
+            color: var(--lumo-success-color);
+        }
+
+        .blue {
+            color: var(--lumo-primary-color);
+        }
+
+        .red {
+            color: var(--lumo-error-color);
         }
     </style>
 </custom-style>

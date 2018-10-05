@@ -28,15 +28,9 @@ import com.vaadin.flow.router.Route;
 import java.util.Optional;
 import java.util.Set;
 
-@Route(value = EditIssueView.VIEW_NAME, layout = MainLayout.class)
+@Route(value = "edit-issue", layout = MainLayout.class)
 @PageTitle("Edit issue | Business Application")
 public class EditIssueView extends Composite<VerticalLayout> implements HasUrlParameter<Long> {
-
-    public static final String VIEW_NAME = "edit-issue";
-
-    public static String getViewName(Long issueId) {
-        return VIEW_NAME + "/" + issueId;
-    }
 
     private TextField title = new TextField("Title");
     private TextArea description = new TextArea("Description");
@@ -56,7 +50,7 @@ public class EditIssueView extends Composite<VerticalLayout> implements HasUrlPa
     public void setParameter(BeforeEvent event, Long issueId) {
         Optional<Issue> issue = issueService.findById(issueId);
         if (!issue.isPresent()) {
-            UI.getCurrent().navigate(IssuesView.VIEW_NAME);
+            UI.getCurrent().navigate(IssuesView.class);
         } else {
             editIssue(issue.get());
         }
@@ -67,6 +61,7 @@ public class EditIssueView extends Composite<VerticalLayout> implements HasUrlPa
         viewTitle.addClassName("view-title");
 
         title.setWidth("100%");
+        title.focus();
 
         description.setWidth("100%");
 
@@ -96,7 +91,7 @@ public class EditIssueView extends Composite<VerticalLayout> implements HasUrlPa
     private void delete(Issue issue) {
         new ConfirmDialog("Do you want to delete this issue?", e -> {
             issueService.delete(issue);
-            UI.getCurrent().navigate(IssuesView.VIEW_NAME);
+            UI.getCurrent().navigate(IssuesView.class);
         }).open();
     }
 
@@ -105,7 +100,7 @@ public class EditIssueView extends Composite<VerticalLayout> implements HasUrlPa
             Notification.show("Please fix the errors and try again.");
         } else {
             issueService.update(issue);
-            UI.getCurrent().navigate(IssuesView.VIEW_NAME);
+            UI.getCurrent().navigate(IssuesView.class);
         }
     }
 
