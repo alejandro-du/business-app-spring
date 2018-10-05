@@ -1,22 +1,19 @@
 package com.example.issues.projects;
 
+import com.example.api.domain.BusinessAppEntity;
 import com.example.api.domain.User;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 @Entity
 @Data
-@EqualsAndHashCode(of = "id")
-public class Project {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Project extends BusinessAppEntity {
 
     @NotNull
     @NotEmpty

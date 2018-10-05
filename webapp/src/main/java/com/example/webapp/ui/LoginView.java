@@ -1,7 +1,6 @@
 package com.example.webapp.ui;
 
 import com.example.api.service.AuthenticationService;
-import com.example.api.ui.Header;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.UI;

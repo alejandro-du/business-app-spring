@@ -1,11 +1,14 @@
 package com.example.issues.issues;
 
-import com.example.issues.projects.Project;
+import com.example.api.domain.BusinessAppEntity;
 import com.example.api.domain.User;
+import com.example.issues.projects.Project;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -13,12 +16,7 @@ import java.time.LocalDate;
 
 @Entity
 @Data
-@EqualsAndHashCode(of = "id")
-public class Issue {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Issue extends BusinessAppEntity {
 
     @NotNull
     @NotEmpty
