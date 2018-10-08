@@ -3,7 +3,8 @@ package com.example.issues.issues;
 import com.example.api.domain.BusinessAppEntity;
 import com.example.api.domain.User;
 import com.example.issues.projects.Project;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -15,7 +16,8 @@ import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
 @Entity
-@Data
+@Getter
+@Setter
 public class Issue extends BusinessAppEntity {
 
     @NotNull

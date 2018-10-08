@@ -2,7 +2,8 @@ package com.example.issues.projects;
 
 import com.example.api.domain.BusinessAppEntity;
 import com.example.api.domain.User;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,7 +13,8 @@ import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 @Entity
-@Data
+@Getter
+@Setter
 public class Project extends BusinessAppEntity {
 
     @NotNull
