@@ -5,6 +5,7 @@ import com.example.api.domain.User;
 import com.example.issues.projects.Project;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -30,10 +31,12 @@ public class Issue extends BusinessAppEntity {
     private LocalDate date;
 
     @ManyToOne
+    @Where(clause = "deleted = false")
     private User owner;
 
     @ManyToOne
     @NotNull
+    @Where(clause = "deleted = false")
     private User reporter;
 
     @Enumerated(EnumType.STRING)
@@ -42,6 +45,7 @@ public class Issue extends BusinessAppEntity {
 
     @ManyToOne
     @NotNull
+    @Where(clause = "deleted = false")
     private Project project;
 
 }

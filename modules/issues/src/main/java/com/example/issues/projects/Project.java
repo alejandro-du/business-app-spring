@@ -4,6 +4,7 @@ import com.example.api.domain.BusinessAppEntity;
 import com.example.api.domain.User;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,6 +14,7 @@ import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 @Entity
+@Where(clause = "deleted = false")
 @Getter
 @Setter
 public class Project extends BusinessAppEntity {
@@ -23,5 +25,7 @@ public class Project extends BusinessAppEntity {
 
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<User> members;
+
+    private boolean deleted;
 
 }

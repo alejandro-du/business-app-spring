@@ -48,7 +48,8 @@ public class UserService {
     }
 
     public void delete(User user) {
-        userRepository.delete(user);
+        user.setDeleted(true);
+        userRepository.save(user);
     }
 
     public List<User> findAll() {

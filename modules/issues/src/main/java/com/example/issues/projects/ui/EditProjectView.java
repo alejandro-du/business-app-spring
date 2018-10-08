@@ -96,7 +96,7 @@ public class EditProjectView extends Composite<VerticalLayout> implements HasUrl
     }
 
     private void delete(Project project) {
-        new ConfirmDialog("Do you want to delete this project?", e -> {
+        new ConfirmDialog("Do you want to delete this project and its reported issues?", e -> {
             projectService.delete(project);
             UI.getCurrent().navigate(ProjectsView.class);
         }).open();

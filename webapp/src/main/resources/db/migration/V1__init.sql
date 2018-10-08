@@ -4,12 +4,14 @@ CREATE TABLE user (
   name varchar(255) UNIQUE NOT NULL,
   password varchar(255) NOT NULL,
   role varchar(255) NOT NULL,
+  deleted boolean DEFAULT FALSE,
   PRIMARY KEY (id)
 );
 
 CREATE TABLE project (
   id bigint(20) NOT NULL AUTO_INCREMENT,
   name varchar(255) DEFAULT NULL,
+  deleted boolean DEFAULT FALSE,
   PRIMARY KEY (id)
 );
 

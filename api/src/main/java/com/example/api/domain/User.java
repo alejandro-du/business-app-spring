@@ -2,6 +2,7 @@ package com.example.api.domain;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,6 +11,7 @@ import javax.persistence.Enumerated;
 import javax.validation.constraints.*;
 
 @Entity
+@Where(clause = "deleted = false")
 @Getter
 @Setter
 public class User extends BusinessAppEntity {
@@ -33,5 +35,7 @@ public class User extends BusinessAppEntity {
     @Enumerated(EnumType.STRING)
     @NotNull
     private Role role;
+
+    private boolean deleted;
 
 }

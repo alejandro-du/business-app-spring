@@ -4,6 +4,7 @@ import com.example.api.domain.Role;
 import com.example.api.domain.User;
 import com.example.api.ui.ConfirmDialog;
 import com.example.api.ui.MainLayout;
+import com.example.issues.issues.Session;
 import com.example.issues.users.UserService;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.UI;
@@ -39,11 +40,14 @@ public class EditUserView extends Composite<VerticalLayout> implements HasUrlPar
     private ComboBox<Role> role = new ComboBox<>("Role", Role.values());
 
     private final UserService userService;
+    private final Session session;
+
     private BeanValidationBinder<User> binder = new BeanValidationBinder<>(User.class);
     private @NotNull @NotEmpty @Size(min = 6, max = 255) @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-zA-Z]).*$", message = "must have a digit and a letter") String originalPassword;
 
-    public EditUserView(UserService userService) {
+    public EditUserView(UserService userService, Session session) {
         this.userService = userService;
+        this.session = session;
     }
 
     @Override
@@ -87,9 +91,14 @@ public class EditUserView extends Composite<VerticalLayout> implements HasUrlPar
     }
 
     private void delete(User user) {
-        new ConfirmDialog("Do you want to delete this user?", e -> {
-            userService.delete(user);
-            UI.getCurrent().navigate(UsersView.class);
+        new ConfirmDialog("Do you want to delete this user and their reported and owned issues?", e -> {
+            Long userId = user.getId();
+            userService.delete(userService.findById(userId).get());
+            if (session.getUserId().equals(userId)) {
+                UI.getCurrent().getPage().executeJavaScript("window.location='/logout'");
+            } else {
+                UI.getCurrent().navigate(UsersView.class);
+            }
         }).open();
     }
 
