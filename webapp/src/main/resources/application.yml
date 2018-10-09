@@ -1,0 +1,34 @@
+server:
+  port: 8080
+  compression.enabled: true
+  compression.mime-types: application/json,application/xml,text/html,text/xml,text/plain,application/javascript,text/css
+  tomcat.uri-encoding: UTF-8
+
+spring.jackson.serialization.write_dates_as_timestamps: false
+
+webapp:
+  mainview.navigateTo: issues
+  access:
+    com.example.webapp.ui.MainView: permitAll
+    com.example.issues.issues.ui.IssuesView: isAuthenticated()
+    com.example.issues.issues.ui.IssueView: isAuthenticated()
+    com.example.issues.issues.ui.EditIssueView: isAuthenticated()
+    com.example.issues.issues.ui.CreateIssueView: isAuthenticated()
+    com.example.issues.projects.ui.ProjectsView: hasRole('ADMIN')
+    com.example.issues.projects.ui.EditProjectView: hasRole('ADMIN')
+    com.example.issues.projects.ui.CreateProjectView: hasRole('ADMIN')
+    com.example.issues.users.ui.UsersView: hasRole('ADMIN')
+    com.example.issues.users.ui.EditUserView: hasRole('ADMIN')
+    com.example.issues.users.ui.CreateUserView: hasRole('ADMIN')
+
+# hello-world module auth:
+#webapp.access.com.example.helloworld.ui.HelloWorldView: isAuthenticated()
+
+# File-based H2:
+#spring.datasource.url: jdbc:h2:file:~/h2-databases/business-app;DB_CLOSE_ON_EXIT: FALSE;DATABASE_TO_UPPER: false
+
+# MySQL:
+#spring.datasource:
+#  url: jdbc:mysql://localhost/business-app
+#  username: root
+#  password: password
