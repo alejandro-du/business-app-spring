@@ -39,7 +39,7 @@ import java.util.stream.Stream;
 @EnableWebSecurity
 @Component
 @ConfigurationProperties(prefix = "webapp")
-@PropertySource("application.properties")
+@PropertySource("application.yml")
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private Map<String, String> access = new HashMap<>();
