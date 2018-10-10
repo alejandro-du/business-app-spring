@@ -115,6 +115,12 @@ public class EditUserView extends Composite<VerticalLayout> implements HasUrlPar
         }
 
         if (binder.validate().hasErrors()) {
+            if (!newPassword) {
+                user.setPassword(null);
+                password.clear();
+                password.setErrorMessage(null);
+                password.setInvalid(false);
+            }
             Notification.show(Messages.get("com.example.issues.validationError"));
         } else {
             userService.update(user, newPassword);
