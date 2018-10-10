@@ -18,7 +18,7 @@ public interface IssueRepository extends JpaRepository<Issue, Long> {
             " and (:status is null or i.status = :status)" +
             " and (:date is null or i.date = :date)" +
             " and i.reporter.deleted = false" +
-            " and (i.owner is null or i.owner.deleted = false)")
+            " and (o is null or o.deleted = false)")
     Set<Issue> find(
             @Param("projectId") Long projectId,
             @Param("title") String title,
@@ -28,14 +28,12 @@ public interface IssueRepository extends JpaRepository<Issue, Long> {
             @Param("date") LocalDate date
     );
 
-    @Query("select i from Issue i join i.project p join p.members m where" +
-            " m.id = ?#{principal}" +
-            " and i.reporter.deleted = false" +
-            " and (i.owner is null or i.owner.deleted = false)" +
+    @Query("select i from Issue i join i.project p join p.members m left join i.owner o where" +
+            " i.reporter.deleted = false" +
+            " and m.id = ?#{principal}" +
+            " and (o is null or o.deleted = false)" +
             " and i.id = :id" +
-            " and i.reporter.deleted = false" +
-            " and (i.owner is null or i.owner.deleted = false)")
-    @Override
+            " and i.reporter.deleted = false")
     Optional<Issue> findById(@Param("id") Long id);
 
 }
