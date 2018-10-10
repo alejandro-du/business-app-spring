@@ -24,7 +24,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.data.repository.query.SecurityEvaluationContextExtension;
 import org.springframework.security.web.access.WebInvocationPrivilegeEvaluator;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
-import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
 
 import javax.servlet.*;
@@ -37,7 +36,6 @@ import java.util.stream.Stream;
 
 @Configuration
 @EnableWebSecurity
-@Component
 @ConfigurationProperties(prefix = "webapp")
 @PropertySource("application.yml")
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -105,7 +103,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
                     CustomServletResponseWrapper wrappedResponse = new CustomServletResponseWrapper(httpServletResponse);
                     filterChain.doFilter(servletRequest, wrappedResponse);
-                    String output = wrappedResponse.getBranch().toString();
+                    String output = wrappedResponse.getBranchOutput();
 
                     if (wrappedResponse.getContentType() != null && wrappedResponse.getContentType().startsWith("application/json")) {
                         if (checkFromJsonResponse(servletResponse, output)) {
@@ -127,7 +125,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         }
                     }
 
-                    String originalContent = wrappedResponse.getMaster().toString();
+                    String originalContent = wrappedResponse.getMasterOutput();
                     servletResponse.getWriter().write(originalContent);
                     servletResponse.setContentLength(originalContent.length());
                 }

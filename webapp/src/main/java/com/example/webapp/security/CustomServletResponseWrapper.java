@@ -1,38 +1,45 @@
 package com.example.webapp.security;
 
+import com.sun.xml.internal.stream.writers.UTF8OutputStreamWriter;
+
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
 
 public class CustomServletResponseWrapper extends HttpServletResponseWrapper {
+    private final ByteArrayOutputStream masterOutputStream = new ByteArrayOutputStream();
+    private final ByteArrayOutputStream branchOutputStream = new ByteArrayOutputStream();
 
-    private final StringWriter master = new StringWriter();
-    private final StringWriter branch = new StringWriter();
+    private final UTF8OutputStreamWriter master = new UTF8OutputStreamWriter(masterOutputStream);
+    private final UTF8OutputStreamWriter branch = new UTF8OutputStreamWriter(branchOutputStream);
 
-    public CustomServletResponseWrapper(HttpServletResponse response) {
+    private final PrintWriter printWriter = new PrintWriter(master);
+
+    public CustomServletResponseWrapper(HttpServletResponse response) throws UnsupportedEncodingException {
         super(response);
     }
 
     @Override
-    public PrintWriter getWriter() throws IOException {
-        return new PrintWriter(master);
+    public PrintWriter getWriter() {
+        return printWriter;
     }
 
     @Override
-    public ServletOutputStream getOutputStream() throws IOException {
-        return new StringBasedServletOutputStream(master, branch);
+    public ServletOutputStream getOutputStream() {
+        return new CustomServletOutputStream(master, branch);
     }
 
-
-    public StringWriter getMaster() {
-        return master;
+    public String getMasterOutput() {
+        return masterOutputStream.toString();
     }
 
-    public StringWriter getBranch() {
-        return branch;
+    public String getBranchOutput() throws IOException {
+        branch.flush();
+        return branchOutputStream.toString();
     }
 
 }

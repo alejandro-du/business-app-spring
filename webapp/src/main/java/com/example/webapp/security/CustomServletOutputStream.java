@@ -3,15 +3,14 @@ package com.example.webapp.security;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.WriteListener;
 import java.io.IOException;
-import java.io.StringWriter;
 import java.io.Writer;
 
-public class StringBasedServletOutputStream extends ServletOutputStream {
+public class CustomServletOutputStream extends ServletOutputStream {
 
     private final Writer master;
-    private final StringWriter branch;
+    private final Writer branch;
 
-    public StringBasedServletOutputStream(Writer master, StringWriter branch) {
+    public CustomServletOutputStream(Writer master, Writer branch) {
         this.master = master;
         this.branch = branch;
     }
