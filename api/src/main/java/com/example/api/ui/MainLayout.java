@@ -3,6 +3,7 @@ package com.example.api.ui;
 import com.example.api.service.AuthenticationService;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.HasElement;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
@@ -10,9 +11,12 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.function.SerializableSupplier;
 import com.vaadin.flow.router.RouterLayout;
+import com.vaadin.flow.server.VaadinService;
 import com.vaadin.flow.spring.annotation.UIScope;
 import com.vaadin.flow.theme.Theme;
 import com.vaadin.flow.theme.lumo.Lumo;
+
+import java.util.Locale;
 
 @UIScope
 @HtmlImport("/frontend/styles/shared-styles.html")
@@ -23,6 +27,9 @@ public class MainLayout extends Composite<VerticalLayout> implements RouterLayou
     private VerticalLayout contentLayout = new VerticalLayout();
 
     public MainLayout(AuthenticationService authenticationService, UIConfiguration uiConfiguration) {
+        Locale locale = new Locale(VaadinService.getCurrentRequest().getLocale().getLanguage());
+        UI.getCurrent().setLocale(locale);
+
         Anchor signOut = new Anchor("/logout", Messages.get("com.example.webapp.signOut"));
         signOut.addClassName("header-signout");
 

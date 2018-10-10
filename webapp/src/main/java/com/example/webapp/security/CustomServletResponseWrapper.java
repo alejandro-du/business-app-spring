@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletResponseWrapper;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 
 public class CustomServletResponseWrapper extends HttpServletResponseWrapper {
     private final ByteArrayOutputStream masterOutputStream = new ByteArrayOutputStream();
@@ -19,7 +18,7 @@ public class CustomServletResponseWrapper extends HttpServletResponseWrapper {
 
     private final PrintWriter printWriter = new PrintWriter(master);
 
-    public CustomServletResponseWrapper(HttpServletResponse response) throws UnsupportedEncodingException {
+    public CustomServletResponseWrapper(HttpServletResponse response) {
         super(response);
     }
 

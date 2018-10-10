@@ -81,7 +81,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .requestMatchers(request -> isVaadinFlowRequest(request)).permitAll()
                 .anyRequest().denyAll()
             .and()
-            .addFilterAfter(getFilter(), BasicAuthenticationFilter.class)
+            .addFilterAfter(getAuthFilter(), BasicAuthenticationFilter.class)
             .formLogin()
             .loginPage("/login").permitAll()
             .and()
@@ -89,7 +89,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // @formatter:on
     }
 
-    private Filter getFilter() {
+    private Filter getAuthFilter() {
         return new GenericFilterBean() {
 
             @Override
@@ -127,7 +127,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
                     String originalContent = wrappedResponse.getMasterOutput();
                     servletResponse.getWriter().write(originalContent);
-                    servletResponse.setContentLength(originalContent.length());
+                    servletResponse.setContentLength(originalContent.length() + 1);
                 }
             }
 

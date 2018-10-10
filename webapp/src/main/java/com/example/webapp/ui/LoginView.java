@@ -17,11 +17,8 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.server.VaadinService;
 import com.vaadin.flow.theme.Theme;
 import com.vaadin.flow.theme.lumo.Lumo;
-
-import java.util.Locale;
 
 @Route(value = "login")
 @HtmlImport("/frontend/styles/login-view-styles.html")
@@ -36,9 +33,6 @@ public class LoginView extends Composite<VerticalLayout> {
 
     public LoginView(AuthenticationService authenticationService) {
         this.authenticationService = authenticationService;
-
-        Locale locale = new Locale(VaadinService.getCurrentRequest().getLocale().getLanguage());
-        UI.getCurrent().setLocale(locale);
 
         UI.getCurrent().getPage().setTitle(Messages.get("com.example.webapp.signIn") +
                 " | " + Messages.get("com.example.appName"));
