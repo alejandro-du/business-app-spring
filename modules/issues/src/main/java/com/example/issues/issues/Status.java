@@ -1,14 +1,17 @@
 package com.example.issues.issues;
 
-import org.springframework.util.StringUtils;
-
 public enum Status {
 
-    OPEN, CLOSED;
+    OPEN("com.example.issues.statusOpen"), CLOSED("com.example.issues.statusClosed");
 
-    @Override
-    public String toString() {
-        return StringUtils.capitalize(super.toString().toLowerCase());
+    final String nameProperty;
+
+    Status(String nameProperty) {
+        this.nameProperty = nameProperty;
+    }
+
+    public String getNameProperty() {
+        return nameProperty;
     }
 
 }

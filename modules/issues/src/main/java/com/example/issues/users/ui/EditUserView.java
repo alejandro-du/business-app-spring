@@ -4,6 +4,7 @@ import com.example.api.domain.Role;
 import com.example.api.domain.User;
 import com.example.api.ui.ConfirmDialog;
 import com.example.api.ui.MainLayout;
+import com.example.api.ui.Messages;
 import com.example.issues.issues.Session;
 import com.example.issues.users.UserService;
 import com.vaadin.flow.component.Composite;
@@ -21,33 +22,30 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.router.BeforeEvent;
 import com.vaadin.flow.router.HasUrlParameter;
-import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 import java.util.Optional;
 
 @Route(value = "edit-user", layout = MainLayout.class)
-@PageTitle("Edit user | Business Application")
 public class EditUserView extends Composite<VerticalLayout> implements HasUrlParameter<Long> {
 
-    private TextField name = new TextField("Name");
-    private TextField email = new TextField("Email");
-    private PasswordField password = new PasswordField("Password");
-    private ComboBox<Role> role = new ComboBox<>("Role", Role.values());
+    private TextField name = new TextField(Messages.get("com.example.issues.name"));
+    private TextField email = new TextField(Messages.get("com.example.issues.email"));
+    private PasswordField password = new PasswordField(Messages.get("com.example.issues.password"));
+    private ComboBox<Role> role = new ComboBox<>(Messages.get("com.example.issues.role"), Role.values());
 
     private final UserService userService;
     private final Session session;
 
     private BeanValidationBinder<User> binder = new BeanValidationBinder<>(User.class);
-    private @NotNull @NotEmpty @Size(min = 6, max = 255) @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-zA-Z]).*$", message = "must have a digit and a letter") String originalPassword;
+    private String originalPassword;
 
     public EditUserView(UserService userService, Session session) {
         this.userService = userService;
         this.session = session;
+
+        UI.getCurrent().getPage().setTitle(Messages.get("com.example.issues.editUser") +
+                " | " + Messages.get("com.example.appName"));
     }
 
     @Override
@@ -61,18 +59,20 @@ public class EditUserView extends Composite<VerticalLayout> implements HasUrlPar
     }
 
     private void editUser(User user) {
-        Span viewTitle = new Span("Edit user");
+        Span viewTitle = new Span(Messages.get("com.example.issues.editUser"));
         viewTitle.addClassName("view-title");
 
         name.focus();
 
+        role.setItemLabelGenerator(role -> Messages.get(role.getNameProperty()));
+
         FormLayout formLayout = new FormLayout(name, email, password, role);
         formLayout.setWidth("100%");
 
-        Button delete = new Button("Delete...", e -> delete(user));
+        Button delete = new Button(Messages.get("com.example.issues.delete"), e -> delete(user));
         delete.getElement().setAttribute("theme", "error");
 
-        Button save = new Button("Save", e -> save(user));
+        Button save = new Button(Messages.get("com.example.issues.save"), e -> save(user));
         save.getElement().setAttribute("theme", "primary");
 
         HorizontalLayout actionsLayout = new HorizontalLayout(delete, save);
@@ -91,15 +91,20 @@ public class EditUserView extends Composite<VerticalLayout> implements HasUrlPar
     }
 
     private void delete(User user) {
-        new ConfirmDialog("Do you want to delete this user and their reported and owned issues?", e -> {
-            Long userId = user.getId();
-            userService.delete(userService.findById(userId).get());
-            if (session.getUserId().equals(userId)) {
-                UI.getCurrent().getPage().executeJavaScript("window.location='/logout'");
-            } else {
-                UI.getCurrent().navigate(UsersView.class);
-            }
-        }).open();
+        new ConfirmDialog(
+                Messages.get("com.example.issues.deleteUserConfirmation"),
+                Messages.get("com.example.issues.yes"),
+                Messages.get("com.example.issues.no"),
+                e -> {
+                    Long userId = user.getId();
+                    userService.delete(userService.findById(userId).get());
+                    if (session.getUserId().equals(userId)) {
+                        UI.getCurrent().getPage().executeJavaScript("window.location='/logout'");
+                    } else {
+                        UI.getCurrent().navigate(UsersView.class);
+                    }
+                }
+        ).open();
     }
 
     private void save(User user) {
@@ -110,7 +115,7 @@ public class EditUserView extends Composite<VerticalLayout> implements HasUrlPar
         }
 
         if (binder.validate().hasErrors()) {
-            Notification.show("Please fix the errors and try again.");
+            Notification.show(Messages.get("com.example.issues.validationError"));
         } else {
             userService.update(user, newPassword);
             UI.getCurrent().navigate(UsersView.class);

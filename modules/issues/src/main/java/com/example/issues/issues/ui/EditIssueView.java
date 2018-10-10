@@ -4,6 +4,7 @@ import com.example.api.domain.Role;
 import com.example.api.domain.User;
 import com.example.api.ui.ConfirmDialog;
 import com.example.api.ui.MainLayout;
+import com.example.api.ui.Messages;
 import com.example.issues.issues.Issue;
 import com.example.issues.issues.IssueService;
 import com.example.issues.issues.Status;
@@ -22,20 +23,18 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.router.BeforeEvent;
 import com.vaadin.flow.router.HasUrlParameter;
-import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
 import java.util.Optional;
 import java.util.Set;
 
 @Route(value = "edit-issue", layout = MainLayout.class)
-@PageTitle("Edit issue | Business Application")
 public class EditIssueView extends Composite<VerticalLayout> implements HasUrlParameter<Long> {
 
-    private TextField title = new TextField("Title");
-    private TextArea description = new TextArea("Description");
-    private ComboBox<User> owner = new ComboBox<>();
-    private ComboBox<Status> status = new ComboBox<>(null, Status.values());
+    private TextField title = new TextField(Messages.get("com.example.issues.title"));
+    private TextArea description = new TextArea(Messages.get("com.example.issues.description"));
+    private ComboBox<User> owner = new ComboBox<>(Messages.get("com.example.issues.owner"));
+    private ComboBox<Status> status = new ComboBox<>(Messages.get("com.example.issues.status"), Status.values());
 
     private final IssueService issueService;
     private final UserService userService;
@@ -44,6 +43,9 @@ public class EditIssueView extends Composite<VerticalLayout> implements HasUrlPa
     public EditIssueView(IssueService issueService, UserService userService) {
         this.issueService = issueService;
         this.userService = userService;
+
+        UI.getCurrent().getPage().setTitle(Messages.get("com.example.issues.editIssue") +
+                " | " + Messages.get("com.example.appName"));
     }
 
     @Override
@@ -57,7 +59,7 @@ public class EditIssueView extends Composite<VerticalLayout> implements HasUrlPa
     }
 
     private void editIssue(Issue issue) {
-        Span viewTitle = new Span("Edit issue");
+        Span viewTitle = new Span(Messages.get("com.example.issues.editIssue"));
         viewTitle.addClassName("view-title");
 
         title.setWidth("100%");
@@ -69,13 +71,15 @@ public class EditIssueView extends Composite<VerticalLayout> implements HasUrlPa
         owner.setItems(users);
         owner.setItemLabelGenerator(u -> u.getName());
 
+        status.setItemLabelGenerator(status -> Messages.get(status.getNameProperty()));
+
         HorizontalLayout infoLayout = new HorizontalLayout(owner, status);
         infoLayout.setWidth("100%");
 
-        Button delete = new Button("Delete...", e -> delete(issue));
+        Button delete = new Button(Messages.get("com.example.issues.delete"), e -> delete(issue));
         delete.getElement().setAttribute("theme", "error");
 
-        Button save = new Button("Save", e -> save(issue));
+        Button save = new Button(Messages.get("com.example.issues.save"), e -> save(issue));
         save.getElement().setAttribute("theme", "primary");
 
         HorizontalLayout actionsLayout = new HorizontalLayout(delete, save);
@@ -89,15 +93,20 @@ public class EditIssueView extends Composite<VerticalLayout> implements HasUrlPa
     }
 
     private void delete(Issue issue) {
-        new ConfirmDialog("Do you want to delete this issue?", e -> {
-            issueService.delete(issue);
-            UI.getCurrent().navigate(IssuesView.class);
-        }).open();
+        new ConfirmDialog(
+                Messages.get("com.example.issues.deleteIssueConfirmation"),
+                Messages.get("com.example.issues.yes"),
+                Messages.get("com.example.issues.no"),
+                e -> {
+                    issueService.delete(issue);
+                    UI.getCurrent().navigate(IssuesView.class);
+                }
+        ).open();
     }
 
     private void save(Issue issue) {
         if (binder.validate().hasErrors()) {
-            Notification.show("Please fix the errors and try again.");
+            Notification.show(Messages.get("com.example.issues.validationError"));
         } else {
             issueService.update(issue);
             UI.getCurrent().navigate(IssuesView.class);

@@ -3,6 +3,7 @@ package com.example.issues.projects.ui;
 import com.example.api.domain.User;
 import com.example.api.ui.ConfirmDialog;
 import com.example.api.ui.MainLayout;
+import com.example.api.ui.Messages;
 import com.example.issues.projects.Project;
 import com.example.issues.projects.ProjectService;
 import com.example.issues.users.UserService;
@@ -22,16 +23,14 @@ import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.selection.MultiSelect;
 import com.vaadin.flow.router.BeforeEvent;
 import com.vaadin.flow.router.HasUrlParameter;
-import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
 import java.util.Optional;
 
 @Route(value = "edit-project", layout = MainLayout.class)
-@PageTitle("Edit project | Business Application")
 public class EditProjectView extends Composite<VerticalLayout> implements HasUrlParameter<Long> {
 
-    private TextField name = new TextField("Name");
+    private TextField name = new TextField(Messages.get("com.example.issues.name"));
     private Grid<User> grid = new Grid<>();
     private MultiSelect<Grid<User>, User> members;
 
@@ -42,6 +41,9 @@ public class EditProjectView extends Composite<VerticalLayout> implements HasUrl
     public EditProjectView(ProjectService projectService, UserService userService) {
         this.projectService = projectService;
         this.userService = userService;
+
+        UI.getCurrent().getPage().setTitle(Messages.get("com.example.issues.editProject") +
+                " | " + Messages.get("com.example.appName"));
     }
 
     @Override
@@ -55,7 +57,7 @@ public class EditProjectView extends Composite<VerticalLayout> implements HasUrl
     }
 
     private void editProject(Project project) {
-        Span viewTitle = new Span("Edit project");
+        Span viewTitle = new Span(Messages.get("com.example.issues.editProject"));
         viewTitle.addClassName("view-title");
 
         name.setSizeFull();
@@ -63,20 +65,20 @@ public class EditProjectView extends Composite<VerticalLayout> implements HasUrl
 
         grid.setId("members");
         grid.setWidth("100%");
-        grid.addColumn(User::getName).setHeader("Name");
-        grid.addColumn(User::getEmail).setHeader("Email");
-        grid.addColumn(User::getRole).setHeader("Role");
+        grid.addColumn(User::getName).setHeader(Messages.get("com.example.issues.name"));
+        grid.addColumn(User::getEmail).setHeader(Messages.get("com.example.issues.email"));
+        grid.addColumn(user -> Messages.get(user.getRole().getNameProperty())).setHeader(Messages.get("com.example.issues.role"));
         grid.setItems(this.userService.findAll());
         grid.setSelectionMode(Grid.SelectionMode.MULTI);
         members = grid.asMultiSelect();
 
-        Label membersLabel = new Label("Members");
+        Label membersLabel = new Label(Messages.get("com.example.issues.members"));
         membersLabel.setFor(grid);
 
-        Button delete = new Button("Delete...", e -> delete(project));
+        Button delete = new Button(Messages.get("com.example.issues.delete"), e -> delete(project));
         delete.getElement().setAttribute("theme", "error");
 
-        Button save = new Button("Save", e -> save(project));
+        Button save = new Button(Messages.get("com.example.issues.save"), e -> save(project));
         save.getElement().setAttribute("theme", "primary");
 
         HorizontalLayout actionsLayout = new HorizontalLayout(delete, save);
@@ -96,15 +98,20 @@ public class EditProjectView extends Composite<VerticalLayout> implements HasUrl
     }
 
     private void delete(Project project) {
-        new ConfirmDialog("Do you want to delete this project and its reported issues?", e -> {
-            projectService.delete(project);
-            UI.getCurrent().navigate(ProjectsView.class);
-        }).open();
+        new ConfirmDialog(
+                Messages.get("com.example.issues.deleteProjectConfirmation"),
+                Messages.get("com.example.issues.yes"),
+                Messages.get("com.example.issues.no"),
+                e -> {
+                    projectService.delete(project);
+                    UI.getCurrent().navigate(ProjectsView.class);
+                }
+        ).open();
     }
 
     private void save(Project project) {
         if (binder.validate().hasErrors()) {
-            Notification.show("Please fix the errors and try again.");
+            Notification.show(Messages.get("com.example.issues.validationError"));
         } else {
             projectService.saveOrUpdate(project);
             UI.getCurrent().navigate(ProjectsView.class);

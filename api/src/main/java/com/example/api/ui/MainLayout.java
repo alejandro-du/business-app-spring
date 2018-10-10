@@ -23,10 +23,10 @@ public class MainLayout extends Composite<VerticalLayout> implements RouterLayou
     private VerticalLayout contentLayout = new VerticalLayout();
 
     public MainLayout(AuthenticationService authenticationService, UIConfiguration uiConfiguration) {
-        Anchor signOut = new Anchor("/logout", "Sign out");
+        Anchor signOut = new Anchor("/logout", Messages.get("com.example.webapp.signOut"));
         signOut.addClassName("header-signout");
 
-        Header header = new Header();
+        Header header = new Header(Messages.get("com.example.appName"));
 
         if (!uiConfiguration.getHeaderComponentSuppliers().isEmpty()) {
             uiConfiguration.getHeaderComponentSuppliers().stream()

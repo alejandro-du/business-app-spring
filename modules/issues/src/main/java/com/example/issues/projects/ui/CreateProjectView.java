@@ -2,6 +2,7 @@ package com.example.issues.projects.ui;
 
 import com.example.api.domain.User;
 import com.example.api.ui.MainLayout;
+import com.example.api.ui.Messages;
 import com.example.issues.projects.Project;
 import com.example.issues.projects.ProjectService;
 import com.example.issues.users.UserService;
@@ -19,14 +20,12 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.data.selection.MultiSelect;
-import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
 @Route(value = "create-project", layout = MainLayout.class)
-@PageTitle("Create project | Business Application")
 public class CreateProjectView extends Composite<VerticalLayout> {
 
-    private TextField name = new TextField("Name");
+    private TextField name = new TextField(Messages.get("com.example.issues.name"));
     private Grid<User> grid = new Grid<>();
     private MultiSelect<Grid<User>, User> members;
 
@@ -37,7 +36,10 @@ public class CreateProjectView extends Composite<VerticalLayout> {
         this.projectService = projectService;
         this.userService = userService;
 
-        Span viewTitle = new Span("Create project");
+        UI.getCurrent().getPage().setTitle(Messages.get("com.example.issues.createProject") +
+                " | " + Messages.get("com.example.appName"));
+
+        Span viewTitle = new Span(Messages.get("com.example.issues.createProject"));
         viewTitle.addClassName("view-title");
 
         name.setSizeFull();
@@ -45,17 +47,17 @@ public class CreateProjectView extends Composite<VerticalLayout> {
 
         grid.setId("members");
         grid.setWidth("100%");
-        grid.addColumn(User::getName).setHeader("Name");
-        grid.addColumn(User::getEmail).setHeader("Email");
-        grid.addColumn(User::getRole).setHeader("Role");
+        grid.addColumn(User::getName).setHeader(Messages.get("com.example.issues.name"));
+        grid.addColumn(User::getEmail).setHeader(Messages.get("com.example.issues.email"));
+        grid.addColumn(user -> Messages.get(user.getRole().getNameProperty())).setHeader(Messages.get("com.example.issues.role"));
         grid.setItems(this.userService.findAll());
         grid.setSelectionMode(Grid.SelectionMode.MULTI);
         members = grid.asMultiSelect();
 
-        Label membersLabel = new Label("Members");
+        Label membersLabel = new Label(Messages.get("com.example.issues.members"));
         membersLabel.setFor(grid);
 
-        Button create = new Button("Create", e -> create());
+        Button create = new Button(Messages.get("com.example.issues.create"), e -> create());
         create.getElement().setAttribute("theme", "primary");
 
         VerticalLayout formLayout = new VerticalLayout(viewTitle, name, membersLabel, grid, create);
@@ -79,7 +81,7 @@ public class CreateProjectView extends Composite<VerticalLayout> {
             UI.getCurrent().navigate(ProjectsView.class);
 
         } catch (ValidationException e) {
-            Notification.show("Please fix the errors and try again.");
+            Notification.show(Messages.get("com.example.issues.validationError"));
         }
     }
 

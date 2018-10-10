@@ -12,7 +12,7 @@ webapp:
     com.example.webapp.ui.MainView: permitAll
     com.example.issues.issues.ui.IssuesView: isAuthenticated()
     com.example.issues.issues.ui.IssueView: isAuthenticated()
-    com.example.issues.issues.ui.EditIssueView: isAuthenticated()
+    com.example.issues.issues.ui.EditIssueView: hasAnyRole('ADMIN','DEVELOPER')
     com.example.issues.issues.ui.CreateIssueView: isAuthenticated()
     com.example.issues.projects.ui.ProjectsView: hasRole('ADMIN')
     com.example.issues.projects.ui.EditProjectView: hasRole('ADMIN')

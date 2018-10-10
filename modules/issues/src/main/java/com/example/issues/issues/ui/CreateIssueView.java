@@ -4,6 +4,7 @@ import com.example.api.domain.Role;
 import com.example.api.domain.User;
 import com.example.api.service.AuthorizationService;
 import com.example.api.ui.MainLayout;
+import com.example.api.ui.Messages;
 import com.example.issues.issues.Issue;
 import com.example.issues.issues.IssueService;
 import com.example.issues.users.UserService;
@@ -20,17 +21,15 @@ import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.ValidationException;
-import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
 import java.util.Set;
 
 @Route(value = "create-issue", layout = MainLayout.class)
-@PageTitle("Create issue | Business Application")
 public class CreateIssueView extends Composite<VerticalLayout> {
 
-    private TextField title = new TextField("Title");
-    private TextArea description = new TextArea("Description");
+    private TextField title = new TextField(Messages.get("com.example.issues.title"));
+    private TextArea description = new TextArea(Messages.get("com.example.issues.description"));
     private ComboBox<User> owner = new ComboBox<>();
 
     private final IssueService issueService;
@@ -40,7 +39,10 @@ public class CreateIssueView extends Composite<VerticalLayout> {
         this.issueService = issueService;
         this.authorizationService = authorizationService;
 
-        Span viewTitle = new Span("Create issue");
+        UI.getCurrent().getPage().setTitle(Messages.get("com.example.issues.createIssue") +
+                " | " + Messages.get("com.example.appName"));
+
+        Span viewTitle = new Span(Messages.get("com.example.issues.createIssue"));
         viewTitle.addClassName("view-title");
 
         title.setSizeFull();
@@ -52,9 +54,9 @@ public class CreateIssueView extends Composite<VerticalLayout> {
         Set<User> users = userService.findByRole(Role.DEVELOPER);
         owner.setItems(users);
         owner.setItemLabelGenerator(u -> u.getName());
-        owner.setPlaceholder("Assign to...");
+        owner.setPlaceholder(Messages.get("com.example.issues.owner"));
 
-        Button create = new Button("Create", e -> create());
+        Button create = new Button(Messages.get("com.example.issues.create"), e -> create());
         create.getElement().setAttribute("theme", "primary");
 
         VerticalLayout formLayout = new VerticalLayout(
@@ -83,7 +85,7 @@ public class CreateIssueView extends Composite<VerticalLayout> {
             UI.getCurrent().navigate(IssueView.class, issue.getId());
 
         } catch (ValidationException e) {
-            Notification.show("Please fix the errors and try again.");
+            Notification.show(Messages.get("com.example.issues.validationError"));
         }
     }
 

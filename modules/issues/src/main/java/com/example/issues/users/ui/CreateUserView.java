@@ -3,6 +3,7 @@ package com.example.issues.users.ui;
 import com.example.api.domain.Role;
 import com.example.api.domain.User;
 import com.example.api.ui.MainLayout;
+import com.example.api.ui.Messages;
 import com.example.issues.users.UserService;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.UI;
@@ -17,32 +18,35 @@ import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.ValidationException;
-import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
 @Route(value = "create-user", layout = MainLayout.class)
-@PageTitle("Create user | Business Application")
 public class CreateUserView extends Composite<VerticalLayout> {
 
-    private TextField name = new TextField("Name");
-    private TextField email = new TextField("Email");
-    private PasswordField password = new PasswordField("Password");
-    private ComboBox<Role> role = new ComboBox<>("Role", Role.values());
+    private TextField name = new TextField(Messages.get("com.example.issues.name"));
+    private TextField email = new TextField(Messages.get("com.example.issues.email"));
+    private PasswordField password = new PasswordField(Messages.get("com.example.issues.password"));
+    private ComboBox<Role> role = new ComboBox<>(Messages.get("com.example.issues.role"), Role.values());
 
     private UserService userService;
 
     public CreateUserView(UserService userService) {
         this.userService = userService;
 
-        Span viewTitle = new Span("Create user");
+        UI.getCurrent().getPage().setTitle(Messages.get("com.example.issues.createUser") +
+                " | " + Messages.get("com.example.appName"));
+
+        Span viewTitle = new Span(Messages.get("com.example.issues.createUser"));
         viewTitle.addClassName("view-title");
 
         name.focus();
 
+        role.setItemLabelGenerator(role -> Messages.get(role.getNameProperty()));
+
         FormLayout formLayout = new FormLayout(name, email, password, role);
         formLayout.setWidth("100%");
 
-        Button save = new Button("Save", e -> create());
+        Button save = new Button(Messages.get("com.example.issues.save"), e -> create());
         save.getElement().setAttribute("theme", "primary");
 
         getContent().removeAll();
@@ -61,7 +65,7 @@ public class CreateUserView extends Composite<VerticalLayout> {
             UI.getCurrent().navigate(UsersView.class);
 
         } catch (ValidationException e) {
-            Notification.show("Please fix the errors and try again.");
+            Notification.show(Messages.get("com.example.issues.validationError"));
         }
     }
 

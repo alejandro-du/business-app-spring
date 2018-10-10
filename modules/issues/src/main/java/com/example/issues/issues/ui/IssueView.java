@@ -1,6 +1,7 @@
 package com.example.issues.issues.ui;
 
 import com.example.api.ui.MainLayout;
+import com.example.api.ui.Messages;
 import com.example.issues.issues.Issue;
 import com.example.issues.issues.IssueService;
 import com.example.issues.issues.Status;
@@ -11,19 +12,20 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.BeforeEvent;
 import com.vaadin.flow.router.HasUrlParameter;
-import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
 import java.util.Optional;
 
 @Route(value = "issue", layout = MainLayout.class)
-@PageTitle("Issue | Business Application")
 public class IssueView extends Composite<VerticalLayout> implements HasUrlParameter<Long> {
 
     final IssueService issueService;
 
     public IssueView(IssueService issueService) {
         this.issueService = issueService;
+
+        UI.getCurrent().getPage().setTitle(Messages.get("com.example.issues.issue") +
+                " | " + Messages.get("com.example.appName"));
     }
 
     @Override
@@ -38,10 +40,10 @@ public class IssueView extends Composite<VerticalLayout> implements HasUrlParame
     }
 
     private void showIssue(Issue issue) {
-        Span viewTitle = new Span("#" + issue.getId() +" - " + issue.getTitle());
+        Span viewTitle = new Span("#" + issue.getId() + " - " + issue.getTitle());
         viewTitle.addClassName("view-title");
 
-        Span status = new Span("Status: " + issue.getStatus().toString());
+        Span status = new Span(Messages.get("com.example.issues.status") + ": " + Messages.get(issue.getStatus().getNameProperty()));
         status.addClassName("issue-view-status");
         if (Status.OPEN.equals(issue.getStatus())) {
             status.addClassName("green");
@@ -49,7 +51,7 @@ public class IssueView extends Composite<VerticalLayout> implements HasUrlParame
             status.addClassName("red");
         }
 
-        Span owner = new Span("Owner: " + (issue.getOwner() != null ? issue.getOwner().getName() : "?"));
+        Span owner = new Span(Messages.get("com.example.issues.owner") + ": " + (issue.getOwner() != null ? issue.getOwner().getName() : "?"));
         owner.addClassName("issue-view-owner");
         if (issue.getOwner() != null) {
             owner.addClassName("blue");
@@ -57,7 +59,7 @@ public class IssueView extends Composite<VerticalLayout> implements HasUrlParame
             owner.addClassName("red");
         }
 
-        Span date = new Span("Date: " + issue.getDate());
+        Span date = new Span(Messages.get("com.example.issues.date") + ": " + issue.getDate());
         date.addClassName("issue-view-date");
 
         HorizontalLayout infoLayout = new HorizontalLayout(status, owner, date);

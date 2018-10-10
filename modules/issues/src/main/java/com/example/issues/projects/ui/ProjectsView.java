@@ -1,6 +1,7 @@
 package com.example.issues.projects.ui;
 
 import com.example.api.ui.MainLayout;
+import com.example.api.ui.Messages;
 import com.example.issues.projects.Project;
 import com.example.issues.projects.ProjectService;
 import com.vaadin.flow.component.Composite;
@@ -10,19 +11,20 @@ import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
 @Route(value = "projects", layout = MainLayout.class)
-@PageTitle("Projects | Business Application")
 public class ProjectsView extends Composite<VerticalLayout> {
 
     public ProjectsView(ProjectService projectService) {
-        Span viewTitle = new Span("Projects");
+        UI.getCurrent().getPage().setTitle(Messages.get("com.example.issues.projects") +
+                " | " + Messages.get("com.example.appName"));
+
+        Span viewTitle = new Span(Messages.get("com.example.issues.projects"));
         viewTitle.addClassName("view-title");
 
         Grid<Project> grid = new Grid<>();
-        grid.addColumn(Project::getName).setHeader("Name");
+        grid.addColumn(Project::getName).setHeader(Messages.get("com.example.issues.name"));
         grid.addComponentColumn(p -> new Button(null, VaadinIcon.EDIT.create(),
                 e -> UI.getCurrent().navigate(EditProjectView.class, p.getId())));
         grid.setItems(projectService.findAll());

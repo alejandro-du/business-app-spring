@@ -3,6 +3,7 @@ package com.example.issues.issues.ui;
 import com.example.api.domain.Role;
 import com.example.api.service.AuthorizationService;
 import com.example.api.ui.MainLayout;
+import com.example.api.ui.Messages;
 import com.example.issues.issues.Issue;
 import com.example.issues.issues.IssueService;
 import com.example.issues.issues.Status;
@@ -17,13 +18,11 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
 import java.util.Set;
 
 @Route(value = "issues", layout = MainLayout.class)
-@PageTitle("Issues | Business Application")
 public class IssuesView extends Composite<VerticalLayout> {
 
     private TextField title = new TextField();
@@ -38,42 +37,44 @@ public class IssuesView extends Composite<VerticalLayout> {
     public IssuesView(IssueService issueService, AuthorizationService authorizationService) {
         this.issueService = issueService;
 
-        Span viewTitle = new Span("Issues");
+        UI.getCurrent().getPage().setTitle(Messages.get("com.example.issues.issues") +
+                " | " + Messages.get("com.example.appName"));
+
+        Span viewTitle = new Span(Messages.get("com.example.issues.issues"));
         viewTitle.addClassName("view-title");
 
-        title.setPlaceholder("Title...");
+        title.setPlaceholder(Messages.get("com.example.issues.title"));
         title.setWidth("100%");
         title.addValueChangeListener(e -> refreshGrid());
         title.setSizeFull();
 
-        reporter.setPlaceholder("Reporter...");
+        reporter.setPlaceholder(Messages.get("com.example.issues.reporter"));
         reporter.setWidth("100%");
         reporter.addValueChangeListener(e -> refreshGrid());
         reporter.setSizeFull();
 
-        owner.setPlaceholder("Owner...");
+        owner.setPlaceholder(Messages.get("com.example.issues.owner"));
         owner.setWidth("100%");
         owner.addValueChangeListener(e -> refreshGrid());
         owner.setSizeFull();
 
         status.setValue(Status.OPEN);
-        status.setPlaceholder("Status...");
+        status.setPlaceholder(Messages.get("com.example.issues.status"));
         status.setWidth("100%");
         status.addValueChangeListener(e -> refreshGrid());
+        status.setItemLabelGenerator(status -> Messages.get(status.getNameProperty()));
 
-        date.setPlaceholder("Date...");
+        date.setPlaceholder(Messages.get("com.example.issues.date"));
         date.setWidth("100%");
-        date.addValueChangeListener(e -> refreshGrid());
 
         HorizontalLayout filterLayout = new HorizontalLayout(title, owner, reporter, status, date);
         filterLayout.setWidth("100%");
-
         grid.addColumn(i -> "#" + i.getId()).setFlexGrow(0);
-        grid.addColumn(Issue::getTitle).setHeader("Title").setFlexGrow(1);
-        grid.addColumn(i -> i.getOwner() != null ? i.getOwner().getName() : "").setHeader("Owner").setFlexGrow(0);
-        grid.addColumn(i -> i.getReporter() != null ? i.getReporter().getName() : "").setHeader("Reporter").setFlexGrow(0);
-        grid.addColumn(Issue::getStatus).setHeader("Status").setFlexGrow(0);
-        grid.addColumn(Issue::getDate).setHeader("Date").setFlexGrow(0).setWidth("10em");
+        grid.addColumn(Issue::getTitle).setHeader(Messages.get("com.example.issues.title")).setFlexGrow(1);
+        grid.addColumn(i -> i.getOwner() != null ? i.getOwner().getName() : "").setHeader(Messages.get("com.example.issues.owner")).setFlexGrow(0);
+        grid.addColumn(i -> i.getReporter() != null ? i.getReporter().getName() : "").setHeader(Messages.get("com.example.issues.reporter")).setFlexGrow(0);
+        grid.addColumn(issue -> Messages.get(issue.getStatus().getNameProperty())).setHeader(Messages.get("com.example.issues.status")).setFlexGrow(0);
+        grid.addColumn(Issue::getDate).setHeader(Messages.get("com.example.issues.date")).setFlexGrow(0).setWidth("10em");
         grid.addComponentColumn(i -> new HorizontalLayout(
                 new Button(VaadinIcon.EYE.create(), e -> UI.getCurrent().navigate(IssueView.class, i.getId())),
                 authorizationService.secureComponent(

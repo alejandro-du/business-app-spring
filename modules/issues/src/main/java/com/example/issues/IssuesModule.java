@@ -3,13 +3,13 @@ package com.example.issues;
 import com.example.api.BusinessAppModule;
 import com.example.api.domain.User;
 import com.example.api.service.AuthenticationService;
+import com.example.api.ui.Messages;
 import com.example.api.ui.UIConfiguration;
 import com.example.issues.issues.Session;
 import com.example.issues.issues.ui.CreateIssueView;
 import com.example.issues.issues.ui.IssuesView;
 import com.example.issues.projects.Project;
 import com.example.issues.projects.ProjectRepository;
-import com.example.issues.projects.ProjectService;
 import com.example.issues.projects.ui.CreateProjectView;
 import com.example.issues.projects.ui.ProjectsView;
 import com.example.issues.users.UserRepository;
@@ -33,7 +33,7 @@ public class IssuesModule implements BusinessAppModule {
     private final UserRepository userRepository;
     private final Session session;
 
-    public IssuesModule(UIConfiguration uiConfiguration, ProjectService projectService, ProjectRepository projectRepository, UserRepository userRepository, Session session) {
+    public IssuesModule(UIConfiguration uiConfiguration, ProjectRepository projectRepository, UserRepository userRepository, Session session) {
         this.uiConfiguration = uiConfiguration;
         this.projectRepository = projectRepository;
         this.userRepository = userRepository;
@@ -82,11 +82,11 @@ public class IssuesModule implements BusinessAppModule {
     }
 
     private void addMenuOptions() {
-        uiConfiguration.addMenuOption(IssuesView.class, "Issues", VaadinIcon.BUG);
-        uiConfiguration.addMenuOption(CreateIssueView.class, "Create issue", VaadinIcon.PLUS);
-        uiConfiguration.addMenuOption(ProjectsView.class, "Projects", VaadinIcon.CODE);
-        uiConfiguration.addMenuOption(CreateProjectView.class, "Create project", VaadinIcon.PLUS_SQUARE_O);
-        uiConfiguration.addMenuOption(UsersView.class, "Users", VaadinIcon.USERS);
+        uiConfiguration.addMenuOption(IssuesView.class, Messages.get("com.example.issues.issues"), VaadinIcon.BUG);
+        uiConfiguration.addMenuOption(CreateIssueView.class, Messages.get("com.example.issues.createIssue"), VaadinIcon.PLUS);
+        uiConfiguration.addMenuOption(ProjectsView.class, Messages.get("com.example.issues.projects"), VaadinIcon.CODE);
+        uiConfiguration.addMenuOption(CreateProjectView.class, Messages.get("com.example.issues.createProject"), VaadinIcon.PLUS_SQUARE_O);
+        uiConfiguration.addMenuOption(UsersView.class, Messages.get("com.example.issues.users"), VaadinIcon.USERS);
     }
 
 }

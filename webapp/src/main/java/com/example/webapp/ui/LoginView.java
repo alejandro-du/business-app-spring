@@ -1,6 +1,7 @@
 package com.example.webapp.ui;
 
 import com.example.api.service.AuthenticationService;
+import com.example.api.ui.Messages;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.UI;
@@ -15,32 +16,39 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.VaadinService;
 import com.vaadin.flow.theme.Theme;
 import com.vaadin.flow.theme.lumo.Lumo;
+
+import java.util.Locale;
 
 @Route(value = "login")
 @HtmlImport("/frontend/styles/login-view-styles.html")
 @HtmlImport("/frontend/styles/shared-styles.html")
-@PageTitle("Sign in | Business Application")
 @Theme(value = Lumo.class, variant = Lumo.DARK)
 public class LoginView extends Composite<VerticalLayout> {
 
-    private TextField email = new TextField("Email");
-    private PasswordField password = new PasswordField("Password");
+    private TextField email = new TextField(Messages.get("com.example.webapp.email"));
+    private PasswordField password = new PasswordField(Messages.get("com.example.webapp.password"));
 
     private final AuthenticationService authenticationService;
 
     public LoginView(AuthenticationService authenticationService) {
         this.authenticationService = authenticationService;
 
+        Locale locale = new Locale(VaadinService.getCurrentRequest().getLocale().getLanguage());
+        UI.getCurrent().setLocale(locale);
+
+        UI.getCurrent().getPage().setTitle(Messages.get("com.example.webapp.signIn") +
+                " | " + Messages.get("com.example.appName"));
+
         Image logo = new Image("/frontend/images/app-logo.png", "App logo");
-        Span appName = new Span("Business Application");
+        Span appName = new Span(Messages.get("com.example.appName"));
         appName.addClassName("header-app-name");
         HorizontalLayout header = new HorizontalLayout(logo, appName);
 
-        H2 title = new H2("Sign in");
+        H2 title = new H2(Messages.get("com.example.webapp.signIn"));
 
         email.setWidth("100%");
         email.setValue("marcus@vaadin.com");
@@ -48,7 +56,7 @@ public class LoginView extends Composite<VerticalLayout> {
         password.setWidth("100%");
         password.setValue("password");
 
-        Button signIn = new Button("Sign in", e -> signInClicked());
+        Button signIn = new Button(Messages.get("com.example.webapp.signIn"), e -> signInClicked());
         signIn.getElement().setAttribute("theme", "primary");
 
         VerticalLayout formLayout = new VerticalLayout(title, email, password, signIn);
@@ -82,7 +90,7 @@ public class LoginView extends Composite<VerticalLayout> {
         if (authenticationService.authenticate(username, password)) {
             UI.getCurrent().navigate("");
         } else {
-            Notification.show("Bad credentials", 5000, Notification.Position.MIDDLE);
+            Notification.show(Messages.get("com.example.webapp.badCredentials"), 5000, Notification.Position.MIDDLE);
         }
     }
 
