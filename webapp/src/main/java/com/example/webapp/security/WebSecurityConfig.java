@@ -131,7 +131,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
                     String originalContent = wrappedResponse.getMasterOutput();
                     servletResponse.getWriter().write(originalContent);
-                    servletResponse.setContentLength(originalContent.length() + 1);
+                    servletResponse.setContentLength(originalContent.isEmpty() ? 0 : originalContent.length() + 1);
                 }
             }
 
