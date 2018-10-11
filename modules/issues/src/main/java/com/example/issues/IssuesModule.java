@@ -32,6 +32,7 @@ public class IssuesModule implements BusinessAppModule {
     private final ProjectRepository projectRepository;
     private final UserRepository userRepository;
     private final Session session;
+    private ComboBox<Project> projectsSelector;
 
     public IssuesModule(UIConfiguration uiConfiguration,
                         ProjectRepository projectRepository,
@@ -52,8 +53,20 @@ public class IssuesModule implements BusinessAppModule {
 
         List<Project> projects = projectRepository.findByMembersIn(user);
         setDefaultProject(projects);
-        addHeaderOptions(projects);
+        addHeaderOptions();
         addMenuOptions();
+    }
+
+    public void updateProjectsSelector() {
+        User user = userRepository.findById(session.getUserId()).get();
+        List<Project> projects = projectRepository.findByMembersIn(user);
+        projectsSelector.setItems(projects);
+
+        if (!projects.isEmpty()) {
+            long projectId = session.getProjectId();
+            Optional<Project> project = projects.stream().filter(p -> p.getId().equals(projectId)).findFirst();
+            projectsSelector.setValue(project.orElse(projects.get(0)));
+        }
     }
 
     private void setDefaultProject(List<Project> allProjects) {
@@ -62,18 +75,13 @@ public class IssuesModule implements BusinessAppModule {
         }
     }
 
-    private void addHeaderOptions(List<Project> allProjects) {
+    private void addHeaderOptions() {
         uiConfiguration.addHeaderComponent(() -> {
-            ComboBox<Project> projects = new ComboBox<>(null, allProjects);
-            projects.setItemLabelGenerator(Project::getName);
-            if (!allProjects.isEmpty()) {
-                long projectId = session.getProjectId();
-                Optional<Project> project = allProjects.stream().filter(p -> p.getId().equals(projectId)).findFirst();
-                projects.setValue(project.orElse(null));
-
-                projects.addValueChangeListener(e -> selectProject(e.getValue()));
-            }
-            return projects;
+            projectsSelector = new ComboBox<>(null);
+            projectsSelector.setItemLabelGenerator(Project::getName);
+            updateProjectsSelector();
+            projectsSelector.addValueChangeListener(e -> selectProject(e.getValue()));
+            return projectsSelector;
         });
     }
 
@@ -88,11 +96,13 @@ public class IssuesModule implements BusinessAppModule {
         uiConfiguration.addMenuOption(IssuesView.class, Messages.get("com.example.issues.issues"), VaadinIcon.BUG);
         uiConfiguration.addMenuOption(CreateIssueView.class,
                 Messages.get("com.example.issues.createIssue"),
-                VaadinIcon.PLUS);
+                VaadinIcon.PLUS
+        );
         uiConfiguration.addMenuOption(ProjectsView.class, Messages.get("com.example.issues.projects"), VaadinIcon.CODE);
         uiConfiguration.addMenuOption(CreateProjectView.class,
                 Messages.get("com.example.issues.createProject"),
-                VaadinIcon.PLUS_SQUARE_O);
+                VaadinIcon.PLUS_SQUARE_O
+        );
         uiConfiguration.addMenuOption(UsersView.class, Messages.get("com.example.issues.users"), VaadinIcon.USERS);
     }
 

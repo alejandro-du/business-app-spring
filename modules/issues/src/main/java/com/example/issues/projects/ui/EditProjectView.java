@@ -4,6 +4,7 @@ import com.example.api.domain.User;
 import com.example.api.ui.ConfirmDialog;
 import com.example.api.ui.MainLayout;
 import com.example.api.ui.Messages;
+import com.example.issues.IssuesModule;
 import com.example.issues.projects.Project;
 import com.example.issues.projects.ProjectService;
 import com.example.issues.users.UserService;
@@ -36,11 +37,13 @@ public class EditProjectView extends Composite<VerticalLayout> implements HasUrl
 
     private final ProjectService projectService;
     private final UserService userService;
+    private final IssuesModule issuesModule;
     private BeanValidationBinder<Project> binder = new BeanValidationBinder<>(Project.class);
 
-    public EditProjectView(ProjectService projectService, UserService userService) {
+    public EditProjectView(ProjectService projectService, UserService userService, IssuesModule issuesModule) {
         this.projectService = projectService;
         this.userService = userService;
+        this.issuesModule = issuesModule;
 
         UI.getCurrent()
                 .getPage()
@@ -105,6 +108,7 @@ public class EditProjectView extends Composite<VerticalLayout> implements HasUrl
                 Messages.get("com.example.issues.no"),
                 e -> {
                     projectService.delete(project);
+                    issuesModule.updateProjectsSelector();
                     UI.getCurrent().navigate(ProjectsView.class);
                 }).open();
     }
@@ -114,6 +118,7 @@ public class EditProjectView extends Composite<VerticalLayout> implements HasUrl
             Notification.show(Messages.get("com.example.issues.validationError"));
         } else {
             projectService.saveOrUpdate(project);
+            issuesModule.updateProjectsSelector();
             UI.getCurrent().navigate(ProjectsView.class);
         }
     }

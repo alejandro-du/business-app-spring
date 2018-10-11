@@ -3,6 +3,7 @@ package com.example.issues.projects.ui;
 import com.example.api.domain.User;
 import com.example.api.ui.MainLayout;
 import com.example.api.ui.Messages;
+import com.example.issues.IssuesModule;
 import com.example.issues.projects.Project;
 import com.example.issues.projects.ProjectService;
 import com.example.issues.users.UserService;
@@ -31,10 +32,12 @@ public class CreateProjectView extends Composite<VerticalLayout> {
 
     private final ProjectService projectService;
     private final UserService userService;
+    private final IssuesModule issuesModule;
 
-    public CreateProjectView(ProjectService projectService, UserService userService) {
+    public CreateProjectView(ProjectService projectService, UserService userService, IssuesModule issuesModule) {
         this.projectService = projectService;
         this.userService = userService;
+        this.issuesModule = issuesModule;
 
         UI.getCurrent()
                 .getPage()
@@ -81,6 +84,7 @@ public class CreateProjectView extends Composite<VerticalLayout> {
             binder.bindInstanceFields(this);
             binder.writeBean(project);
             projectService.saveOrUpdate(project);
+            issuesModule.updateProjectsSelector();
             UI.getCurrent().navigate(ProjectsView.class);
 
         } catch (ValidationException e) {
