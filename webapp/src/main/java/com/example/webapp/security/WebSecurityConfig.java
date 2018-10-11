@@ -78,7 +78,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 ).permitAll();
 
                 addMatchersFromProperties(registry)
-                .requestMatchers(request -> isVaadinFlowRequest(request)).permitAll()
+                .requestMatchers(this::isVaadinFlowRequest).permitAll()
                 .anyRequest().denyAll()
             .and()
             .addFilterAfter(getAuthFilter(), BasicAuthenticationFilter.class)
@@ -160,9 +160,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             String location = "/" + array.getString(1);
             WebInvocationPrivilegeEvaluator privilegeEvaluator = applicationContext.getBean(WebInvocationPrivilegeEvaluator.class);
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            if (!privilegeEvaluator.isAllowed(location, authentication)) {
-                return true;
-            }
+            return !privilegeEvaluator.isAllowed(location, authentication);
         }
         return false;
     }
@@ -177,7 +175,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             String parameterValue = request.getParameter(ApplicationConstants.REQUEST_TYPE_PARAMETER);
             return parameterValue != null
                     && Stream.of(ServletHelper.RequestType.values())
-                    .map(r -> r.getIdentifier())
+                    .map(ServletHelper.RequestType::getIdentifier)
                     .anyMatch(parameterValue::equals);
         } catch (Exception ignored) {
         }
@@ -203,7 +201,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return registry;
     }
 
-    private ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry addAntMatcher(ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry registry, String routeValue, String accessExpression) throws ClassNotFoundException {
+    private ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry addAntMatcher(ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry registry, String routeValue, String accessExpression) {
         String antPattern;
         if (routeValue.isEmpty()) {
             antPattern = "/";

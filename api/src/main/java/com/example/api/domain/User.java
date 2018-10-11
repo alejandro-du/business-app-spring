@@ -29,7 +29,7 @@ public class User extends BusinessAppEntity {
     @NotNull
     @NotEmpty
     @Size(min = 6, max = 255)
-    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-zA-Z]).*$", message = "must have a digit and a letter")
+    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-zA-Z]).*$", message = "{com.example.webapp.invalidPassword}")
     private String password;
 
     @Enumerated(EnumType.STRING)

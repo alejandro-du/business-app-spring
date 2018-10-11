@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -32,7 +33,7 @@ public class Application {
             Resource[] resources = resolver.getResources("classpath*:/i18n/**-messages**.properties");
 
             String[] basenames = Arrays.stream(resources)
-                    .map(resource -> resource.getFilename())
+                    .map(Resource::getFilename)
                     .map(fileName -> fileName.substring(0, fileName.indexOf("-messages")))
                     .map(baseName -> "classpath:/i18n/" + baseName + "-messages")
                     .collect(Collectors.toSet())
@@ -44,6 +45,13 @@ public class Application {
         }
 
         return messageSource;
+    }
+
+    @Bean
+    public LocalValidatorFactoryBean validatorFactory(MessageSource messageSource) {
+        LocalValidatorFactoryBean bean = new LocalValidatorFactoryBean();
+        bean.setValidationMessageSource(messageSource);
+        return bean;
     }
 
 }

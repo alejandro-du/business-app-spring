@@ -2,6 +2,7 @@ package com.example.issues.users.ui;
 
 import com.example.api.domain.Role;
 import com.example.api.domain.User;
+import com.example.api.service.ValidationService;
 import com.example.api.ui.ConfirmDialog;
 import com.example.api.ui.MainLayout;
 import com.example.api.ui.Messages;
@@ -20,6 +21,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
+import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.router.BeforeEvent;
 import com.vaadin.flow.router.HasUrlParameter;
 import com.vaadin.flow.router.Route;
@@ -36,13 +38,15 @@ public class EditUserView extends Composite<VerticalLayout> implements HasUrlPar
 
     private final UserService userService;
     private final Session session;
+    private final ValidationService validationService;
 
     private BeanValidationBinder<User> binder = new BeanValidationBinder<>(User.class);
     private String originalPassword;
 
-    public EditUserView(UserService userService, Session session) {
+    public EditUserView(UserService userService, Session session, ValidationService validationService) {
         this.userService = userService;
         this.session = session;
+        this.validationService = validationService;
 
         UI.getCurrent().getPage().setTitle(Messages.get("com.example.issues.editUser") +
                 " | " + Messages.get("com.example.appName"));
@@ -87,6 +91,7 @@ public class EditUserView extends Composite<VerticalLayout> implements HasUrlPar
         user.setPassword(null);
 
         binder.bindInstanceFields(this);
+        binder.removeBinding(password);
         binder.setBean(user);
     }
 
@@ -109,22 +114,27 @@ public class EditUserView extends Composite<VerticalLayout> implements HasUrlPar
 
     private void save(User user) {
         boolean newPassword = !password.getValue().isEmpty();
+        try {
+            if (!newPassword) {
+                password.setValue(originalPassword);
+            }
 
-        if (!newPassword) {
-            password.setValue(originalPassword);
-        }
+            binder.writeBean(user);
+            user.setPassword(password.getValue());
+            validationService.validateProperty(user, "password", password);
 
-        if (binder.validate().hasErrors()) {
+            userService.update(user, newPassword);
+            UI.getCurrent().navigate(UsersView.class);
+
+        } catch (ValidationException | javax.validation.ValidationException e) {
             if (!newPassword) {
                 user.setPassword(null);
                 password.clear();
                 password.setErrorMessage(null);
                 password.setInvalid(false);
             }
+
             Notification.show(Messages.get("com.example.issues.validationError"));
-        } else {
-            userService.update(user, newPassword);
-            UI.getCurrent().navigate(UsersView.class);
         }
     }
 
