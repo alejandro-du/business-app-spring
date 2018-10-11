@@ -36,9 +36,7 @@ public class MainLayout extends Composite<VerticalLayout> implements RouterLayou
         Header header = new Header(Messages.get("com.example.appName"));
 
         if (!uiConfiguration.getHeaderComponentSuppliers().isEmpty()) {
-            uiConfiguration.getHeaderComponentSuppliers().stream()
-                    .map(SerializableSupplier::get)
-                    .forEach(header::add);
+            uiConfiguration.getHeaderComponentSuppliers().stream().map(SerializableSupplier::get).forEach(header::add);
         }
 
         if (authenticationService.isAuthenticated()) {
@@ -46,8 +44,7 @@ public class MainLayout extends Composite<VerticalLayout> implements RouterLayou
         }
 
         MainMenu mainMenu = new MainMenu();
-        uiConfiguration.getMenuOptions().stream()
-                .forEach(mainMenu::addOption);
+        uiConfiguration.getMenuOptions().stream().forEach(mainMenu::addOption);
 
         contentLayout.setMargin(false);
         contentLayout.setPadding(false);

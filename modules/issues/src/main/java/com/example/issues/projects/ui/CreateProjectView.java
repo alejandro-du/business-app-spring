@@ -36,8 +36,10 @@ public class CreateProjectView extends Composite<VerticalLayout> {
         this.projectService = projectService;
         this.userService = userService;
 
-        UI.getCurrent().getPage().setTitle(Messages.get("com.example.issues.createProject") +
-                " | " + Messages.get("com.example.appName"));
+        UI.getCurrent()
+                .getPage()
+                .setTitle(
+                        Messages.get("com.example.issues.createProject") + " | " + Messages.get("com.example.appName"));
 
         Span viewTitle = new Span(Messages.get("com.example.issues.createProject"));
         viewTitle.addClassName("view-title");
@@ -49,7 +51,8 @@ public class CreateProjectView extends Composite<VerticalLayout> {
         grid.setWidth("100%");
         grid.addColumn(User::getName).setHeader(Messages.get("com.example.issues.name"));
         grid.addColumn(User::getEmail).setHeader(Messages.get("com.example.issues.email"));
-        grid.addColumn(user -> Messages.get(user.getRole().getNameProperty())).setHeader(Messages.get("com.example.issues.role"));
+        grid.addColumn(user -> Messages.get(user.getRole().getNameProperty()))
+                .setHeader(Messages.get("com.example.issues.role"));
         grid.setItems(this.userService.findAll());
         grid.setSelectionMode(Grid.SelectionMode.MULTI);
         members = grid.asMultiSelect();

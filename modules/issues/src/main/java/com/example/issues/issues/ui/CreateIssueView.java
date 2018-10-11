@@ -35,12 +35,15 @@ public class CreateIssueView extends Composite<VerticalLayout> {
     private final IssueService issueService;
     private final AuthorizationService authorizationService;
 
-    public CreateIssueView(IssueService issueService, UserService userService, AuthorizationService authorizationService) {
+    public CreateIssueView(IssueService issueService,
+                           UserService userService,
+                           AuthorizationService authorizationService) {
         this.issueService = issueService;
         this.authorizationService = authorizationService;
 
-        UI.getCurrent().getPage().setTitle(Messages.get("com.example.issues.createIssue") +
-                " | " + Messages.get("com.example.appName"));
+        UI.getCurrent()
+                .getPage()
+                .setTitle(Messages.get("com.example.issues.createIssue") + " | " + Messages.get("com.example.appName"));
 
         Span viewTitle = new Span(Messages.get("com.example.issues.createIssue"));
         viewTitle.addClassName("view-title");
@@ -59,13 +62,11 @@ public class CreateIssueView extends Composite<VerticalLayout> {
         Button create = new Button(Messages.get("com.example.issues.create"), e -> create());
         create.getElement().setAttribute("theme", "primary");
 
-        VerticalLayout formLayout = new VerticalLayout(
-                viewTitle,
+        VerticalLayout formLayout = new VerticalLayout(viewTitle,
                 title,
                 description,
                 authorizationService.secureComponent(owner, Role.ADMIN, Role.DEVELOPER),
-                create
-        );
+                create);
         formLayout.setPadding(false);
         formLayout.setMargin(false);
         formLayout.setAlignSelf(FlexComponent.Alignment.END, owner, create);

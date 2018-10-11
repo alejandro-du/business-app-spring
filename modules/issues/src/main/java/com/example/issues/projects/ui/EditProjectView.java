@@ -42,8 +42,9 @@ public class EditProjectView extends Composite<VerticalLayout> implements HasUrl
         this.projectService = projectService;
         this.userService = userService;
 
-        UI.getCurrent().getPage().setTitle(Messages.get("com.example.issues.editProject") +
-                " | " + Messages.get("com.example.appName"));
+        UI.getCurrent()
+                .getPage()
+                .setTitle(Messages.get("com.example.issues.editProject") + " | " + Messages.get("com.example.appName"));
     }
 
     @Override
@@ -67,7 +68,8 @@ public class EditProjectView extends Composite<VerticalLayout> implements HasUrl
         grid.setWidth("100%");
         grid.addColumn(User::getName).setHeader(Messages.get("com.example.issues.name"));
         grid.addColumn(User::getEmail).setHeader(Messages.get("com.example.issues.email"));
-        grid.addColumn(user -> Messages.get(user.getRole().getNameProperty())).setHeader(Messages.get("com.example.issues.role"));
+        grid.addColumn(user -> Messages.get(user.getRole().getNameProperty()))
+                .setHeader(Messages.get("com.example.issues.role"));
         grid.setItems(this.userService.findAll());
         grid.setSelectionMode(Grid.SelectionMode.MULTI);
         members = grid.asMultiSelect();
@@ -98,15 +100,13 @@ public class EditProjectView extends Composite<VerticalLayout> implements HasUrl
     }
 
     private void delete(Project project) {
-        new ConfirmDialog(
-                Messages.get("com.example.issues.deleteProjectConfirmation"),
+        new ConfirmDialog(Messages.get("com.example.issues.deleteProjectConfirmation"),
                 Messages.get("com.example.issues.yes"),
                 Messages.get("com.example.issues.no"),
                 e -> {
                     projectService.delete(project);
                     UI.getCurrent().navigate(ProjectsView.class);
-                }
-        ).open();
+                }).open();
     }
 
     private void save(Project project) {

@@ -18,7 +18,8 @@ public class ValidationService {
         this.validatorFactory = validatorFactory;
     }
 
-    public void validateProperty(User user, String propertyName, HasValidation field) throws javax.validation.ValidationException {
+    public void validateProperty(User user, String propertyName, HasValidation field) throws
+            javax.validation.ValidationException {
         Validator validator = validatorFactory.getValidator();
         Set<ConstraintViolation<User>> violations = validator.validateProperty(user, propertyName);
 

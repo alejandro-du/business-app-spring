@@ -28,8 +28,10 @@ public class ErrorView extends Composite<VerticalLayout> implements HasErrorPara
         LocalDateTime now = LocalDateTime.now();
         logger.error("Error-" + now, errorParameter.getException());
 
-        UI.getCurrent().getPage().setTitle(Messages.get("com.example.webapp.error", "Error") +
-                " | " + Messages.get("com.example.appName", ""));
+        UI.getCurrent()
+                .getPage()
+                .setTitle(Messages.get("com.example.webapp.error", "Error") + " | " +
+                        Messages.get("com.example.appName", ""));
 
         H1 title = new H1(Messages.get("com.example.webapp.error", "Error"));
         title.addClassName("red");
@@ -40,7 +42,8 @@ public class ErrorView extends Composite<VerticalLayout> implements HasErrorPara
         Span date = new Span(now.toString());
         date.getStyle().set("font-weight", "bold");
 
-        HorizontalLayout info = new HorizontalLayout(new Span(Messages.get("com.example.webapp.timeStamp", "Timestamp:")), date);
+        HorizontalLayout info =
+                new HorizontalLayout(new Span(Messages.get("com.example.webapp.timeStamp", "Timestamp:")), date);
 
         getContent().add(title, message, info);
 

@@ -44,8 +44,9 @@ public class EditIssueView extends Composite<VerticalLayout> implements HasUrlPa
         this.issueService = issueService;
         this.userService = userService;
 
-        UI.getCurrent().getPage().setTitle(Messages.get("com.example.issues.editIssue") +
-                " | " + Messages.get("com.example.appName"));
+        UI.getCurrent()
+                .getPage()
+                .setTitle(Messages.get("com.example.issues.editIssue") + " | " + Messages.get("com.example.appName"));
     }
 
     @Override
@@ -93,15 +94,13 @@ public class EditIssueView extends Composite<VerticalLayout> implements HasUrlPa
     }
 
     private void delete(Issue issue) {
-        new ConfirmDialog(
-                Messages.get("com.example.issues.deleteIssueConfirmation"),
+        new ConfirmDialog(Messages.get("com.example.issues.deleteIssueConfirmation"),
                 Messages.get("com.example.issues.yes"),
                 Messages.get("com.example.issues.no"),
                 e -> {
                     issueService.delete(issue);
                     UI.getCurrent().navigate(IssuesView.class);
-                }
-        ).open();
+                }).open();
     }
 
     private void save(Issue issue) {

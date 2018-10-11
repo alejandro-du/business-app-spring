@@ -48,8 +48,9 @@ public class EditUserView extends Composite<VerticalLayout> implements HasUrlPar
         this.session = session;
         this.validationService = validationService;
 
-        UI.getCurrent().getPage().setTitle(Messages.get("com.example.issues.editUser") +
-                " | " + Messages.get("com.example.appName"));
+        UI.getCurrent()
+                .getPage()
+                .setTitle(Messages.get("com.example.issues.editUser") + " | " + Messages.get("com.example.appName"));
     }
 
     @Override
@@ -96,8 +97,7 @@ public class EditUserView extends Composite<VerticalLayout> implements HasUrlPar
     }
 
     private void delete(User user) {
-        new ConfirmDialog(
-                Messages.get("com.example.issues.deleteUserConfirmation"),
+        new ConfirmDialog(Messages.get("com.example.issues.deleteUserConfirmation"),
                 Messages.get("com.example.issues.yes"),
                 Messages.get("com.example.issues.no"),
                 e -> {
@@ -108,8 +108,7 @@ public class EditUserView extends Composite<VerticalLayout> implements HasUrlPar
                     } else {
                         UI.getCurrent().navigate(UsersView.class);
                     }
-                }
-        ).open();
+                }).open();
     }
 
     private void save(User user) {

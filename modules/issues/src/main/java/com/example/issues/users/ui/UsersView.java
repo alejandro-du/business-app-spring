@@ -33,8 +33,9 @@ public class UsersView extends Composite<VerticalLayout> {
     public UsersView(UserService userService) {
         this.userService = userService;
 
-        UI.getCurrent().getPage().setTitle(Messages.get("com.example.issues.users") +
-                " | " + Messages.get("com.example.appName"));
+        UI.getCurrent()
+                .getPage()
+                .setTitle(Messages.get("com.example.issues.users") + " | " + Messages.get("com.example.appName"));
 
         Span viewTitle = new Span(Messages.get("com.example.issues.users"));
         viewTitle.addClassName("view-title");
@@ -59,7 +60,8 @@ public class UsersView extends Composite<VerticalLayout> {
 
         grid.addColumn(User::getName).setHeader(Messages.get("com.example.issues.name"));
         grid.addColumn(User::getEmail).setHeader(Messages.get("com.example.issues.email"));
-        grid.addColumn(user -> Messages.get(user.getRole().getNameProperty())).setHeader(Messages.get("com.example.issues.role"));
+        grid.addColumn(user -> Messages.get(user.getRole().getNameProperty()))
+                .setHeader(Messages.get("com.example.issues.role"));
         grid.addComponentColumn(u -> new Button(VaadinIcon.EDIT.create(),
                 e -> UI.getCurrent().navigate(EditUserView.class, u.getId())));
 

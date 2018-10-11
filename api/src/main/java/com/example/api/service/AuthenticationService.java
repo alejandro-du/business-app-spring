@@ -28,7 +28,9 @@ public class AuthenticationService {
 
     private boolean modulesInitialized;
 
-    public AuthenticationService(UserRepository userRepository, Optional<BusinessAppModule[]> modules, PasswordEncoder passwordEncoder) {
+    public AuthenticationService(UserRepository userRepository,
+                                 Optional<BusinessAppModule[]> modules,
+                                 PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.modules = modules;
         this.passwordEncoder = passwordEncoder;
@@ -38,11 +40,9 @@ public class AuthenticationService {
         User user = userRepository.findByEmailIgnoreCase(username);
 
         if (user != null && passwordEncoder.matches(password, user.getPassword())) {
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
-                    user.getId(),
+            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user.getId(),
                     user.getPassword(),
-                    AuthorityUtils.createAuthorityList("ROLE_" + user.getRole().toString())
-            );
+                    AuthorityUtils.createAuthorityList("ROLE_" + user.getRole().toString()));
             SecurityContextHolder.getContext().setAuthentication(token);
             VaadinSession.getCurrent().setAttribute(USER_ID_SESSION_KEY, user.getId());
 
@@ -58,7 +58,8 @@ public class AuthenticationService {
 
     public boolean isAuthenticated() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return authentication.isAuthenticated() && !AnonymousAuthenticationToken.class.isAssignableFrom(authentication.getClass());
+        return authentication.isAuthenticated() &&
+                !AnonymousAuthenticationToken.class.isAssignableFrom(authentication.getClass());
     }
 
 }

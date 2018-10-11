@@ -16,7 +16,10 @@ public class IssueService {
     private final UserRepository userRepository;
     private final Session session;
 
-    public IssueService(IssueRepository issueRepository, ProjectRepository projectRepository, UserRepository userRepository, Session session) {
+    public IssueService(IssueRepository issueRepository,
+                        ProjectRepository projectRepository,
+                        UserRepository userRepository,
+                        Session session) {
         this.issueRepository = issueRepository;
         this.projectRepository = projectRepository;
         this.userRepository = userRepository;
@@ -24,14 +27,12 @@ public class IssueService {
     }
 
     public Set<Issue> find(String title, String ownerName, String reporterName, Status status, LocalDate date) {
-        return issueRepository.find(
-                session.getProjectId(),
+        return issueRepository.find(session.getProjectId(),
                 title,
                 ownerName.isEmpty() ? null : ownerName,
                 reporterName,
                 status,
-                date
-        );
+                date);
     }
 
     public Optional<Issue> findById(Long issueId) {

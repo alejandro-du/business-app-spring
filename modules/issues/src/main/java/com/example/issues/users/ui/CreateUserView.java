@@ -36,8 +36,9 @@ public class CreateUserView extends Composite<VerticalLayout> {
         this.userService = userService;
         this.validationService = validationService;
 
-        UI.getCurrent().getPage().setTitle(Messages.get("com.example.issues.createUser") +
-                " | " + Messages.get("com.example.appName"));
+        UI.getCurrent()
+                .getPage()
+                .setTitle(Messages.get("com.example.issues.createUser") + " | " + Messages.get("com.example.appName"));
 
         Span viewTitle = new Span(Messages.get("com.example.issues.createUser"));
         viewTitle.addClassName("view-title");

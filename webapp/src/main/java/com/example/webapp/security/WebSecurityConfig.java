@@ -93,7 +93,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new GenericFilterBean() {
 
             @Override
-            public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+            public void doFilter(ServletRequest servletRequest,
+                                 ServletResponse servletResponse,
+                                 FilterChain filterChain) throws IOException, ServletException {
                 HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
 
                 boolean isRequestToRoot = httpServletRequest.getRequestURI().equals("/");
@@ -101,11 +103,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     filterChain.doFilter(servletRequest, servletResponse);
                 } else {
                     HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
-                    CustomServletResponseWrapper wrappedResponse = new CustomServletResponseWrapper(httpServletResponse);
+                    CustomServletResponseWrapper wrappedResponse =
+                            new CustomServletResponseWrapper(httpServletResponse);
                     filterChain.doFilter(servletRequest, wrappedResponse);
                     String output = wrappedResponse.getBranchOutput();
 
-                    if (wrappedResponse.getContentType() != null && wrappedResponse.getContentType().startsWith("application/json")) {
+                    if (wrappedResponse.getContentType() != null &&
+                            wrappedResponse.getContentType().startsWith("application/json")) {
                         if (checkFromJsonResponse(servletResponse, output)) {
                             return;
                         }
@@ -156,9 +160,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     private boolean checkExecuteElement(JsonArray array) {
-        if (array.length() == 3 && array.getString(2).startsWith("history.pushState") && array.getString(1) != null && !array.getString(1).isEmpty()) {
+        if (array.length() == 3 && array.getString(2).startsWith("history.pushState") && array.getString(1) != null &&
+                !array.getString(1).isEmpty()) {
             String location = "/" + array.getString(1);
-            WebInvocationPrivilegeEvaluator privilegeEvaluator = applicationContext.getBean(WebInvocationPrivilegeEvaluator.class);
+            WebInvocationPrivilegeEvaluator privilegeEvaluator =
+                    applicationContext.getBean(WebInvocationPrivilegeEvaluator.class);
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             return !privilegeEvaluator.isAllowed(location, authentication);
         }
@@ -173,8 +179,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private boolean isVaadinFlowRequest(HttpServletRequest request) {
         try {
             String parameterValue = request.getParameter(ApplicationConstants.REQUEST_TYPE_PARAMETER);
-            return parameterValue != null
-                    && Stream.of(ServletHelper.RequestType.values())
+            return parameterValue != null && Stream.of(ServletHelper.RequestType.values())
                     .map(ServletHelper.RequestType::getIdentifier)
                     .anyMatch(parameterValue::equals);
         } catch (Exception ignored) {
@@ -183,7 +188,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return false;
     }
 
-    private ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry addMatchersFromProperties(ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry registry) {
+    private ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry addMatchersFromProperties(
+            ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry registry) {
         try {
             for (Map.Entry<String, String> entry : access.entrySet()) {
                 String className = entry.getKey();
@@ -201,7 +207,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return registry;
     }
 
-    private ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry addAntMatcher(ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry registry, String routeValue, String accessExpression) {
+    private ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry addAntMatcher(
+            ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry registry,
+            String routeValue,
+            String accessExpression) {
         String antPattern;
         if (routeValue.isEmpty()) {
             antPattern = "/";

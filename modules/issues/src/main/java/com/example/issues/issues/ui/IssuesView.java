@@ -37,8 +37,9 @@ public class IssuesView extends Composite<VerticalLayout> {
     public IssuesView(IssueService issueService, AuthorizationService authorizationService) {
         this.issueService = issueService;
 
-        UI.getCurrent().getPage().setTitle(Messages.get("com.example.issues.issues") +
-                " | " + Messages.get("com.example.appName"));
+        UI.getCurrent()
+                .getPage()
+                .setTitle(Messages.get("com.example.issues.issues") + " | " + Messages.get("com.example.appName"));
 
         Span viewTitle = new Span(Messages.get("com.example.issues.issues"));
         viewTitle.addClassName("view-title");
@@ -71,17 +72,25 @@ public class IssuesView extends Composite<VerticalLayout> {
         filterLayout.setWidth("100%");
         grid.addColumn(i -> "#" + i.getId()).setFlexGrow(0);
         grid.addColumn(Issue::getTitle).setHeader(Messages.get("com.example.issues.title")).setFlexGrow(1);
-        grid.addColumn(i -> i.getOwner() != null ? i.getOwner().getName() : "").setHeader(Messages.get("com.example.issues.owner")).setFlexGrow(0);
-        grid.addColumn(i -> i.getReporter() != null ? i.getReporter().getName() : "").setHeader(Messages.get("com.example.issues.reporter")).setFlexGrow(0);
-        grid.addColumn(issue -> Messages.get(issue.getStatus().getNameProperty())).setHeader(Messages.get("com.example.issues.status")).setFlexGrow(0);
-        grid.addColumn(Issue::getDate).setHeader(Messages.get("com.example.issues.date")).setFlexGrow(0).setWidth("10em");
-        grid.addComponentColumn(i -> new HorizontalLayout(
-                new Button(VaadinIcon.EYE.create(), e -> UI.getCurrent().navigate(IssueView.class, i.getId())),
-                authorizationService.secureComponent(
-                        new Button(VaadinIcon.EDIT.create(), e -> UI.getCurrent().navigate(EditIssueView.class, i.getId())),
-                        Role.ADMIN, Role.DEVELOPER
-                )
-        )).setFlexGrow(0).setWidth("10em");
+        grid.addColumn(i -> i.getOwner() != null ? i.getOwner().getName() : "")
+                .setHeader(Messages.get("com.example.issues.owner"))
+                .setFlexGrow(0);
+        grid.addColumn(i -> i.getReporter() != null ? i.getReporter().getName() : "")
+                .setHeader(Messages.get("com.example.issues.reporter"))
+                .setFlexGrow(0);
+        grid.addColumn(issue -> Messages.get(issue.getStatus().getNameProperty()))
+                .setHeader(Messages.get("com.example.issues.status"))
+                .setFlexGrow(0);
+        grid.addColumn(Issue::getDate)
+                .setHeader(Messages.get("com.example.issues.date"))
+                .setFlexGrow(0)
+                .setWidth("10em");
+        grid.addComponentColumn(i -> new HorizontalLayout(new Button(VaadinIcon.EYE.create(),
+                e -> UI.getCurrent().navigate(IssueView.class, i.getId())),
+                authorizationService.secureComponent(new Button(VaadinIcon.EDIT.create(),
+                        e -> UI.getCurrent().navigate(EditIssueView.class, i.getId())), Role.ADMIN, Role.DEVELOPER)))
+                .setFlexGrow(0)
+                .setWidth("10em");
         grid.setSizeFull();
 
         getContent().add(viewTitle, filterLayout, grid);
@@ -92,8 +101,11 @@ public class IssuesView extends Composite<VerticalLayout> {
     }
 
     private void refreshGrid() {
-        Set<Issue> issues = issueService.find(
-                title.getValue(), owner.getValue(), reporter.getValue(), status.getValue(), date.getValue());
+        Set<Issue> issues = issueService.find(title.getValue(),
+                owner.getValue(),
+                reporter.getValue(),
+                status.getValue(),
+                date.getValue());
         grid.setItems(issues);
     }
 

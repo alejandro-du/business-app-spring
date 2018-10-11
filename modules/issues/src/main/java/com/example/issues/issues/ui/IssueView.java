@@ -24,8 +24,9 @@ public class IssueView extends Composite<VerticalLayout> implements HasUrlParame
     public IssueView(IssueService issueService) {
         this.issueService = issueService;
 
-        UI.getCurrent().getPage().setTitle(Messages.get("com.example.issues.issue") +
-                " | " + Messages.get("com.example.appName"));
+        UI.getCurrent()
+                .getPage()
+                .setTitle(Messages.get("com.example.issues.issue") + " | " + Messages.get("com.example.appName"));
     }
 
     @Override
@@ -43,7 +44,8 @@ public class IssueView extends Composite<VerticalLayout> implements HasUrlParame
         Span viewTitle = new Span("#" + issue.getId() + " - " + issue.getTitle());
         viewTitle.addClassName("view-title");
 
-        Span status = new Span(Messages.get("com.example.issues.status") + ": " + Messages.get(issue.getStatus().getNameProperty()));
+        Span status = new Span(
+                Messages.get("com.example.issues.status") + ": " + Messages.get(issue.getStatus().getNameProperty()));
         status.addClassName("issue-view-status");
         if (Status.OPEN.equals(issue.getStatus())) {
             status.addClassName("green");
@@ -51,7 +53,8 @@ public class IssueView extends Composite<VerticalLayout> implements HasUrlParame
             status.addClassName("red");
         }
 
-        Span owner = new Span(Messages.get("com.example.issues.owner") + ": " + (issue.getOwner() != null ? issue.getOwner().getName() : "?"));
+        Span owner = new Span(Messages.get("com.example.issues.owner") + ": " +
+                (issue.getOwner() != null ? issue.getOwner().getName() : "?"));
         owner.addClassName("issue-view-owner");
         if (issue.getOwner() != null) {
             owner.addClassName("blue");

@@ -10,7 +10,10 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 
 public class ConfirmDialog extends Composite<Dialog> {
 
-    public ConfirmDialog(String question, String yesCaption, String noCaption, ComponentEventListener<ClickEvent<Button>> confirmClickListener) {
+    public ConfirmDialog(String question,
+                         String yesCaption,
+                         String noCaption,
+                         ComponentEventListener<ClickEvent<Button>> confirmClickListener) {
         Text text = new Text(question);
 
         Button no = new Button(noCaption, e -> getContent().close());

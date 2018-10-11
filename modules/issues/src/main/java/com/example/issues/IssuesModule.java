@@ -33,7 +33,10 @@ public class IssuesModule implements BusinessAppModule {
     private final UserRepository userRepository;
     private final Session session;
 
-    public IssuesModule(UIConfiguration uiConfiguration, ProjectRepository projectRepository, UserRepository userRepository, Session session) {
+    public IssuesModule(UIConfiguration uiConfiguration,
+                        ProjectRepository projectRepository,
+                        UserRepository userRepository,
+                        Session session) {
         this.uiConfiguration = uiConfiguration;
         this.projectRepository = projectRepository;
         this.userRepository = userRepository;
@@ -83,9 +86,13 @@ public class IssuesModule implements BusinessAppModule {
 
     private void addMenuOptions() {
         uiConfiguration.addMenuOption(IssuesView.class, Messages.get("com.example.issues.issues"), VaadinIcon.BUG);
-        uiConfiguration.addMenuOption(CreateIssueView.class, Messages.get("com.example.issues.createIssue"), VaadinIcon.PLUS);
+        uiConfiguration.addMenuOption(CreateIssueView.class,
+                Messages.get("com.example.issues.createIssue"),
+                VaadinIcon.PLUS);
         uiConfiguration.addMenuOption(ProjectsView.class, Messages.get("com.example.issues.projects"), VaadinIcon.CODE);
-        uiConfiguration.addMenuOption(CreateProjectView.class, Messages.get("com.example.issues.createProject"), VaadinIcon.PLUS_SQUARE_O);
+        uiConfiguration.addMenuOption(CreateProjectView.class,
+                Messages.get("com.example.issues.createProject"),
+                VaadinIcon.PLUS_SQUARE_O);
         uiConfiguration.addMenuOption(UsersView.class, Messages.get("com.example.issues.users"), VaadinIcon.USERS);
     }
 

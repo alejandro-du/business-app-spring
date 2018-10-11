@@ -17,15 +17,17 @@ import com.vaadin.flow.router.Route;
 public class ProjectsView extends Composite<VerticalLayout> {
 
     public ProjectsView(ProjectService projectService) {
-        UI.getCurrent().getPage().setTitle(Messages.get("com.example.issues.projects") +
-                " | " + Messages.get("com.example.appName"));
+        UI.getCurrent()
+                .getPage()
+                .setTitle(Messages.get("com.example.issues.projects") + " | " + Messages.get("com.example.appName"));
 
         Span viewTitle = new Span(Messages.get("com.example.issues.projects"));
         viewTitle.addClassName("view-title");
 
         Grid<Project> grid = new Grid<>();
         grid.addColumn(Project::getName).setHeader(Messages.get("com.example.issues.name"));
-        grid.addComponentColumn(p -> new Button(null, VaadinIcon.EDIT.create(),
+        grid.addComponentColumn(p -> new Button(null,
+                VaadinIcon.EDIT.create(),
                 e -> UI.getCurrent().navigate(EditProjectView.class, p.getId())));
         grid.setItems(projectService.findAll());
 
