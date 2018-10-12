@@ -1,5 +1,6 @@
 package com.example.webapp.ui;
 
+import com.example.api.ui.MainLayout;
 import com.example.api.ui.Messages;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.UI;
@@ -12,16 +13,18 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.ErrorParameter;
 import com.vaadin.flow.router.HasErrorParameter;
+import com.vaadin.flow.router.ParentLayout;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDateTime;
 
+@ParentLayout(MainLayout.class)
 @HtmlImport("/frontend/styles/shared-styles.html")
-public class ErrorView extends Composite<VerticalLayout> implements HasErrorParameter<Exception> {
+public class InternalServerErrorView extends Composite<VerticalLayout> implements HasErrorParameter<Exception> {
 
-    private static final Logger logger = LoggerFactory.getLogger(ErrorView.class);
+    private static final Logger logger = LoggerFactory.getLogger(InternalServerErrorView.class);
 
     @Override
     public int setErrorParameter(BeforeEnterEvent beforeEnterEvent, ErrorParameter<Exception> errorParameter) {
