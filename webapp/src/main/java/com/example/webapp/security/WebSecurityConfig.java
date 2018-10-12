@@ -74,6 +74,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(
                     "/VAADIN/**",
                     "/frontend/**",
+                    "/frontend-es5/**",
+                    "/frontend-es6/**",
                     "/favicon.ico"
                 ).permitAll();
 
