@@ -65,7 +65,8 @@ public class IssuesModule implements BusinessAppModule {
         if (!projects.isEmpty()) {
             long projectId = session.getProjectId();
             Optional<Project> project = projects.stream().filter(p -> p.getId().equals(projectId)).findFirst();
-            projectsSelector.setValue(project.orElse(projects.get(0)));
+            projectsSelector.getElement().setProperty("value", project.orElse(projects.get(0)).getName());
+            projectsSelector.getElement().setProperty("selectedItem", project.orElse(projects.get(0)).getName());
         }
     }
 
