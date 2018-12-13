@@ -6,6 +6,8 @@ server:
 
 spring.jackson.serialization.write_dates_as_timestamps: false
 
+# issues module auth:
+
 webapp:
   mainview.navigateTo: issues
   access:
@@ -22,7 +24,7 @@ webapp:
     com.example.issues.users.ui.CreateUserView: hasRole('ADMIN')
 
 # hello-world module auth:
-#webapp.access.com.example.helloworld.ui.HelloWorldView: isAuthenticated()
+webapp.access.com.example.helloworld.ui.HelloWorldView: isAuthenticated()
 
 # File-based H2:
 #spring.datasource.url: jdbc:h2:file:~/h2-databases/business-app;DB_CLOSE_ON_EXIT: FALSE;DATABASE_TO_UPPER: false

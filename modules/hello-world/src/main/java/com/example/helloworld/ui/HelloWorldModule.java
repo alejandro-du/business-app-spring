@@ -2,6 +2,7 @@ package com.example.helloworld.ui;
 
 import com.example.common.BusinessAppModule;
 import com.example.common.ui.UIConfiguration;
+import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.spring.annotation.SpringComponent;
 import com.vaadin.flow.spring.annotation.VaadinSessionScope;
@@ -18,6 +19,7 @@ public class HelloWorldModule implements BusinessAppModule {
 
     @Override
     public void initialize() {
+        uiConfiguration.addHeaderComponent(() -> new Text("Powered by hello-world™"));
         uiConfiguration.addMenuOption(HelloWorldView.class, "Hello, World", VaadinIcon.GLOBE_WIRE);
     }
 

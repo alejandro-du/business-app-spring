@@ -65,8 +65,7 @@ public class IssuesModule implements BusinessAppModule {
         if (!projects.isEmpty()) {
             long projectId = session.getProjectId();
             Optional<Project> project = projects.stream().filter(p -> p.getId().equals(projectId)).findFirst();
-            projectsSelector.getElement().setProperty("value", project.orElse(projects.get(0)).getName());
-            projectsSelector.getElement().setProperty("selectedItem", project.orElse(projects.get(0)).getName());
+            projectsSelector.setValue(project.orElse(projects.get(0)));
         }
     }
 
@@ -79,6 +78,7 @@ public class IssuesModule implements BusinessAppModule {
     private void addHeaderOptions() {
         uiConfiguration.addHeaderComponent(() -> {
             projectsSelector = new ComboBox<>(null);
+            projectsSelector.addClassName("no-clear-button");
             projectsSelector.setItemLabelGenerator(Project::getName);
             updateProjectsSelector();
             projectsSelector.addValueChangeListener(e -> selectProject(e.getValue()));

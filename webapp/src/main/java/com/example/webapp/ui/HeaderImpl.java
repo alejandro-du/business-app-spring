@@ -28,9 +28,7 @@ public class HeaderImpl extends Composite<HorizontalLayout> implements Header {
         this.authenticationService = authenticationService;
 
         Image logo = new Image("/frontend/images/app-logo.png", "App logo");
-        logo.addClassName("header-logo");
         Span appName = new Span(Messages.get("com.example.appName"));
-        appName.addClassName("header-app-name");
 
         contentLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.END);
         contentLayout.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.CENTER);
@@ -38,9 +36,12 @@ public class HeaderImpl extends Composite<HorizontalLayout> implements Header {
         getContent().add(logo, appName, contentLayout, signOutLayout);
         getContent().setFlexGrow(1, contentLayout);
         getContent().setVerticalComponentAlignment(FlexComponent.Alignment.CENTER, signOutLayout);
-        getContent().addClassName("header");
         getContent().setWidth("100%");
         getContent().setAlignSelf(FlexComponent.Alignment.CENTER, appName);
+
+        getContent().addClassName("header");
+        logo.addClassName("header-logo");
+        appName.addClassName("header-app-name");
     }
 
     @PostConstruct

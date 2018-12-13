@@ -18,8 +18,8 @@ public class MainMenuImpl extends Composite<VerticalLayout> implements MainMenu 
 
     public MainMenuImpl() {
         getContent().setSizeUndefined();
-        getContent().addClassName("main-menu");
         getContent().setMargin(false);
+        getContent().addClassName("main-menu");
     }
 
     @Override

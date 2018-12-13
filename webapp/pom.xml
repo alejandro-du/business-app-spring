@@ -41,11 +41,11 @@
         </dependency>-->
 
         <!-- functional modules -->
-        <!--<dependency>
+        <dependency>
             <groupId>com.example</groupId>
             <artifactId>hello-world</artifactId>
             <version>1.0-SNAPSHOT</version>
-        </dependency>-->
+        </dependency>
         <dependency>
             <groupId>com.example</groupId>
             <artifactId>issues</artifactId>

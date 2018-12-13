@@ -25,7 +25,7 @@ import java.util.Locale;
 @UIScope
 @Primary
 @HtmlImport("/frontend/styles/shared-styles.html")
-@HtmlImport("/frontend/styles/main-menu-styles.html")
+@HtmlImport("/frontend/styles/main-layout-styles.html")
 @Push
 public class MainLayoutImpl extends Composite<VerticalLayout> implements MainLayout {
 
