@@ -68,7 +68,6 @@ public class CreateProjectView extends Composite<VerticalLayout> {
 
         VerticalLayout formLayout = new VerticalLayout(viewTitle, name, membersLabel, grid, create);
         formLayout.setPadding(false);
-        formLayout.setMargin(false);
 
         Div mainLayout = new Div(formLayout);
         mainLayout.setWidth("100%");

@@ -68,7 +68,6 @@ public class CreateIssueView extends Composite<VerticalLayout> {
                 authorizationService.secureComponent(owner, Role.ADMIN, Role.DEVELOPER),
                 create);
         formLayout.setPadding(false);
-        formLayout.setMargin(false);
         formLayout.setAlignSelf(FlexComponent.Alignment.END, owner, create);
 
         Div mainLayout = new Div(formLayout);

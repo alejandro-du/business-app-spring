@@ -47,13 +47,11 @@ public class MainLayoutImpl extends Composite<VerticalLayout> implements MainLay
 
         this.uiConfiguration.getMenuOptions().stream().forEach(mainMenu::addOption);
 
-        contentLayout.setMargin(false);
         contentLayout.setPadding(false);
         contentLayout.setSpacing(false);
 
         HorizontalLayout horizontalLayout = new HorizontalLayout((Component) mainMenu, contentLayout);
         horizontalLayout.setSizeFull();
-        horizontalLayout.setMargin(false);
         horizontalLayout.setPadding(false);
         horizontalLayout.setSpacing(false);
 

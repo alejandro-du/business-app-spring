@@ -90,7 +90,6 @@ public class EditProjectView extends Composite<VerticalLayout> implements HasUrl
 
         VerticalLayout formLayout = new VerticalLayout(viewTitle, name, membersLabel, grid, actionsLayout);
         formLayout.setPadding(false);
-        formLayout.setMargin(false);
 
         Div mainLayout = new Div(formLayout);
         mainLayout.setWidth("100%");

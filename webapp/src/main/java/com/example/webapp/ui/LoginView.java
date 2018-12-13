@@ -71,7 +71,6 @@ public class LoginView extends Composite<VerticalLayout> {
         getContent().setSizeFull();
         getContent().setFlexGrow(1, contentLayout);
         getContent().setPadding(false);
-        getContent().setMargin(false);
         getContent().setAlignSelf(FlexComponent.Alignment.CENTER, contentLayout);
 
         email.focus();
