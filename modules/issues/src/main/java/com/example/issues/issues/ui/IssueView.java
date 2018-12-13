@@ -48,9 +48,9 @@ public class IssueView extends Composite<VerticalLayout> implements HasUrlParame
                 Messages.get("com.example.issues.status") + ": " + Messages.get(issue.getStatus().getNameProperty()));
         status.addClassName("issue-view-status");
         if (Status.OPEN.equals(issue.getStatus())) {
-            status.addClassName("green");
-        } else {
             status.addClassName("red");
+        } else {
+            status.addClassName("green");
         }
 
         Span owner = new Span(Messages.get("com.example.issues.owner") + ": " +

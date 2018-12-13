@@ -12,6 +12,7 @@ import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.page.Push;
 import com.vaadin.flow.function.SerializableSupplier;
 import com.vaadin.flow.server.VaadinService;
 import com.vaadin.flow.spring.annotation.SpringComponent;
@@ -25,6 +26,7 @@ import java.util.Locale;
 @Primary
 @HtmlImport("/frontend/styles/shared-styles.html")
 @HtmlImport("/frontend/styles/main-menu-styles.html")
+@Push
 public class MainLayoutImpl extends Composite<VerticalLayout> implements MainLayout {
 
     private final UIConfiguration uiConfiguration;
