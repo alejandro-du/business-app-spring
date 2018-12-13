@@ -32,14 +32,14 @@ public class Application {
             PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
             Resource[] resources = resolver.getResources("classpath*:/i18n/**-messages**.properties");
 
-            String[] basenames = Arrays.stream(resources)
+            String[] baseNames = Arrays.stream(resources)
                     .map(Resource::getFilename)
                     .map(fileName -> fileName.substring(0, fileName.indexOf("-messages")))
                     .map(baseName -> "classpath:/i18n/" + baseName + "-messages")
                     .collect(Collectors.toSet())
                     .toArray(new String[0]);
 
-            messageSource.setBasenames(basenames);
+            messageSource.setBasenames(baseNames);
         } catch (IOException e) {
             e.printStackTrace();
         }

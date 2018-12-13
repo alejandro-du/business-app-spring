@@ -10,7 +10,7 @@ import com.vaadin.flow.router.Route;
 public class HelloWorldView extends Composite<VerticalLayout> {
 
     public HelloWorldView() {
-        getContent().add(new Text("It works!"));
+        getContent().add(new Text("Hello, World!"));
     }
 
 }

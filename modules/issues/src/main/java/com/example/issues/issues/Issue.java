@@ -3,8 +3,6 @@ package com.example.issues.issues;
 import com.example.common.domain.BusinessAppEntity;
 import com.example.common.domain.User;
 import com.example.issues.projects.Project;
-import lombok.Getter;
-import lombok.Setter;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.Entity;
@@ -17,8 +15,6 @@ import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
 @Entity
-@Getter
-@Setter
 public class Issue extends BusinessAppEntity {
 
     @NotNull
@@ -47,5 +43,61 @@ public class Issue extends BusinessAppEntity {
     @NotNull
     @Where(clause = "deleted = false")
     private Project project;
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
+    }
+
+    public User getReporter() {
+        return reporter;
+    }
+
+    public void setReporter(User reporter) {
+        this.reporter = reporter;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
+    }
 
 }
