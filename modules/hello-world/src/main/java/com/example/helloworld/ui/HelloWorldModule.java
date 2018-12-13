@@ -1,7 +1,7 @@
 package com.example.helloworld.ui;
 
-import com.example.api.BusinessAppModule;
-import com.example.api.ui.UIConfiguration;
+import com.example.common.BusinessAppModule;
+import com.example.common.ui.UIConfiguration;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.spring.annotation.SpringComponent;
 import com.vaadin.flow.spring.annotation.VaadinSessionScope;

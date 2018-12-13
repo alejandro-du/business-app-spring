@@ -1,6 +1,6 @@
-package com.example.api.ui;
+package com.example.common.ui;
 
-import com.example.api.service.AuthorizationService;
+import com.example.common.service.AuthorizationService;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.function.SerializableSupplier;

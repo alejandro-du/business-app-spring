@@ -1,4 +1,4 @@
-package com.example.api.domain;
+package com.example.common.domain;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

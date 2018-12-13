@@ -1,7 +1,7 @@
 package com.example.webapp.ui;
 
-import com.example.api.ui.MainMenu;
-import com.example.api.ui.MenuOption;
+import com.example.common.ui.MainMenu;
+import com.example.common.ui.MenuOption;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.icon.VaadinIcon;

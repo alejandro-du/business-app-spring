@@ -1,8 +1,8 @@
-package com.example.api.service;
+package com.example.common.service;
 
-import com.example.api.domain.Role;
-import com.example.api.domain.User;
-import com.example.api.domain.UserRepository;
+import com.example.common.domain.Role;
+import com.example.common.domain.User;
+import com.example.common.domain.UserRepository;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;

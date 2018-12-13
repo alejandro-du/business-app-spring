@@ -1,6 +1,6 @@
-package com.example.api.service;
+package com.example.common.service;
 
-import com.example.api.domain.User;
+import com.example.common.domain.User;
 import com.vaadin.flow.component.HasValidation;
 import com.vaadin.flow.spring.annotation.SpringComponent;
 

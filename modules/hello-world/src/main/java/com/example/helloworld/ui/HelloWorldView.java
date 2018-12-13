@@ -1,6 +1,6 @@
 package com.example.helloworld.ui;
 
-import com.example.api.ui.MainLayout;
+import com.example.common.ui.MainLayout;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;

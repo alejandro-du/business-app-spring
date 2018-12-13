@@ -1,7 +1,7 @@
 package com.example.issues.users;
 
-import com.example.api.domain.Role;
-import com.example.api.domain.User;
+import com.example.common.domain.Role;
+import com.example.common.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

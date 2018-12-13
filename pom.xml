@@ -34,7 +34,7 @@
     </repositories>
 
     <modules>
-        <module>api</module>
+        <module>common</module>
         <module>webapp</module>
         <module>modules</module>
     </modules>

@@ -1,8 +1,8 @@
 package com.example.issues.projects.ui;
 
-import com.example.api.domain.User;
-import com.example.api.ui.MainLayout;
-import com.example.api.ui.Messages;
+import com.example.common.domain.User;
+import com.example.common.ui.MainLayout;
+import com.example.common.ui.Messages;
 import com.example.issues.IssuesModule;
 import com.example.issues.projects.Project;
 import com.example.issues.projects.ProjectService;

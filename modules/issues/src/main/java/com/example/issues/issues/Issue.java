@@ -1,7 +1,7 @@
 package com.example.issues.issues;
 
-import com.example.api.domain.BusinessAppEntity;
-import com.example.api.domain.User;
+import com.example.common.domain.BusinessAppEntity;
+import com.example.common.domain.User;
 import com.example.issues.projects.Project;
 import lombok.Getter;
 import lombok.Setter;

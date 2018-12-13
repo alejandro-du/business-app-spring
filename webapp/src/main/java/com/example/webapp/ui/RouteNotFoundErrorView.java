@@ -1,6 +1,6 @@
 package com.example.webapp.ui;
 
-import com.example.api.ui.Messages;
+import com.example.common.ui.Messages;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.dependency.HtmlImport;

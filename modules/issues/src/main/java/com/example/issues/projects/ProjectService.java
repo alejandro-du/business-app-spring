@@ -1,6 +1,6 @@
 package com.example.issues.projects;
 
-import com.example.api.domain.UserRepository;
+import com.example.common.domain.UserRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

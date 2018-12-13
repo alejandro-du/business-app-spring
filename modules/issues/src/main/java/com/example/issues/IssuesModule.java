@@ -1,10 +1,10 @@
 package com.example.issues;
 
-import com.example.api.BusinessAppModule;
-import com.example.api.domain.User;
-import com.example.api.service.AuthenticationService;
-import com.example.api.ui.Messages;
-import com.example.api.ui.UIConfiguration;
+import com.example.common.BusinessAppModule;
+import com.example.common.domain.User;
+import com.example.common.service.AuthenticationService;
+import com.example.common.ui.Messages;
+import com.example.common.ui.UIConfiguration;
 import com.example.issues.issues.Session;
 import com.example.issues.issues.ui.CreateIssueView;
 import com.example.issues.issues.ui.IssuesView;

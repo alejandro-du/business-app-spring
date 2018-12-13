@@ -1,4 +1,4 @@
-package com.example.api.ui;
+package com.example.common.ui;
 
 import com.vaadin.flow.router.RouterLayout;
 import com.vaadin.flow.theme.Theme;

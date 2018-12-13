@@ -1,4 +1,4 @@
-package com.example.api.domain;
+package com.example.common.domain;
 
 public enum Role {
 

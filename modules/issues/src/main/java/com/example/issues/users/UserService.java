@@ -1,7 +1,7 @@
 package com.example.issues.users;
 
-import com.example.api.domain.Role;
-import com.example.api.domain.User;
+import com.example.common.domain.Role;
+import com.example.common.domain.User;
 import com.example.issues.issues.Session;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;

@@ -1,9 +1,9 @@
 package com.example.issues.issues.ui;
 
-import com.example.api.domain.Role;
-import com.example.api.service.AuthorizationService;
-import com.example.api.ui.MainLayout;
-import com.example.api.ui.Messages;
+import com.example.common.domain.Role;
+import com.example.common.service.AuthorizationService;
+import com.example.common.ui.MainLayout;
+import com.example.common.ui.Messages;
 import com.example.issues.issues.Issue;
 import com.example.issues.issues.IssueService;
 import com.example.issues.issues.Status;

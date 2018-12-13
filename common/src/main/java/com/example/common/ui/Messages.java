@@ -1,4 +1,4 @@
-package com.example.api.ui;
+package com.example.common.ui;
 
 import com.vaadin.flow.server.VaadinService;
 import org.springframework.context.MessageSource;

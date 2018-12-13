@@ -1,8 +1,8 @@
 package com.example.webapp.ui;
 
-import com.example.api.service.AuthenticationService;
-import com.example.api.ui.Header;
-import com.example.api.ui.Messages;
+import com.example.common.service.AuthenticationService;
+import com.example.common.ui.Header;
+import com.example.common.ui.Messages;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.html.Anchor;

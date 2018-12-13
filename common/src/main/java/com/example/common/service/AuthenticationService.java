@@ -1,8 +1,8 @@
-package com.example.api.service;
+package com.example.common.service;
 
-import com.example.api.BusinessAppModule;
-import com.example.api.domain.User;
-import com.example.api.domain.UserRepository;
+import com.example.common.BusinessAppModule;
+import com.example.common.domain.User;
+import com.example.common.domain.UserRepository;
 import com.vaadin.flow.server.VaadinSession;
 import org.springframework.context.ApplicationContext;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
