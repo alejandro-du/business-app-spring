@@ -37,7 +37,7 @@
     <modules>
         <module>common</module>
         <module>webapp</module>
-        <module>modules</module>
+        <module>functional-modules</module>
     </modules>
 
 </project>
