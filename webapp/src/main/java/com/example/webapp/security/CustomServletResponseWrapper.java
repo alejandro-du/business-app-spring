@@ -9,9 +9,9 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 
 public class CustomServletResponseWrapper extends HttpServletResponseWrapper {
+
     private final ByteArrayOutputStream master = new ByteArrayOutputStream();
     private final ByteArrayOutputStream branch = new ByteArrayOutputStream();
-
     private final PrintWriter printWriter = new PrintWriter(master);
 
     public CustomServletResponseWrapper(HttpServletResponse response) {

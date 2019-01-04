@@ -1,11 +1,13 @@
 package com.example.webapp.security;
 
+import com.example.common.service.AuthenticationService;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.Router;
 import com.vaadin.flow.server.ServletHelper;
 import com.vaadin.flow.shared.ApplicationConstants;
 import com.vaadin.flow.shared.JsonConstants;
 import elemental.json.JsonArray;
+import elemental.json.JsonObject;
 import elemental.json.impl.JsonUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -91,6 +93,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // @formatter:on
     }
 
+    private void reauthenticateUser() {
+        AuthenticationService authenticationService = applicationContext.getBean(AuthenticationService.class);
+        authenticationService.reAuthenticateCurrentUser();
+    }
+
     private Filter getAuthFilter() {
         return new GenericFilterBean() {
 
@@ -99,15 +106,40 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                                  ServletResponse servletResponse,
                                  FilterChain filterChain) throws IOException, ServletException {
                 HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
+                HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
 
                 boolean isRequestToRoot = httpServletRequest.getRequestURI().equals("/");
-                if (!isVaadinFlowRequest(httpServletRequest) && !isRequestToRoot) {
+                boolean isVaadinFlowRequest = isVaadinFlowRequest(httpServletRequest);
+
+                if (!isVaadinFlowRequest && !isRequestToRoot) {
                     filterChain.doFilter(servletRequest, servletResponse);
                 } else {
-                    HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
+                    reauthenticateUser();
+                    CustomServletRequestWrapper wrappedRequest = new CustomServletRequestWrapper(httpServletRequest);
+                    String input = wrappedRequest.getBody();
+
+                    if (input.contains("rpc") && input.contains("navigation")) {
+                        JsonObject jsonObject = JsonUtil.parse(input);
+                        JsonArray rpcArray = jsonObject.getArray("rpc");
+                        rpcArray.length();
+                        for (int i = 0; i < rpcArray.length(); i++) {
+                            JsonObject rpcObject = rpcArray.getObject(i);
+                            String type = rpcObject.getString("type");
+                            if ("navigation".equals(type)) {
+                                String location = rpcObject.getString("location");
+                                if (!userCanAcess(location)) {
+                                    String response = getRedirectToLoginResponse();
+                                    servletResponse.getWriter().write(response);
+                                    servletResponse.setContentLength(response.length());
+                                    return;
+                                }
+                            }
+                        }
+                    }
+
                     CustomServletResponseWrapper wrappedResponse =
                             new CustomServletResponseWrapper(httpServletResponse);
-                    filterChain.doFilter(servletRequest, wrappedResponse);
+                    filterChain.doFilter(wrappedRequest, wrappedResponse);
                     String output = wrappedResponse.getBranchOutput();
 
                     if (wrappedResponse.getContentType() != null &&
@@ -115,7 +147,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         if (checkFromJsonResponse(servletResponse, output)) {
                             return;
                         }
-                    } else if (StringUtils.containsAny(output, "history.pushState", "execute")) {
+                    } else if (StringUtils.containsAny(output, "history.pushState")) {
                         int pushStatePosition = output.indexOf("history.pushState");
                         String firstPart = output.substring(0, pushStatePosition);
                         String lastPart = output.substring(pushStatePosition);
@@ -164,13 +196,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private boolean checkExecuteElement(JsonArray array) {
         if (array.length() == 3 && array.getString(2).startsWith("history.pushState") && array.getString(1) != null &&
                 !array.getString(1).isEmpty()) {
-            String location = "/" + array.getString(1);
-            WebInvocationPrivilegeEvaluator privilegeEvaluator =
-                    applicationContext.getBean(WebInvocationPrivilegeEvaluator.class);
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            return !privilegeEvaluator.isAllowed(location, authentication);
+            String location = array.getString(1);
+            return !userCanAcess(location);
         }
         return false;
+    }
+
+    private boolean userCanAcess(String location) {
+        WebInvocationPrivilegeEvaluator privilegeEvaluator =
+                applicationContext.getBean(WebInvocationPrivilegeEvaluator.class);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return privilegeEvaluator.isAllowed("/" + location, authentication);
     }
 
     private String getRedirectToLoginResponse() {

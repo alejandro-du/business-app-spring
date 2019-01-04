@@ -2,15 +2,15 @@ package com.example.usermanagement.ui;
 
 import com.example.common.domain.Role;
 import com.example.common.domain.User;
-import com.example.common.service.AuthorizationService;
+import com.example.common.service.UserService;
 import com.example.common.service.ValidationService;
 import com.example.common.ui.ConfirmDialog;
 import com.example.common.ui.MainLayout;
 import com.example.common.ui.Messages;
-import com.example.common.service.UserService;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Span;
@@ -37,15 +37,13 @@ public class EditUserView extends Composite<VerticalLayout> implements HasUrlPar
     private ComboBox<Role> role = new ComboBox<>(Messages.get("com.example.issues.role"), Role.values());
 
     private final UserService userService;
-    private final AuthorizationService authorizationService;
     private final ValidationService validationService;
 
     private BeanValidationBinder<User> binder = new BeanValidationBinder<>(User.class);
     private String originalPassword;
 
-    public EditUserView(UserService userService, AuthorizationService authorizationService, ValidationService validationService) {
+    public EditUserView(UserService userService, ValidationService validationService) {
         this.userService = userService;
-        this.authorizationService = authorizationService;
         this.validationService = validationService;
 
         UI.getCurrent()
@@ -75,7 +73,7 @@ public class EditUserView extends Composite<VerticalLayout> implements HasUrlPar
         formLayout.setWidth("100%");
 
         Button delete = new Button(Messages.get("com.example.issues.delete"), e -> delete(user));
-        delete.getElement().setAttribute("theme", "error");
+        delete.addThemeVariants(ButtonVariant.LUMO_ERROR);
 
         Button save = new Button(Messages.get("com.example.issues.save"), e -> save(user));
         save.getElement().setAttribute("theme", "primary");
@@ -103,11 +101,7 @@ public class EditUserView extends Composite<VerticalLayout> implements HasUrlPar
                 e -> {
                     Long userId = user.getId();
                     userService.delete(userService.find(userId).get());
-                    if (authorizationService.getAuthenticatedUser().get().getId().equals(userId)) {
-                        UI.getCurrent().getPage().executeJavaScript("window.location='/logout'");
-                    } else {
-                        UI.getCurrent().navigate(UsersView.class);
-                    }
+                    UI.getCurrent().navigate(UsersView.class);
                 }).open();
     }
 

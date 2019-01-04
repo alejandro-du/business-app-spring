@@ -28,7 +28,6 @@ public class MainMenuImpl extends Composite<VerticalLayout> implements MainMenu 
 
     @Override
     public void addOption(MenuOption option) {
-
         HorizontalLayout optionLayout = new HorizontalLayout(
                 option.getIcon().create(),
                 new RouterLink(option.getText(), option.getViewClass())

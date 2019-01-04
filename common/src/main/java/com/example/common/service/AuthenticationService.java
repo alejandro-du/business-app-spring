@@ -1,6 +1,7 @@
 package com.example.common.service;
 
 import com.example.common.BusinessAppModule;
+import com.example.common.domain.Role;
 import com.example.common.domain.User;
 import com.example.common.domain.UserRepository;
 import com.vaadin.flow.server.VaadinSession;
@@ -14,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
+import java.util.Optional;
 
 @Component
 public class AuthenticationService {
@@ -39,7 +41,7 @@ public class AuthenticationService {
             UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
                     user.getId(),
                     user.getPassword(),
-                    AuthorityUtils.createAuthorityList("ROLE_" + user.getRole().toString())
+                    AuthorityUtils.createAuthorityList(getAuthority(user.getRole()))
             );
             SecurityContextHolder.getContext().setAuthentication(token);
             VaadinSession.getCurrent().setAttribute(USER_ID_SESSION_KEY, user.getId());
@@ -51,9 +53,33 @@ public class AuthenticationService {
         return false;
     }
 
+    private String getAuthority(Role role) {
+        return "ROLE_" + role.toString();
+    }
+
+    public void reAuthenticateCurrentUser() {
+        if (isAuthenticated()) {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            Long userId = (Long) authentication.getPrincipal();
+            Optional<User> user = userRepository.findById(userId);
+            if (user.isPresent()) {
+                Optional<String> authority =
+                        authentication.getAuthorities().stream().map(a -> a.getAuthority()).findFirst();
+                if (authority.isPresent()) {
+                    UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
+                            userId,
+                            authentication.getCredentials(),
+                            AuthorityUtils.createAuthorityList(getAuthority(user.get().getRole()))
+                    );
+                    SecurityContextHolder.getContext().setAuthentication(token);
+                }
+            }
+        }
+    }
+
     public boolean isAuthenticated() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return authentication.isAuthenticated() &&
+        return authentication != null && authentication.isAuthenticated() &&
                 !AnonymousAuthenticationToken.class.isAssignableFrom(authentication.getClass());
     }
 
