@@ -4,6 +4,7 @@ import com.example.common.BusinessAppModule;
 import com.example.common.domain.Role;
 import com.example.common.domain.User;
 import com.example.common.domain.UserRepository;
+import com.example.common.ui.UIConfiguration;
 import com.vaadin.flow.server.VaadinSession;
 import org.springframework.context.ApplicationContext;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -84,6 +85,7 @@ public class AuthenticationService {
     }
 
     private void initModules() {
+        applicationContext.getBean(UIConfiguration.class).clear();
         Map<String, BusinessAppModule> modules = applicationContext.getBeansOfType(BusinessAppModule.class);
         modules.entrySet().stream().map(entry -> entry.getValue()).forEach(BusinessAppModule::initialize);
     }

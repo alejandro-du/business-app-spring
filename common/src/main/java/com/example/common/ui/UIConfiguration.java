@@ -44,4 +44,9 @@ public class UIConfiguration {
         return headerComponentSuppliers;
     }
 
+    public void clear() {
+        menuOptions.clear();
+        headerComponentSuppliers.clear();
+    }
+
 }
