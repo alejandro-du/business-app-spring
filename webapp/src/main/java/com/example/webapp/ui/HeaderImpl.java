@@ -6,6 +6,7 @@ import com.example.common.ui.Messages;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -48,6 +49,7 @@ public class HeaderImpl extends Composite<HorizontalLayout> implements Header {
             }
         });
 
+        toggleMenuButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
         toggleMenuButton.addClassName("toggle-menu-button");
 
         mainMenuElement.addEventListener("click", e -> {

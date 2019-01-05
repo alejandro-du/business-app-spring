@@ -12,6 +12,7 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
+import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -45,17 +46,14 @@ public class IssuesView extends Composite<VerticalLayout> {
         title.setPlaceholder(Messages.get("com.example.issues.title"));
         title.setWidth("100%");
         title.addValueChangeListener(e -> refreshGrid());
-        title.setSizeFull();
 
         reporter.setPlaceholder(Messages.get("com.example.issues.reporter"));
         reporter.setWidth("100%");
         reporter.addValueChangeListener(e -> refreshGrid());
-        reporter.setSizeFull();
 
         owner.setPlaceholder(Messages.get("com.example.issues.owner"));
         owner.setWidth("100%");
         owner.addValueChangeListener(e -> refreshGrid());
-        owner.setSizeFull();
 
         status.setValue(Status.OPEN);
         status.setPlaceholder(Messages.get("com.example.issues.status"));
@@ -66,8 +64,13 @@ public class IssuesView extends Composite<VerticalLayout> {
         date.setPlaceholder(Messages.get("com.example.issues.date"));
         date.setWidth("100%");
 
-        HorizontalLayout filterLayout = new HorizontalLayout(title, owner, reporter, status, date);
+        FormLayout filterLayout = new FormLayout(title, owner, reporter, status, date);
         filterLayout.setWidth("100%");
+        filterLayout.setResponsiveSteps(new FormLayout.ResponsiveStep("0", 2),
+                new FormLayout.ResponsiveStep("800px", 3),
+                new FormLayout.ResponsiveStep("1350px", 5)
+        );
+
         grid.addColumn(i -> "#" + i.getId()).setFlexGrow(0);
         grid.addColumn(Issue::getTitle).setHeader(Messages.get("com.example.issues.title")).setFlexGrow(1);
         grid.addColumn(i -> i.getOwner() != null ? i.getOwner().getName() : "")

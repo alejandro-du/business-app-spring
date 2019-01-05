@@ -9,6 +9,7 @@ import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
+import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -49,12 +50,8 @@ public class UsersView extends Composite<VerticalLayout> {
 
         RouterLink createNew = new RouterLink(Messages.get("com.example.issues.create"), CreateUserView.class);
 
-        HorizontalLayout actionsLayout = new HorizontalLayout(VaadinIcon.PLUS.create(), createNew);
-        actionsLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.END);
-
-        HorizontalLayout filterLayout = new HorizontalLayout(name, role, actionsLayout);
+        FormLayout filterLayout = new FormLayout(name, role);
         filterLayout.setWidth("100%");
-        filterLayout.setFlexGrow(1, actionsLayout);
 
         grid.addColumn(User::getName).setHeader(Messages.get("com.example.issues.name"));
         grid.addColumn(User::getEmail).setHeader(Messages.get("com.example.issues.email"));
@@ -64,7 +61,10 @@ public class UsersView extends Composite<VerticalLayout> {
                 e -> UI.getCurrent().navigate(EditUserView.class, u.getId())
         ));
 
-        getContent().add(viewTitle, filterLayout, grid);
+        HorizontalLayout actionsLayout = new HorizontalLayout(VaadinIcon.PLUS.create(), createNew);
+        actionsLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.END);
+
+        getContent().add(viewTitle, filterLayout, grid, actionsLayout);
         getContent().setSizeFull();
 
         refreshGrid();
