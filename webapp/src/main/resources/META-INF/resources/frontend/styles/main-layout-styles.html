@@ -31,20 +31,33 @@
 
         @media (max-width: 550px) {
             .header {
-                display: none;
                 overflow: visible;
+                display: block;
             }
 
             .header-content {
                 flex-direction: column;
+                display: none;
             }
 
             .toggle-menu-button {
-                display: block;
+                display: inline-block;
                 margin-right: 0.5em;
             }
 
-            .header-app-name, .header-logo, .main-menu {
+            .header-app-name {
+                font-size: 1.2em;
+                vertical-align: middle;
+            }
+
+            .header-logo {
+                width: 2em;
+                height: 2em;
+                margin-left: 0em;
+                vertical-align: middle;
+            }
+
+            .main-menu {
                 display: none;
             }
         }

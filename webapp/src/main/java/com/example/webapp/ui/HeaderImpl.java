@@ -1,14 +1,18 @@
 package com.example.webapp.ui;
 
-import com.example.common.service.AuthenticationService;
 import com.example.common.ui.Header;
+import com.example.common.ui.MainMenu;
 import com.example.common.ui.Messages;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Composite;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.dom.Element;
+import com.vaadin.flow.dom.Style;
 import com.vaadin.flow.spring.annotation.SpringComponent;
 import com.vaadin.flow.spring.annotation.UIScope;
 
@@ -16,11 +20,9 @@ import com.vaadin.flow.spring.annotation.UIScope;
 @UIScope
 public class HeaderImpl extends Composite<HorizontalLayout> implements Header {
 
-
-
     private HorizontalLayout contentLayout = new HorizontalLayout();
 
-    public HeaderImpl(AuthenticationService authenticationService) {
+    public HeaderImpl(MainMenu mainMenu) {
         Image logo = new Image("/frontend/images/app-logo.png", "App logo");
         Span appName = new Span(Messages.get("com.example.appName"));
 
@@ -28,10 +30,36 @@ public class HeaderImpl extends Composite<HorizontalLayout> implements Header {
         contentLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.END);
         contentLayout.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.CENTER);
 
-        getContent().add(logo, appName, contentLayout);
+        Element mainMenuElement = ((Component) mainMenu).getElement();
+
+        Style mainMenuStyle = mainMenuElement.getStyle();
+        Style contentStyle = contentLayout.getElement().getStyle();
+
+        Button toggleMenuButton = new Button(VaadinIcon.MENU.create(), event -> {
+            String currentDisplay = mainMenuStyle.get("display");
+
+            if (currentDisplay == null) {
+                mainMenuStyle.set("display", "block");
+                contentStyle.set("display", "flex");
+
+            } else {
+                mainMenuStyle.remove("display");
+                contentStyle.remove("display");
+            }
+        });
+
+        toggleMenuButton.addClassName("toggle-menu-button");
+
+        mainMenuElement.addEventListener("click", e -> {
+            if (toggleMenuButton.isVisible()) {
+                mainMenuStyle.remove("display");
+                contentStyle.remove("display");
+            }
+        });
+
+        getContent().add(toggleMenuButton, logo, appName, contentLayout);
         getContent().setFlexGrow(1, contentLayout);
         getContent().setWidth("100%");
-        getContent().setAlignSelf(FlexComponent.Alignment.CENTER, appName);
         getContent().setSpacing(false);
 
         getContent().addClassName("header");

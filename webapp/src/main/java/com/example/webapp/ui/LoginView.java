@@ -59,6 +59,7 @@ public class LoginView extends Composite<VerticalLayout> {
         formLayout.addClassName("login-view-form-layout");
 
         VerticalLayout contentLayout = new VerticalLayout(header, formLayout);
+        contentLayout.addClassName("login-content");
         contentLayout.setPadding(false);
         contentLayout.setAlignItems(FlexComponent.Alignment.CENTER);
         contentLayout.setWidth(null);
@@ -72,7 +73,6 @@ public class LoginView extends Composite<VerticalLayout> {
         getContent().setSizeFull();
         getContent().setFlexGrow(1, contentLayout);
         getContent().setPadding(false);
-        getContent().setAlignSelf(FlexComponent.Alignment.CENTER, contentLayout);
 
         email.focus();
         password.addKeyPressListener(Key.ENTER, e -> signIn.click());

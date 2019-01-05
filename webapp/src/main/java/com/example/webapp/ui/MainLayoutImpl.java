@@ -6,16 +6,12 @@ import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.HasElement;
 import com.vaadin.flow.component.UI;
-import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.html.Anchor;
-import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.page.Push;
-import com.vaadin.flow.dom.Element;
-import com.vaadin.flow.dom.Style;
 import com.vaadin.flow.function.SerializableSupplier;
 import com.vaadin.flow.server.VaadinService;
 import com.vaadin.flow.spring.annotation.SpringComponent;
@@ -49,32 +45,6 @@ public class MainLayoutImpl extends Composite<VerticalLayout> implements MainLay
         Locale locale = new Locale(VaadinService.getCurrentRequest().getLocale().getLanguage());
         UI.getCurrent().setLocale(locale);
 
-        Element mainMenuElement = ((Component) mainMenu).getElement();
-
-        Button toggleMenu = new Button(VaadinIcon.MENU.create(), event -> {
-            Style mainMenuStyle = mainMenuElement.getStyle();
-            Style headerStyle = ((Component) header).getElement().getStyle();
-
-            String currentDisplay = mainMenuStyle.get("display");
-            if (currentDisplay == null) {
-                mainMenuStyle.set("display", "block");
-                headerStyle.set("display", "block");
-
-            } else {
-                mainMenuStyle.remove("display");
-                headerStyle.remove("display");
-            }
-        });
-
-        toggleMenu.addClassName("toggle-menu-button");
-
-        mainMenuElement.addEventListener("click", e -> {
-            if (toggleMenu.isVisible()) {
-                mainMenuElement.getStyle().remove("display");
-                ((Component) header).getElement().getStyle().remove("display");
-            }
-        });
-
         if (!this.uiConfiguration.getHeaderComponentSuppliers().isEmpty()) {
             this.uiConfiguration.getHeaderComponentSuppliers()
                     .stream()
@@ -92,7 +62,7 @@ public class MainLayoutImpl extends Composite<VerticalLayout> implements MainLay
         horizontalLayout.setPadding(false);
         horizontalLayout.setSpacing(false);
 
-        getContent().add(toggleMenu, (Component) header, horizontalLayout);
+        getContent().add((Component) header, horizontalLayout);
         getContent().setAlignSelf(FlexComponent.Alignment.CENTER, horizontalLayout);
         getContent().setSizeFull();
         getContent().setPadding(false);
