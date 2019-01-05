@@ -31,10 +31,7 @@ public class InternalServerErrorView extends Composite<VerticalLayout> implement
         LocalDateTime now = LocalDateTime.now();
         logger.error("Error-" + now, errorParameter.getException());
 
-        UI.getCurrent()
-                .getPage()
-                .setTitle(Messages.get("com.example.webapp.error", "Error") + " | " +
-                        Messages.get("com.example.appName", ""));
+        UI.getCurrent().getPage().setTitle(Messages.getPageTitle("com.example.webapp.error"));
 
         H1 title = new H1(Messages.get("com.example.webapp.error", "Error"));
         title.addClassName("red");

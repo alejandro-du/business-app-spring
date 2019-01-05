@@ -39,10 +39,7 @@ public class CreateProjectView extends Composite<VerticalLayout> {
         this.userService = userService;
         this.issuesModule = issuesModule;
 
-        UI.getCurrent()
-                .getPage()
-                .setTitle(
-                        Messages.get("com.example.issues.createProject") + " | " + Messages.get("com.example.appName"));
+        UI.getCurrent().getPage().setTitle(Messages.getPageTitle("com.example.issues.createProject"));
 
         Span viewTitle = new Span(Messages.get("com.example.issues.createProject"));
         viewTitle.addClassName("view-title");

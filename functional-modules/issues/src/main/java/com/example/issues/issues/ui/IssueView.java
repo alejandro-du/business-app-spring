@@ -24,9 +24,7 @@ public class IssueView extends Composite<VerticalLayout> implements HasUrlParame
     public IssueView(IssueService issueService) {
         this.issueService = issueService;
 
-        UI.getCurrent()
-                .getPage()
-                .setTitle(Messages.get("com.example.issues.issue") + " | " + Messages.get("com.example.appName"));
+        UI.getCurrent().getPage().setTitle(Messages.getPageTitle("com.example.issues.issue"));
     }
 
     @Override

@@ -2,10 +2,10 @@ package com.example.usermanagement.ui;
 
 import com.example.common.domain.Role;
 import com.example.common.domain.User;
+import com.example.common.service.UserService;
 import com.example.common.service.ValidationService;
 import com.example.common.ui.MainLayout;
 import com.example.common.ui.Messages;
-import com.example.common.service.UserService;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
@@ -36,9 +36,7 @@ public class CreateUserView extends Composite<VerticalLayout> {
         this.userService = userService;
         this.validationService = validationService;
 
-        UI.getCurrent()
-                .getPage()
-                .setTitle(Messages.get("com.example.issues.createUser") + " | " + Messages.get("com.example.appName"));
+        UI.getCurrent().getPage().setTitle(Messages.getPageTitle("com.example.issues.createUser"));
 
         Span viewTitle = new Span(Messages.get("com.example.issues.createUser"));
         viewTitle.addClassName("view-title");

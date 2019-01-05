@@ -17,9 +17,7 @@ import com.vaadin.flow.router.Route;
 public class ProjectsView extends Composite<VerticalLayout> {
 
     public ProjectsView(ProjectService projectService) {
-        UI.getCurrent()
-                .getPage()
-                .setTitle(Messages.get("com.example.issues.projects") + " | " + Messages.get("com.example.appName"));
+        UI.getCurrent().getPage().setTitle(Messages.getPageTitle("com.example.issues.projects"));
 
         Span viewTitle = new Span(Messages.get("com.example.issues.projects"));
         viewTitle.addClassName("view-title");
@@ -28,7 +26,8 @@ public class ProjectsView extends Composite<VerticalLayout> {
         grid.addColumn(Project::getName).setHeader(Messages.get("com.example.issues.name"));
         grid.addComponentColumn(p -> new Button(null,
                 VaadinIcon.EDIT.create(),
-                e -> UI.getCurrent().navigate(EditProjectView.class, p.getId())));
+                e -> UI.getCurrent().navigate(EditProjectView.class, p.getId())
+        ));
         grid.setItems(projectService.findAll());
 
         getContent().add(viewTitle, grid);

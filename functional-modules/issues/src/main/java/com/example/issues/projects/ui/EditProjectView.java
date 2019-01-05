@@ -45,9 +45,7 @@ public class EditProjectView extends Composite<VerticalLayout> implements HasUrl
         this.userService = userService;
         this.issuesModule = issuesModule;
 
-        UI.getCurrent()
-                .getPage()
-                .setTitle(Messages.get("com.example.issues.editProject") + " | " + Messages.get("com.example.appName"));
+        UI.getCurrent().getPage().setTitle(Messages.getPageTitle("com.example.issues.editProject"));
     }
 
     @Override
@@ -102,14 +100,16 @@ public class EditProjectView extends Composite<VerticalLayout> implements HasUrl
     }
 
     private void delete(Project project) {
-        new ConfirmDialog(Messages.get("com.example.issues.deleteProjectConfirmation"),
+        new ConfirmDialog(
+                Messages.get("com.example.issues.deleteProjectConfirmation"),
                 Messages.get("com.example.issues.yes"),
                 Messages.get("com.example.issues.no"),
                 e -> {
                     projectService.delete(project);
                     issuesModule.updateProjectsSelector();
                     UI.getCurrent().navigate(ProjectsView.class);
-                }).open();
+                }
+        ).open();
     }
 
     private void save(Project project) {

@@ -34,9 +34,7 @@ public class LoginView extends Composite<VerticalLayout> {
     public LoginView(AuthenticationService authenticationService) {
         this.authenticationService = authenticationService;
 
-        UI.getCurrent()
-                .getPage()
-                .setTitle(Messages.get("com.example.webapp.signIn") + " | " + Messages.get("com.example.appName"));
+        UI.getCurrent().getPage().setTitle(Messages.getPageTitle("com.example.webapp.signIn"));
 
         Image logo = new Image("/frontend/images/app-logo.png", "App logo");
         Span appName = new Span(Messages.get("com.example.appName"));

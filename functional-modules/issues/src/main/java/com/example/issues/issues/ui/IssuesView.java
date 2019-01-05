@@ -37,9 +37,7 @@ public class IssuesView extends Composite<VerticalLayout> {
     public IssuesView(IssueService issueService, AuthorizationService authorizationService) {
         this.issueService = issueService;
 
-        UI.getCurrent()
-                .getPage()
-                .setTitle(Messages.get("com.example.issues.issues") + " | " + Messages.get("com.example.appName"));
+        UI.getCurrent().getPage().setTitle(Messages.getPageTitle("com.example.issues.issues"));
 
         Span viewTitle = new Span(Messages.get("com.example.issues.issues"));
         viewTitle.addClassName("view-title");
@@ -85,12 +83,16 @@ public class IssuesView extends Composite<VerticalLayout> {
                 .setHeader(Messages.get("com.example.issues.date"))
                 .setFlexGrow(0)
                 .setWidth("10em");
-        grid.addComponentColumn(i -> new HorizontalLayout(new Button(VaadinIcon.EYE.create(),
-                e -> UI.getCurrent().navigate(IssueView.class, i.getId())),
-                authorizationService.secureComponent(new Button(VaadinIcon.EDIT.create(),
-                        e -> UI.getCurrent().navigate(EditIssueView.class, i.getId())), Role.ADMIN, Role.DEVELOPER)))
-                .setFlexGrow(0)
-                .setWidth("10em");
+        grid.addComponentColumn(i -> new HorizontalLayout(
+                new Button(VaadinIcon.EYE.create(), e -> UI.getCurrent().navigate(IssueView.class, i.getId())),
+                authorizationService.secureComponent(
+                        new Button(VaadinIcon.EDIT.create(),
+                                e -> UI.getCurrent().navigate(EditIssueView.class, i.getId())
+                        ),
+                        Role.ADMIN,
+                        Role.DEVELOPER
+                )
+        )).setFlexGrow(0).setWidth("10em");
         grid.setSizeFull();
 
         getContent().add(viewTitle, filterLayout, grid);
@@ -105,7 +107,8 @@ public class IssuesView extends Composite<VerticalLayout> {
                 owner.getValue(),
                 reporter.getValue(),
                 status.getValue(),
-                date.getValue());
+                date.getValue()
+        );
         grid.setItems(issues);
     }
 

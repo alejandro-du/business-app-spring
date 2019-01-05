@@ -19,10 +19,7 @@ public class RouteNotFoundErrorView extends Composite<VerticalLayout> implements
 
     @Override
     public int setErrorParameter(BeforeEnterEvent event, ErrorParameter<NotFoundException> parameter) {
-        UI.getCurrent()
-                .getPage()
-                .setTitle(Messages.get("com.example.webapp.pageNotFound", "Not found") + " | " +
-                        Messages.get("com.example.appName", ""));
+        UI.getCurrent().getPage().setTitle(Messages.getPageTitle("com.example.webapp.pageNotFound"));
 
         H1 title = new H1(Messages.get("com.example.webapp.pageNotFound", "Page not found"));
 
