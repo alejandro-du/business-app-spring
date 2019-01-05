@@ -41,6 +41,7 @@ public class LoginView extends Composite<VerticalLayout> {
         Span appName = new Span(Messages.get("com.example.appName"));
         appName.addClassName("header-app-name");
         HorizontalLayout header = new HorizontalLayout(logo, appName);
+        header.addClassName("header");
 
         H2 title = new H2(Messages.get("com.example.webapp.signIn"));
 
