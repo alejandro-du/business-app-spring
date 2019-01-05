@@ -2,13 +2,11 @@ package com.example.common.ui;
 
 import com.vaadin.flow.server.VaadinService;
 import org.springframework.context.MessageSource;
-import org.springframework.data.repository.cdi.Eager;
 import org.springframework.stereotype.Component;
 
 import java.util.Locale;
 
 @Component
-@Eager
 public class Messages {
 
     private static MessageSource messageSource = null;

@@ -37,6 +37,7 @@ public class LoginView extends Composite<VerticalLayout> {
         UI.getCurrent().getPage().setTitle(Messages.getPageTitle("com.example.webapp.signIn"));
 
         Image logo = new Image("/frontend/images/app-logo.png", "App logo");
+        logo.addClassName("header-logo");
         Span appName = new Span(Messages.get("com.example.appName"));
         appName.addClassName("header-app-name");
         HorizontalLayout header = new HorizontalLayout(logo, appName);
@@ -58,11 +59,13 @@ public class LoginView extends Composite<VerticalLayout> {
         formLayout.addClassName("login-view-form-layout");
 
         VerticalLayout contentLayout = new VerticalLayout(header, formLayout);
+        contentLayout.setPadding(false);
         contentLayout.setAlignItems(FlexComponent.Alignment.CENTER);
         contentLayout.setWidth(null);
 
         HorizontalLayout verticalLayout = new HorizontalLayout(contentLayout);
         verticalLayout.setSizeFull();
+        verticalLayout.setPadding(false);
         verticalLayout.setVerticalComponentAlignment(FlexComponent.Alignment.CENTER);
 
         getContent().add(verticalLayout);

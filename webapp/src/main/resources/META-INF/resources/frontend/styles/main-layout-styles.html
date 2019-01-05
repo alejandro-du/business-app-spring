@@ -15,6 +15,10 @@
             font-size: 1.8em;
         }
 
+        .toggle-menu-button {
+            display: none;
+        }
+
         .header-signout {
             padding-right: 1em;
         }
@@ -24,5 +28,26 @@
             background-color: rgba(0, 0, 0, 0.15);
             font-size: large;
         }
+
+        @media (max-width: 550px) {
+            .header {
+                display: none;
+                overflow: visible;
+            }
+
+            .header-content {
+                flex-direction: column;
+            }
+
+            .toggle-menu-button {
+                display: block;
+                margin-right: 0.5em;
+            }
+
+            .header-app-name, .header-logo, .main-menu {
+                display: none;
+            }
+        }
+
     </style>
 </custom-style>
