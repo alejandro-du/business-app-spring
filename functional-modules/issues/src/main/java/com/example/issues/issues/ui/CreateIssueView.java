@@ -21,12 +21,13 @@ import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.ValidationException;
+import com.vaadin.flow.router.HasDynamicTitle;
 import com.vaadin.flow.router.Route;
 
 import java.util.Set;
 
 @Route(value = "create-issue", layout = MainLayout.class)
-public class CreateIssueView extends Composite<VerticalLayout> {
+public class CreateIssueView extends Composite<VerticalLayout> implements HasDynamicTitle {
 
     private TextField title = new TextField(Messages.get("com.example.issues.title"));
     private TextArea description = new TextArea(Messages.get("com.example.issues.description"));
@@ -38,8 +39,6 @@ public class CreateIssueView extends Composite<VerticalLayout> {
                            UserService userService,
                            AuthorizationService authorizationService) {
         this.issueService = issueService;
-
-        UI.getCurrent().getPage().setTitle(Messages.getPageTitle("com.example.issues.createIssue"));
 
         Span viewTitle = new Span(Messages.get("com.example.issues.createIssue"));
         viewTitle.addClassName("view-title");
@@ -73,6 +72,11 @@ public class CreateIssueView extends Composite<VerticalLayout> {
         getContent().add(mainLayout);
     }
 
+    @Override
+    public String getPageTitle() {
+        return Messages.getPageTitle("com.example.issues.createIssue");
+    }
+
     private void create() {
         try {
             Issue issue = new Issue();
@@ -86,5 +90,4 @@ public class CreateIssueView extends Composite<VerticalLayout> {
             Notification.show(Messages.get("com.example.issues.validationError"));
         }
     }
-
 }

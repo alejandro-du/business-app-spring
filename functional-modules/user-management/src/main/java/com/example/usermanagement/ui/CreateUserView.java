@@ -19,10 +19,11 @@ import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.ValidationException;
+import com.vaadin.flow.router.HasDynamicTitle;
 import com.vaadin.flow.router.Route;
 
 @Route(value = "create-user", layout = MainLayout.class)
-public class CreateUserView extends Composite<VerticalLayout> {
+public class CreateUserView extends Composite<VerticalLayout> implements HasDynamicTitle {
 
     private TextField name = new TextField(Messages.get("com.example.issues.name"));
     private TextField email = new TextField(Messages.get("com.example.issues.email"));
@@ -35,8 +36,6 @@ public class CreateUserView extends Composite<VerticalLayout> {
     public CreateUserView(UserService userService, ValidationService validationService) {
         this.userService = userService;
         this.validationService = validationService;
-
-        UI.getCurrent().getPage().setTitle(Messages.getPageTitle("com.example.issues.createUser"));
 
         Span viewTitle = new Span(Messages.get("com.example.issues.createUser"));
         viewTitle.addClassName("view-title");
@@ -57,6 +56,11 @@ public class CreateUserView extends Composite<VerticalLayout> {
         getContent().setAlignSelf(FlexComponent.Alignment.END, save);
     }
 
+    @Override
+    public String getPageTitle() {
+        return Messages.getPageTitle("com.example.issues.createUser");
+    }
+
     private void create() {
         try {
             User user = new User();
@@ -74,5 +78,4 @@ public class CreateUserView extends Composite<VerticalLayout> {
             Notification.show(Messages.get("com.example.issues.validationError"));
         }
     }
-
 }

@@ -21,10 +21,11 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.data.selection.MultiSelect;
+import com.vaadin.flow.router.HasDynamicTitle;
 import com.vaadin.flow.router.Route;
 
 @Route(value = "create-project", layout = MainLayout.class)
-public class CreateProjectView extends Composite<VerticalLayout> {
+public class CreateProjectView extends Composite<VerticalLayout> implements HasDynamicTitle {
 
     private TextField name = new TextField(Messages.get("com.example.issues.name"));
     private Grid<User> grid = new Grid<>();
@@ -38,8 +39,6 @@ public class CreateProjectView extends Composite<VerticalLayout> {
         this.projectService = projectService;
         this.userService = userService;
         this.issuesModule = issuesModule;
-
-        UI.getCurrent().getPage().setTitle(Messages.getPageTitle("com.example.issues.createProject"));
 
         Span viewTitle = new Span(Messages.get("com.example.issues.createProject"));
         viewTitle.addClassName("view-title");
@@ -73,6 +72,11 @@ public class CreateProjectView extends Composite<VerticalLayout> {
         getContent().setAlignSelf(FlexComponent.Alignment.END, create);
     }
 
+    @Override
+    public String getPageTitle() {
+        return Messages.getPageTitle("com.example.issues.createProject");
+    }
+
     private void create() {
         try {
             Project project = new Project();
@@ -87,5 +91,4 @@ public class CreateProjectView extends Composite<VerticalLayout> {
             Notification.show(Messages.get("com.example.issues.validationError"));
         }
     }
-
 }

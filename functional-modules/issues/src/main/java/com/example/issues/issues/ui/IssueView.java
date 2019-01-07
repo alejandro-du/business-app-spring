@@ -11,20 +11,19 @@ import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.BeforeEvent;
+import com.vaadin.flow.router.HasDynamicTitle;
 import com.vaadin.flow.router.HasUrlParameter;
 import com.vaadin.flow.router.Route;
 
 import java.util.Optional;
 
 @Route(value = "issue", layout = MainLayout.class)
-public class IssueView extends Composite<VerticalLayout> implements HasUrlParameter<Long> {
+public class IssueView extends Composite<VerticalLayout> implements HasUrlParameter<Long>, HasDynamicTitle {
 
     final IssueService issueService;
 
     public IssueView(IssueService issueService) {
         this.issueService = issueService;
-
-        UI.getCurrent().getPage().setTitle(Messages.getPageTitle("com.example.issues.issue"));
     }
 
     @Override
@@ -36,6 +35,11 @@ public class IssueView extends Composite<VerticalLayout> implements HasUrlParame
         } else {
             showIssue(issue.get());
         }
+    }
+
+    @Override
+    public String getPageTitle() {
+        return Messages.getPageTitle("com.example.issues.issue");
     }
 
     private void showIssue(Issue issue) {
@@ -72,5 +76,4 @@ public class IssueView extends Composite<VerticalLayout> implements HasUrlParame
         getContent().add(viewTitle, infoLayout, description);
         getContent().setSizeFull();
     }
-
 }

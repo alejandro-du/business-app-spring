@@ -23,13 +23,14 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.selection.MultiSelect;
 import com.vaadin.flow.router.BeforeEvent;
+import com.vaadin.flow.router.HasDynamicTitle;
 import com.vaadin.flow.router.HasUrlParameter;
 import com.vaadin.flow.router.Route;
 
 import java.util.Optional;
 
 @Route(value = "edit-project", layout = MainLayout.class)
-public class EditProjectView extends Composite<VerticalLayout> implements HasUrlParameter<Long> {
+public class EditProjectView extends Composite<VerticalLayout> implements HasUrlParameter<Long>, HasDynamicTitle {
 
     private TextField name = new TextField(Messages.get("com.example.issues.name"));
     private Grid<User> grid = new Grid<>();
@@ -44,8 +45,6 @@ public class EditProjectView extends Composite<VerticalLayout> implements HasUrl
         this.projectService = projectService;
         this.userService = userService;
         this.issuesModule = issuesModule;
-
-        UI.getCurrent().getPage().setTitle(Messages.getPageTitle("com.example.issues.editProject"));
     }
 
     @Override
@@ -56,6 +55,11 @@ public class EditProjectView extends Composite<VerticalLayout> implements HasUrl
         } else {
             editProject(project.get());
         }
+    }
+
+    @Override
+    public String getPageTitle() {
+        return Messages.getPageTitle("com.example.issues.editProject");
     }
 
     private void editProject(Project project) {

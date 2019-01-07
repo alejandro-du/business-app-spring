@@ -16,6 +16,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.router.HasDynamicTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.Theme;
 import com.vaadin.flow.theme.lumo.Lumo;
@@ -24,7 +25,7 @@ import com.vaadin.flow.theme.lumo.Lumo;
 @HtmlImport("/frontend/styles/login-view-styles.html")
 @HtmlImport("/frontend/styles/shared-styles.html")
 @Theme(value = Lumo.class, variant = Lumo.DARK)
-public class LoginView extends Composite<VerticalLayout> {
+public class LoginView extends Composite<VerticalLayout> implements HasDynamicTitle {
 
     private TextField email = new TextField(Messages.get("com.example.webapp.email"));
     private PasswordField password = new PasswordField(Messages.get("com.example.webapp.password"));
@@ -33,8 +34,6 @@ public class LoginView extends Composite<VerticalLayout> {
 
     public LoginView(AuthenticationService authenticationService) {
         this.authenticationService = authenticationService;
-
-        UI.getCurrent().getPage().setTitle(Messages.getPageTitle("com.example.webapp.signIn"));
 
         Image logo = new Image("/frontend/images/app-logo.png", "App logo");
         logo.addClassName("header-logo");
@@ -88,6 +87,11 @@ public class LoginView extends Composite<VerticalLayout> {
         } else {
             Notification.show(Messages.get("com.example.webapp.badCredentials"), 5000, Notification.Position.MIDDLE);
         }
+    }
+
+    @Override
+    public String getPageTitle() {
+        return Messages.getPageTitle("com.example.webapp.signIn");
     }
 
 }

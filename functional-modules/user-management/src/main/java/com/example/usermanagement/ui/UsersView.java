@@ -17,13 +17,14 @@ import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.router.HasDynamicTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouterLink;
 
 import java.util.Set;
 
 @Route(value = "usermanagement", layout = MainLayout.class)
-public class UsersView extends Composite<VerticalLayout> {
+public class UsersView extends Composite<VerticalLayout> implements HasDynamicTitle {
 
     private TextField name = new TextField();
     private ComboBox<Role> role = new ComboBox();
@@ -33,8 +34,6 @@ public class UsersView extends Composite<VerticalLayout> {
 
     public UsersView(UserService userService) {
         this.userService = userService;
-
-        UI.getCurrent().getPage().setTitle(Messages.getPageTitle("com.example.issues.users"));
 
         Span viewTitle = new Span(Messages.get("com.example.issues.users"));
         viewTitle.addClassName("view-title");
@@ -68,6 +67,11 @@ public class UsersView extends Composite<VerticalLayout> {
         getContent().setSizeFull();
 
         refreshGrid();
+    }
+
+    @Override
+    public String getPageTitle() {
+        return Messages.getPageTitle("com.example.issues.users");
     }
 
     private void refreshGrid() {

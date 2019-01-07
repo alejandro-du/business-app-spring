@@ -23,13 +23,14 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.router.BeforeEvent;
+import com.vaadin.flow.router.HasDynamicTitle;
 import com.vaadin.flow.router.HasUrlParameter;
 import com.vaadin.flow.router.Route;
 
 import java.util.Optional;
 
 @Route(value = "edit-user", layout = MainLayout.class)
-public class EditUserView extends Composite<VerticalLayout> implements HasUrlParameter<Long> {
+public class EditUserView extends Composite<VerticalLayout> implements HasUrlParameter<Long>, HasDynamicTitle {
 
     private TextField name = new TextField(Messages.get("com.example.issues.name"));
     private TextField email = new TextField(Messages.get("com.example.issues.email"));
@@ -45,8 +46,6 @@ public class EditUserView extends Composite<VerticalLayout> implements HasUrlPar
     public EditUserView(UserService userService, ValidationService validationService) {
         this.userService = userService;
         this.validationService = validationService;
-
-        UI.getCurrent().getPage().setTitle(Messages.getPageTitle("com.example.issues.editUser"));
     }
 
     @Override
@@ -57,6 +56,11 @@ public class EditUserView extends Composite<VerticalLayout> implements HasUrlPar
         } else {
             editUser(user.get());
         }
+    }
+
+    @Override
+    public String getPageTitle() {
+        return Messages.getPageTitle("com.example.issues.editUser");
     }
 
     private void editUser(User user) {
@@ -130,5 +134,4 @@ public class EditUserView extends Composite<VerticalLayout> implements HasUrlPar
             Notification.show(Messages.get("com.example.issues.validationError"));
         }
     }
-
 }

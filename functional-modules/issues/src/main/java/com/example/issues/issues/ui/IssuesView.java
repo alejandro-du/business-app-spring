@@ -19,12 +19,13 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.router.HasDynamicTitle;
 import com.vaadin.flow.router.Route;
 
 import java.util.Set;
 
 @Route(value = "issues", layout = MainLayout.class)
-public class IssuesView extends Composite<VerticalLayout> {
+public class IssuesView extends Composite<VerticalLayout> implements HasDynamicTitle {
 
     private TextField title = new TextField();
     private TextField reporter = new TextField();
@@ -37,8 +38,6 @@ public class IssuesView extends Composite<VerticalLayout> {
 
     public IssuesView(IssueService issueService, AuthorizationService authorizationService) {
         this.issueService = issueService;
-
-        UI.getCurrent().getPage().setTitle(Messages.getPageTitle("com.example.issues.issues"));
 
         Span viewTitle = new Span(Messages.get("com.example.issues.issues"));
         viewTitle.addClassName("view-title");
@@ -88,13 +87,9 @@ public class IssuesView extends Composite<VerticalLayout> {
                 .setWidth("10em");
         grid.addComponentColumn(i -> new HorizontalLayout(
                 new Button(VaadinIcon.EYE.create(), e -> UI.getCurrent().navigate(IssueView.class, i.getId())),
-                authorizationService.secureComponent(
-                        new Button(VaadinIcon.EDIT.create(),
-                                e -> UI.getCurrent().navigate(EditIssueView.class, i.getId())
-                        ),
-                        Role.ADMIN,
-                        Role.DEVELOPER
-                )
+                authorizationService.secureComponent(new Button(VaadinIcon.EDIT.create(),
+                        e -> UI.getCurrent().navigate(EditIssueView.class, i.getId())
+                ), Role.ADMIN, Role.DEVELOPER)
         )).setFlexGrow(0).setWidth("10em");
         grid.setSizeFull();
 
@@ -113,6 +108,11 @@ public class IssuesView extends Composite<VerticalLayout> {
                 date.getValue()
         );
         grid.setItems(issues);
+    }
+
+    @Override
+    public String getPageTitle() {
+        return Messages.getPageTitle("com.example.issues.issues");
     }
 
 }

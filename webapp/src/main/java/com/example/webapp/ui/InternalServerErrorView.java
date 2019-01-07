@@ -3,17 +3,13 @@ package com.example.webapp.ui;
 import com.example.common.ui.MainLayout;
 import com.example.common.ui.Messages;
 import com.vaadin.flow.component.Composite;
-import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.router.BeforeEnterEvent;
-import com.vaadin.flow.router.ErrorParameter;
-import com.vaadin.flow.router.HasErrorParameter;
-import com.vaadin.flow.router.ParentLayout;
+import com.vaadin.flow.router.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,7 +18,8 @@ import java.time.LocalDateTime;
 
 @ParentLayout(MainLayout.class)
 @HtmlImport("/frontend/styles/shared-styles.html")
-public class InternalServerErrorView extends Composite<VerticalLayout> implements HasErrorParameter<Exception> {
+public class InternalServerErrorView extends Composite<VerticalLayout>
+        implements HasErrorParameter<Exception>, HasDynamicTitle {
 
     private static final Logger logger = LoggerFactory.getLogger(InternalServerErrorView.class);
 
@@ -30,8 +27,6 @@ public class InternalServerErrorView extends Composite<VerticalLayout> implement
     public int setErrorParameter(BeforeEnterEvent beforeEnterEvent, ErrorParameter<Exception> errorParameter) {
         LocalDateTime now = LocalDateTime.now();
         logger.error("Error-" + now, errorParameter.getException());
-
-        UI.getCurrent().getPage().setTitle(Messages.getPageTitle("com.example.webapp.error"));
 
         H1 title = new H1(Messages.get("com.example.webapp.error", "Error"));
         title.addClassName("red");
@@ -48,6 +43,11 @@ public class InternalServerErrorView extends Composite<VerticalLayout> implement
         getContent().add(title, message, info);
 
         return HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+    }
+
+    @Override
+    public String getPageTitle() {
+        return Messages.getPageTitle("com.example.webapp.error");
     }
 
 }

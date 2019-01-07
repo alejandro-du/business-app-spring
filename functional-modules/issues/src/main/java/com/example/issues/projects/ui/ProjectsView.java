@@ -11,14 +11,13 @@ import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.router.HasDynamicTitle;
 import com.vaadin.flow.router.Route;
 
 @Route(value = "projects", layout = MainLayout.class)
-public class ProjectsView extends Composite<VerticalLayout> {
+public class ProjectsView extends Composite<VerticalLayout> implements HasDynamicTitle {
 
     public ProjectsView(ProjectService projectService) {
-        UI.getCurrent().getPage().setTitle(Messages.getPageTitle("com.example.issues.projects"));
-
         Span viewTitle = new Span(Messages.get("com.example.issues.projects"));
         viewTitle.addClassName("view-title");
 
@@ -32,6 +31,11 @@ public class ProjectsView extends Composite<VerticalLayout> {
 
         getContent().add(viewTitle, grid);
         getContent().setSizeFull();
+    }
+
+    @Override
+    public String getPageTitle() {
+        return Messages.getPageTitle("com.example.issues.projects");
     }
 
 }

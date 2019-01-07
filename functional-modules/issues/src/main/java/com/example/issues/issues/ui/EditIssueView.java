@@ -22,6 +22,7 @@ import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.router.BeforeEvent;
+import com.vaadin.flow.router.HasDynamicTitle;
 import com.vaadin.flow.router.HasUrlParameter;
 import com.vaadin.flow.router.Route;
 
@@ -29,7 +30,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @Route(value = "edit-issue", layout = MainLayout.class)
-public class EditIssueView extends Composite<VerticalLayout> implements HasUrlParameter<Long> {
+public class EditIssueView extends Composite<VerticalLayout> implements HasUrlParameter<Long>, HasDynamicTitle {
 
     private TextField title = new TextField(Messages.get("com.example.issues.title"));
     private TextArea description = new TextArea(Messages.get("com.example.issues.description"));
@@ -43,8 +44,6 @@ public class EditIssueView extends Composite<VerticalLayout> implements HasUrlPa
     public EditIssueView(IssueService issueService, UserService userService) {
         this.issueService = issueService;
         this.userService = userService;
-
-        UI.getCurrent().getPage().setTitle(Messages.getPageTitle("com.example.issues.editIssue"));
     }
 
     @Override
@@ -55,6 +54,11 @@ public class EditIssueView extends Composite<VerticalLayout> implements HasUrlPa
         } else {
             editIssue(issue.get());
         }
+    }
+
+    @Override
+    public String getPageTitle() {
+        return Messages.getPageTitle("com.example.issues.editIssue");
     }
 
     private void editIssue(Issue issue) {
@@ -111,5 +115,4 @@ public class EditIssueView extends Composite<VerticalLayout> implements HasUrlPa
             UI.getCurrent().navigate(IssuesView.class);
         }
     }
-
 }
