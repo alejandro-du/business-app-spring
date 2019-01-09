@@ -4,13 +4,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <artifactId>modules</artifactId>
+        <artifactId>functional-modules</artifactId>
         <groupId>com.example</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>issues</artifactId>
-    <version>1.0-SNAPSHOT</version>
 
     <dependencies>
         <dependency>
