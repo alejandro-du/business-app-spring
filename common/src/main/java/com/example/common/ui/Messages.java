@@ -9,7 +9,7 @@ import java.util.Locale;
 @Component
 public class Messages {
 
-    private static MessageSource messageSource = null;
+    private static MessageSource messageSource;
 
     public Messages(MessageSource messageSource) {
         this.messageSource = messageSource;
