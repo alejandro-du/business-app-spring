@@ -10,9 +10,15 @@
     </parent>
 
     <groupId>com.example</groupId>
-    <artifactId>businnes-app-spring</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <artifactId>business-app-spring</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
+
+    <scm>
+        <url>https://github.com/alejandro-du/business-app-spring.git</url>
+        <connection>scm:git:${project.scm.url}</connection>
+        <developerConnection>scm:git:${project.scm.url}</developerConnection>
+    </scm>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -33,6 +39,21 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.5.3</version>
+                <configuration>
+                    <autoVersionSubmodules>true</autoVersionSubmodules>
+                    <pushChanges>false</pushChanges>
+                    <localCheckout>true</localCheckout>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
     <modules>
         <module>common</module>

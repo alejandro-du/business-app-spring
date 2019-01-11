@@ -4,9 +4,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <artifactId>businnes-app-spring</artifactId>
+        <artifactId>business-app-spring</artifactId>
         <groupId>com.example</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.0.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>functional-modules</artifactId>

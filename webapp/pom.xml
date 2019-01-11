@@ -5,9 +5,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <artifactId>businnes-app-spring</artifactId>
+        <artifactId>business-app-spring</artifactId>
         <groupId>com.example</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.0.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>webapp</artifactId>
@@ -22,7 +22,7 @@
         <dependency>
             <groupId>com.example</groupId>
             <artifactId>common</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.flywaydb</groupId>
@@ -43,17 +43,17 @@
         <dependency>
             <groupId>com.example</groupId>
             <artifactId>user-management</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.example</groupId>
             <artifactId>hello-world</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.example</groupId>
             <artifactId>issues</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
