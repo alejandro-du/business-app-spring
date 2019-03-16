@@ -41,6 +41,7 @@ public class UsersView extends Composite<VerticalLayout> implements HasDynamicTi
         name.setHeight("100%");
         name.setPlaceholder(Messages.get("com.example.issues.name"));
         name.addValueChangeListener(e -> refreshGrid());
+        name.setClearButtonVisible(true);
 
         role.setPlaceholder(Messages.get("com.example.issues.role"));
         role.setItems(Role.values());

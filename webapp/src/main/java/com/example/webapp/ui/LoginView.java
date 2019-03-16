@@ -4,6 +4,7 @@ import com.example.common.service.AuthenticationService;
 import com.example.common.ui.Messages;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.Key;
+import com.vaadin.flow.component.Shortcuts;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.HtmlImport;
@@ -75,7 +76,7 @@ public class LoginView extends Composite<VerticalLayout> implements HasDynamicTi
         getContent().setPadding(false);
 
         email.focus();
-        password.addKeyPressListener(Key.ENTER, e -> signIn.click());
+        Shortcuts.addShortcutListener(this, this::signInClicked, Key.ENTER);
     }
 
     private void signInClicked() {

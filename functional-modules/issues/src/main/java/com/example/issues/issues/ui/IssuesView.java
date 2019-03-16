@@ -45,14 +45,17 @@ public class IssuesView extends Composite<VerticalLayout> implements HasDynamicT
         title.setPlaceholder(Messages.get("com.example.issues.title"));
         title.setWidth("100%");
         title.addValueChangeListener(e -> refreshGrid());
+        title.setClearButtonVisible(true);
 
         reporter.setPlaceholder(Messages.get("com.example.issues.reporter"));
         reporter.setWidth("100%");
         reporter.addValueChangeListener(e -> refreshGrid());
+        reporter.setClearButtonVisible(true);
 
         owner.setPlaceholder(Messages.get("com.example.issues.owner"));
         owner.setWidth("100%");
         owner.addValueChangeListener(e -> refreshGrid());
+        owner.setClearButtonVisible(true);
 
         status.setValue(Status.OPEN);
         status.setPlaceholder(Messages.get("com.example.issues.status"));
